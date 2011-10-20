@@ -5,15 +5,21 @@ gem 'rails', '3.1.1'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
+gem 'couchrest_model'
 gem 'sqlite3'
 
 gem 'multi_json'
 gem 'yajl-ruby'
 
 gem 'fastercsv'
-gem 'sqlite3'
 gem 'spreadsheet'
 
+gem 'rspec-rails', :group => [:test, :development]
+group :test do
+	gem 'factory_girl_rails'
+	gem 'capybara'
+	gem 'guard-rspec'
+end
 
 # Gems used only for assets and not required
 # in production environments by default.

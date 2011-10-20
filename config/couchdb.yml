@@ -1,20 +1,21 @@
-# development:
-#   protocol: 'https'
-#   host: sample.cloudant.com
-#   port: 443
-#   prefix: project
-#   suffix: test
-#   username: test
-#   password: user
-
-development:
+development: &development
   protocol: 'http'
   host: localhost
   port: 5984
+  prefix: civic_om
   suffix: development
+  username:
+  password:
 
 test:
-  protocol: 'http'
-  host: localhost
-  port: 5984
+  <<: *development
   suffix: test
+
+# production:
+#   protocol: 'https'
+#   host: localhost
+#   port: 5984
+#   prefix: civic_om
+#   suffix: production
+#   username: root
+#   password: 123
