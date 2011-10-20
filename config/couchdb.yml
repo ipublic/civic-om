@@ -1,21 +1,26 @@
-development: &development
+development: 
   protocol: 'http'
   host: localhost
   port: 5984
-  prefix: civic_om
-  suffix: development
+  prefix: om
+  suffix: dev
   username:
   password:
 
 test:
-  <<: *development
+  protocol: 'http'
+  host: localhost
+  port: 5984
+  prefix: om
   suffix: test
+  username:
+  password:
 
 # production:
 #   protocol: 'https'
 #   host: localhost
 #   port: 5984
-#   prefix: civic_om
+#   prefix: om
 #   suffix: production
 #   username: root
 #   password: 123
