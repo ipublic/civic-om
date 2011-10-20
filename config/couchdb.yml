@@ -1,0 +1,20 @@
+# development:
+#   protocol: 'https'
+#   host: sample.cloudant.com
+#   port: 443
+#   prefix: project
+#   suffix: test
+#   username: test
+#   password: user
+
+development:
+  protocol: 'http'
+  host: localhost
+  port: 5984
+  suffix: development
+
+test:
+  protocol: 'http'
+  host: localhost
+  port: 5984
+  suffix: test
