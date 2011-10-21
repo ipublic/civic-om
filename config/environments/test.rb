@@ -1,3 +1,8 @@
+UNZIP = "/usr/bin/unzip"
+OGR2OGR = "/opt/local/bin/ogr2ogr"
+OM_DOMAIN = "openmedia.dev"
+OM_PORT = 80
+
 CivicOm::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
