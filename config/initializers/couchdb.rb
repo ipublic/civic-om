@@ -1,25 +1,42 @@
 begin
-  db_profiles = YAML::load(ERB.new(IO.read(Rails.root.to_s + "/config/couchdb.yml")).result)
+  env = ENV['RAILS_ENV'] || 'development'
+  couchdb_config = YAML::load(ERB.new(IO.read(Rails.root.to_s + "/config/couchdb.yml")).result)[env]
 
-  db_profiles.each_pair do |env, couchdb_config|
-    unless [:development, :production, :test].include?(env.to_sym)
-      host      = couchdb_config["host"]      || 'localhost'
-      port      = couchdb_config["port"]      || '5984'
-      database  = couchdb_config["database"] || ''
-      username  = couchdb_config["username"]
-      password  = couchdb_config["password"]
-      ssl       = couchdb_config["ssl"]       || false
-      db_prefix = couchdb_config["prefix"] || ""
-      db_suffix = couchdb_config["suffix"] || ""
+  protocol  = couchdb_config["protocol"]  || 'http'
+  host      = couchdb_config["host"]      || 'localhost'
+  port      = couchdb_config["port"]      || '5984'
+  database  = couchdb_config["database"] || ''
+  db_prefix = couchdb_config["prefix"] || ""
+  db_suffix = couchdb_config["suffix"] || ""
+  username  = couchdb_config["username"]
+  password  = couchdb_config["password"]
 
-      protocol = ssl ? 'https://' : 'http://'
-      authorized_host = (username.blank? && password.blank?) ? host : "#{CGI.escape(username)}:#{CGI.escape(password)}@#{host}"
-      server = CouchRest::Server.new([protocol, authorized_host, ":", port].join)
-
-      CouchDatabases[env.to_sym] = server.database!([db_prefix, database, db_suffix].join(" ").strip.gsub(/\s+/, "_"))
-    end
-  end
 rescue
-
   raise "There was a problem with your config/couchdb.yml file. Check and make sure it's present and the syntax is correct."
+
+else
+
+  authorized_host = (username.blank? && password.blank?) ? host : "#{CGI.escape(username)}:#{CGI.escape(password)}@#{host}"
+
+  COUCHDB_CONFIG = {
+    :host_path => "#{protocol}://#{authorized_host}:#{port}",
+    :db_prefix => "#{db_prefix}",
+    :db_suffix => "#{db_suffix}"
+  }
+
+  # server = CouchRest::Server.new([protocol, authorized_host, ":", port].join)
+  # COUCHDB_SERVER = CouchRest.new COUCHDB_CONFIG[:host_path]
+
+  COUCHDB_SERVER = CouchRest::Server.new(COUCHDB_CONFIG[:host_path])
+
+  SITE_DATABASE = COUCHDB_SERVER.database!([db_prefix, "site", db_suffix].join("_"))
+  STAGING_DATABASE = COUCHDB_SERVER.database!([db_prefix, "staging", db_suffix].join("_"))
+  VOCABULARIES_DATABASE = COUCHDB_SERVER.database!([db_prefix, "vocabularies", db_suffix].join("_"))
 end
+
+CouchRest::Model::Base.configure do |config|
+  # config.mass_assign_any_attribute = true
+
+  config.model_type_key = 'model'
+end
+
