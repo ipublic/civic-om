@@ -14,12 +14,14 @@ module Couch
     end
   
     def name
-      return if database.nil?
+      return if self.database.nil?
       %W[#{self.prefix} #{database} #{self.suffix}].select {|v| !v.blank?}.join('_')
     end
 
     def create
-      
+      return if self.host.nil? || self.database.nil?
+      server = CouchRest.new self.host.authorized_host
+      server.create_db name
     end
 
   end
