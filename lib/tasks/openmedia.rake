@@ -7,7 +7,7 @@ namespace :openmedia do
 
   desc "create the couchdb databases for the current environment"
   task :create_dbs => :environment do
-    SITE_DATABASE.create!
+    SITES_DATABASE.create!
     STAGING_DATABASE.create!
     VOCABULARIES_DATABASE.create!
   end 
@@ -19,7 +19,7 @@ namespace :openmedia do
         COUCHDB_SERVER.database(db).delete! if db =~ Regexp.new("^#{site.identifier}_")
       end
     end 
-    SITE_DATABASE.delete! rescue nil
+    SITES_DATABASE.delete! rescue nil
     STAGING_DATABASE.delete! rescue nil
     VOCABULARIES_DATABASE.delete! rescue nil
   end
