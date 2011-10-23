@@ -5,3 +5,9 @@
 #
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Emanuel', :city => cities.first)
+
+# Create record for Admin
+admin = Vocabularies::VCard::Name.new(:first_name => "Site", :last_name => "Administrator")
+vcard = Vocabularies::VCard::Base.new(:name => admin)
+vcard.save!
+
