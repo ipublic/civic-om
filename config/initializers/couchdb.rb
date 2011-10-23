@@ -29,7 +29,7 @@ else
 
   COUCHDB_SERVER = CouchRest::Server.new(COUCHDB_CONFIG[:host_path])
 
-  SITE_DATABASE = COUCHDB_SERVER.database!([db_prefix, "site", db_suffix].join("_"))
+  SITES_DATABASE = COUCHDB_SERVER.database!([db_prefix, "sites", db_suffix].join("_"))
   STAGING_DATABASE = COUCHDB_SERVER.database!([db_prefix, "staging", db_suffix].join("_"))
   VOCABULARIES_DATABASE = COUCHDB_SERVER.database!([db_prefix, "vocabularies", db_suffix].join("_"))
 end
