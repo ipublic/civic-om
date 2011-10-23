@@ -21,7 +21,7 @@ module Couch
     def create
       return if self.host.nil? || self.database.nil?
       server = CouchRest.new self.host.authorized_host
-      server.create_db name
+      server.database!(name)
     end
 
   end
