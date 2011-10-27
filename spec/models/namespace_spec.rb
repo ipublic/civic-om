@@ -12,6 +12,7 @@ describe Namespace do
     @ns = Namespace.new(@url_with_ssl)
     
     @ns.scheme.should == "https"
+    @ns.display_uri.should == "https://om.civicopenmedia.us"
     @ns.base_uri.should == "https://civicopenmedia.us/om"
     @ns.authority.should == "civicopenmedia_us_om"
     @ns.subdomain.should == "om"

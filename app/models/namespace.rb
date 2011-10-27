@@ -1,10 +1,11 @@
 require "addressable/uri"
 class Namespace
 
-  attr_reader :scheme, :base_uri, :authority, :subdomain
+  attr_reader :scheme, :base_uri, :authority, :subdomain, :display_uri
 
   def initialize(openmedia_url)
     uri = Addressable::URI.parse(openmedia_url.to_s)
+    @display_uri = uri.to_s
     
     uri.scheme.nil? ? @scheme = "http" : @scheme = uri.scheme
 
@@ -12,7 +13,7 @@ class Namespace
     uri.host.nil? ? parts = uri.path.split('.') : parts = uri.host.split('.')
 
     # if present, shuffle the subdomain to end
-    parts.length > 2 ? @subdomain = parts.delete_at(0) : @subdomain = nil
+    (parts.length > 2 && parts.first.to_i == 0) ? @subdomain = parts.delete_at(0) : @subdomain = nil
     
     @base_uri = "#{@scheme}://#{parts.join('.')}"
     @authority = parts.join('_')
@@ -22,7 +23,7 @@ class Namespace
       @authority = @authority + "_#{@subdomain}"
     end
     
-    Hash[:scheme => @scheme, :base_uri => @base_uri, :authority => @authority, :subdomain => @subdomain]
+    Hash[:scheme => @scheme, :base_uri => @base_uri, :authority => @authority, :subdomain => @subdomain, :uri_string => @display_uri]
   end
 
 end
