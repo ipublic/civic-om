@@ -2,9 +2,12 @@ require 'spec_helper'
 
 describe Site do
   before(:all) do
-    @url = "http://localhost:5984"
+    host = COUCHDB_CONFIG[:host_path]
+    name = "OpenMedia"
+    @url = "http://dcgov.civicopenmedia.us"
+    @site = Site.new(:url => @url, :name => name, :public_couchhost => host)
     @ns = Namespace.new(@url)
-    @site = Site.new(:url => @url)
+    @db_name = "om_civicopenmedia_us_dcgov_test"
   end
   
   describe "Initialization" do
@@ -14,15 +17,8 @@ describe Site do
 
     it 'should save properties and generate an identifier correctly' do
       @saved_site = @site.save
-      @saved_site.id.should == @site.authority
+      @saved_site.id.should == @ns.authority
       @saved_site.base_uri.should == @ns.base_uri
-    end
-    
-    it 'should create an associated Couch database for storing site content' do
-      @rtn_site = Site.get(@site.authority)
-      server = CouchRest.new(@rtn_site.public_couchhost)
-      puts server.databases
-      server.databases.include?(@rtn_site.public_database).should == true
     end
     
     it 'should fail if site with same name already exists' do
@@ -30,6 +26,17 @@ describe Site do
       lambda { @dup_site.save! }.should raise_error
     end
     
+  end
+  
+  describe "Instance methods" do
+    describe ".public_database" do
+      it "should provide a CouchDb database instance for this site" do
+        @rtn_site = Site.get(@ns.authority)
+        db = @rtn_site.public_database
+        db.should be_a(CouchRest::Database)
+        db.name.should == @db_name
+      end
+    end
   end
 
 
