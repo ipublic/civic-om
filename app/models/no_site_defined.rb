@@ -1,0 +1,1 @@
+class NoSiteDefined < Exception ; end
