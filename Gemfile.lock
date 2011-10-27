@@ -169,6 +169,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  addressable
   capybara
   coffee-rails (~> 3.1.1)
   couchrest_model

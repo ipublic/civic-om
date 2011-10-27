@@ -9,6 +9,7 @@ gem 'sqlite3'
 
 gem 'couchrest_model'
 gem 'rdf'
+gem 'addressable'
 
 gem 'multi_json'
 gem 'yajl-ruby'
