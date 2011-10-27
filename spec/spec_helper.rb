@@ -10,6 +10,10 @@ require 'capybara/rspec'
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
+  THIS_SITE_ID = "civic_openmedia_us_om"
+  THIS_SITE_DB_NAME = "om_civic_openmedia_us_om_test"
+  THIS_SITE_DB = COUCHDB_SERVER.database!(THIS_SITE_DB_NAME)
+  
   # == Mock Framework
   #
   # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
@@ -34,6 +38,7 @@ RSpec.configure do |config|
   
   config.before(:all) do
     reset_test_db!
+    init_site
     # TEST_SITE ||= create_test_site
   end
 
@@ -47,12 +52,19 @@ RSpec.configure do |config|
   end
 end
 
+def init_site
+  host = COUCHDB_CONFIG[:host_path]
+  name = "OpenMedia"
+  url = "http://om.civicopenmedia.us"
+  Site.create!(:name => name, :url => url, :public_couchhost => host)
+end
+
 def reset_test_db!
   [SITES_DATABASE, STAGING_DATABASE, VOCABULARIES_DATABASE].each { |db| db.recreate! rescue nil }
   # OpenMedia::Site.instance_variable_set(:@instance, nil)
 end
 
 def delete_test_db!
-  [SITES_DATABASE, STAGING_DATABASE, VOCABULARIES_DATABASE].each { |db| db.delete! rescue nil }
+  [SITES_DATABASE, STAGING_DATABASE, VOCABULARIES_DATABASE, THIS_SITE_DB].each { |db| db.delete! rescue nil }
 end
 
