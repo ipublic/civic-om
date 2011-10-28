@@ -17,7 +17,7 @@ module Dashboard
     validates_presence_of :authority
     
     design do
-      view :authority
+      view :by_authority
     end
     
   end
