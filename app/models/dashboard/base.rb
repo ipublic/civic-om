@@ -1,22 +1,24 @@
 module Dashboard
   class Base < CouchRest::Model::Base
 
-    # use_database SITES_DATABASE
-    use_database VOCABULARIES_DATABASE
+    use_database SCHEMA_DATABASE
 
     FORMATS = %w(percentage currency number string)
     VISUALS = %w(inlinesparkline pie inlinebar bullet)
 
-    ## Property Definitions
-    # General properties
+    property :authority
     property :title
     property :description
     property :groups, [Dashboard::Group], :default => []
 
     timestamps!
 
-    validates :title, :presence => true
-    view_by :title
-
+    validates_presence_of :title
+    validates_presence_of :authority
+    
+    design do
+      view :authority
+    end
+    
   end
 end
