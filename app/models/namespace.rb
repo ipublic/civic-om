@@ -1,29 +1,30 @@
 require "addressable/uri"
 class Namespace
 
-  attr_reader :scheme, :base_uri, :authority, :subdomain, :display_uri
+  attr_reader :scheme, :base_uri, :path, :authority, :subdomain, :display_uri
 
   def initialize(openmedia_url)
     uri = Addressable::URI.parse(openmedia_url.to_s)
     @display_uri = uri.to_s
+    @path = uri.path
     
     uri.scheme.nil? ? @scheme = "http" : @scheme = uri.scheme
-
-    # addressable leaves host value as nil when input scheme/protocol is missing
-    uri.host.nil? ? parts = uri.path.split('.') : parts = uri.host.split('.')
+    host_parts = uri.host.split('.')
 
     # if present, shuffle the subdomain to end
-    (parts.length > 2 && parts.first.to_i == 0) ? @subdomain = parts.delete_at(0) : @subdomain = nil
+    (host_parts.length > 2 && host_parts.first.to_i == 0 && host_parts.first.to_s.downcase != 'www') ? @subdomain = host_parts.delete_at(0) : @subdomain = nil
     
-    @base_uri = "#{@scheme}://#{parts.join('.')}"
-    @authority = parts.join('_')
+    @base_uri = "#{@scheme}://#{host_parts.join('.')}"
+    @authority = host_parts.join('_')
     
     unless @subdomain.blank?
       @base_uri = @base_uri + "/#{@subdomain}"
       @authority = @authority + "_#{@subdomain}"
     end
     
-    Hash[:scheme => @scheme, :base_uri => @base_uri, :authority => @authority, :subdomain => @subdomain, :uri_string => @display_uri]
+    @base_uri = @base_uri + @path unless @path.nil?
+    
+    Hash[:authority => @authority, :scheme => @scheme, :base_uri => @base_uri, :path => @path, :subdomain => @subdomain, :uri_string => @display_uri]
   end
 
 end
