@@ -1,8 +1,8 @@
 require 'no_site_defined'
 
-class Site < CouchRest::Model::Base
+class Site < OpenMedia::CouchRestModelBase
 
-  DATABASES = [SITES_DATABASE.name, STAGING_DATABASE.name, VOCABULARIES_DATABASE.name]
+  DATABASES = [SITES_DATABASE.name, STAGING_DATABASE.name, SCHEMA_DATABASE.name]
 
   use_database SITES_DATABASE
   unique_id :authority
