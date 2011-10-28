@@ -1,24 +1,23 @@
 class LinkedData::Topic < CouchRest::Model::Base
   
-  attr_reader :instance_database, :instance_properties, :instance_types
+  attr_reader :instance_database, :instance_design_doc, :instance_design_doc_id
   attr_accessor :docs_read, :docs_written
 
   use_database VOCABULARIES_DATABASE
   unique_id :identifier
 
   belongs_to :vocabulary, :class_name => "LinkedData::Vocabulary"
-  belongs_to :creator, :class_name => "VCard::VCard"
-  belongs_to :publisher, :class_name => "VCard::VCard"
+  belongs_to :creator, :class_name => "VCard::Base"
+  belongs_to :publisher, :class_name => "VCard::Base"
 
   property :identifier, String, :read_only => true
   property :term, String
   property :label, String
   property :authority, String
-  property :description, String
+  property :comment, String
   
   property :instance_database_name, String
   property :instance_class_name, String, :read_only => true
-  property :instance_design_doc_id, String, :read_only => true
   
   timestamps!
 
@@ -41,19 +40,13 @@ class LinkedData::Topic < CouchRest::Model::Base
   end
   
   def instance_design_doc
-    return if self.instance_design_doc_id.nil?
-    instance_database.get(self.instance_design_doc_id)
+    return if instance_design_doc_id.nil?
+    @instance_design_doc ||= instance_database.get(instance_design_doc_id) 
   end
   
-  def instance_properties
-    return [] if self.vocabulary.nil?
-    # @instance_properties ||= self.vocabulary.properties.inject([]) {|plist, p| plist << p}
-    self.vocabulary.properties.inject([]) {|plist, p| plist << p}
-  end
-  
-  def instance_types
-    return [] if self.vocabulary.nil?
-    @instance_types ||= self.vocabulary.types.inject([]) {|tlist, t| tlist << t} 
+  def instance_design_doc_id
+    return if self.instance_class_name.nil?
+    @instance_design_doc_id ||= "_design/#{self.instance_class_name}" 
   end
   
   # Provide a CouchRest::Document for this Topic with set database and model_type_key
@@ -80,7 +73,7 @@ class LinkedData::Topic < CouchRest::Model::Base
 
       pub_doc.save(true)
       self.docs_written += 1
-      db.bulk_save if @docs_written%500 == 0              
+      db.bulk_save if docs_written%500 == 0              
     end
     db.bulk_save
     docs_written
@@ -132,7 +125,7 @@ class LinkedData::Topic < CouchRest::Model::Base
   # Create a dynamic CouchRest::Model::Base class for this Topic
   def couchrest_model
     ## TODO - deprecate this method
-    return if self.term.nil? || instance_database.nil?
+    return if self.term.nil? || instance_database.nil? || self.vocabulary.nil?
     
     write_attribute(:instance_class_name, self.term.singularize.camelize)
 
@@ -140,8 +133,8 @@ class LinkedData::Topic < CouchRest::Model::Base
       klass = Object.const_get(self.instance_class_name.intern)
     else
       db = instance_database
-      prop_list = instance_properties
-      type_list = instance_types
+      prop_list = self.vocabulary.properties.inject([]) {|plist, p| plist << p}
+      type_list = self.vocabulary.types.inject([]) {|tlist, t| tlist << t} 
       
       klass = Object.const_set(self.instance_class_name.intern, 
         Class.new(CouchRest::Model::Base) do
@@ -167,11 +160,11 @@ class LinkedData::Topic < CouchRest::Model::Base
     end
     klass
   end
-    
+  
 private
   # Instantiate a CouchDB Design Document for this Topic's data
   def create_instance_design_doc
-    write_attribute(:instance_design_doc_id, "_design/#{self.instance_class_name}")
+    # write_attribute(:instance_design_doc_id, "_design/#{self.instance_class_name}")
 
     ddoc = CouchRest::Document.new(:_id => self.instance_design_doc_id,
                                  :language => "javascript",
@@ -189,8 +182,8 @@ private
 
   # Add instance CouchDB Design Document views for each key in Vocaulary
   def add_instance_vocabulary_views
-    return if instance_properties.nil?
-    self.vocabulary.key_list.each {|k| add_instance_view(k)} unless self.vocabulary.nil?
+    return if self.vocabulary.nil?
+    self.vocabulary.key_list.each {|k| add_instance_view(k)}
     instance_design_doc
   end
 

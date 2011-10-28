@@ -31,6 +31,7 @@ describe LinkedData::Topic do
                                     :term => @topic_term, 
                                     :label => @topic_label,
                                     :vocabulary => @vocab,
+                                    :comment => "Site addresses",
                                     :instance_database_name => @instance_db_name)
     @topic_id = "topic_civicopenmedia_us_dcgov_dc_addresses"
   end
@@ -62,7 +63,7 @@ describe LinkedData::Topic do
   
   describe "vocabulary" do
     it "should provide a list of properties from associated vocabulary" do
-      @topic.instance_properties.each {|p| @all_props.include?(p.term).should == true}
+      @topic.vocabulary.properties.each {|p| @all_props.include?(p.term).should == true}
     end
     
     it "should provide a list of types from associated vocabulary" do
@@ -78,6 +79,14 @@ describe LinkedData::Topic do
                                       :city =>"Washington", :state =>"DC", :serial_number => @sn)
       @resp = @topic.instance_database.save_doc @doc
       @saved_doc = @topic.instance_database.get @resp['id']
+    end
+    
+    describe ".instance_database" do
+      it "should provide a CouchDb database" do
+        db = @topic.instance_database
+        db.should be_a(::CouchRest::Database)
+        db.name.should == @instance_db_name
+      end
     end
     
     describe ".instance_design_doc" do
