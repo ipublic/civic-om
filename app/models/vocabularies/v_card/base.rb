@@ -1,7 +1,7 @@
 module Vocabularies
   class VCard::Base < CouchRest::Model::Base
   
-    use_database VOCABULARIES_DATABASE
+    use_database SCHEMA_DATABASE
 
     property :addresses, [Vocabularies::VCard::Address], :alias => :adr
     property :emails, [Vocabularies::VCard::Email], :alias => :email
