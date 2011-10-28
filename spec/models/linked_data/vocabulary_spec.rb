@@ -48,7 +48,7 @@ describe LinkedData::Vocabulary do
       it 'should save and generate an identifier correctly' do
         lambda { @vocabulary.save! }.should change(LinkedData::Vocabulary, :count).by(1)
         @res = LinkedData::Vocabulary.get(@vocab_id)
-        @res.uri.should == @vocab_uri
+        @res.public_uri.should == @vocab_uri
       end
     end
     
@@ -122,8 +122,8 @@ describe LinkedData::Vocabulary do
 
     it 'should return this Vocabulary when searching by URI' do
       @res = @vocabulary.save
-      @res.uri.should == @vocab_uri
-      @vocabs = LinkedData::Vocabulary.by_uri(:key => @res.uri)
+      @res.public_uri.should == @vocab_uri
+      @vocabs = LinkedData::Vocabulary.by_public_uri(:key => @res.public_uri)
       @vocabs.length.should == 1
       @vocabs.rows.first.id.should == "vocabulary_civicopenmedia_us_dcgov_education"
     end

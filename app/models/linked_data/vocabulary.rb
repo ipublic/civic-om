@@ -1,5 +1,4 @@
-require 'rdf'
-class LinkedData::Vocabulary < CouchRest::Model::Base
+class LinkedData::Vocabulary < OpenMedia::CouchRestModelBase
   
   attr_accessor :key_list
   
@@ -9,14 +8,15 @@ class LinkedData::Vocabulary < CouchRest::Model::Base
   # belongs_to :collection, :class_name => "LinkedData::Collection"
   
   property :identifier, String
-  property :uri, String
   property :term, String
   property :label, String       # User assigned name, RDFS#Label
+  property :authority, String
+
+  property :base_uri, String
+  property :public_uri, String
   property :comment, String     # RDFS#Comment
   property :tags, [String]
 
-  property :base_uri, String
-  property :authority, String
   
   property :curie_prefix, String
   property :curie_suffix, String
@@ -44,13 +44,14 @@ class LinkedData::Vocabulary < CouchRest::Model::Base
   
   ## Callbacks
   before_create :generate_identifier
-  before_create :generate_uri
+  before_create :generate_public_uri
 
   design do
     view :by_label
-    view :by_uri
-    view :by_curie_prefix
     view :by_authority
+    view :by_base_uri
+    view :by_public_uri
+    view :by_curie_prefix
   
     view :tag_list,
       :map =>
@@ -165,28 +166,5 @@ class LinkedData::Vocabulary < CouchRest::Model::Base
   #   end
   #   @sorted_vocabularies
   # end
-  
-private
-  def generate_uri
-    self.label ||= self.term
-    
-    # If this is local vocabulary, construct the OM path
-    if self.base_uri.include?("http://civicopenmedia.us") && !self.base_uri.include?("vocabularies")
-      rdf_uri = RDF::URI.new(self.base_uri)/"vocabularies"/escape_string(self.term)
-    else
-      rdf_uri = RDF::URI.new(self.base_uri)/self.term
-    end
-    self.uri = rdf_uri.to_s
-  end
-
-  def generate_identifier
-    self['identifier'] = self.class.to_s.split("::").last.downcase + '_' +
-                         self.authority + '_' + 
-                         escape_string(self.term.downcase) if new?
-  end
-
-  def escape_string(str)
-    str.gsub(/[^A-Za-z0-9]/,'_').squeeze('_').gsub(/^\-|\-$/,'') 
-  end
   
 end

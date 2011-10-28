@@ -5,6 +5,10 @@ describe LinkedData::Type do
     SCHEMA_DATABASE.recreate! rescue nil
     @ns = Namespace.new("http://dcgov.civicopenmedia.us")
     @uri = @ns.base_uri
+    @str_uri = 'http://www.w3c.org/2001/XMLSchema#string'
+    @int_uri = 'http://www.w3c.org/2001/XMLSchema#integer'
+    @str_ns = Namespace.new(@str_uri)
+    @int_ns = Namespace.new(@int_uri)
     @col_label = "Public Safety"
     
     @vocab_label = "Crime"
@@ -16,7 +20,7 @@ describe LinkedData::Type do
                                             )
 
 
-    @xsd = ::LinkedData::Vocabulary.create!(:base_uri => "http://www.w3.org/2001", 
+    @xsd = ::LinkedData::Vocabulary.create!(:base_uri => "http://www.w3.org/2001/XMLSchema", 
                                             :label => "XMLSchema",
                                             :term => "XMLSchema",
                                             :property_delimiter => "#",
@@ -26,9 +30,8 @@ describe LinkedData::Type do
                                             )
 
     @str = LinkedData::Type.create!(:vocabulary => @xsd, :term => "string")
-    @str_uri = 'http://www.w3.org/2001/XMLSchema#string'
-    @int_uri = 'http://www.w3.org/2001/XMLSchema#integer'
-    @int_id = "type_civicopenmedia_us_dcgov_xmlschema_integer"
+
+    @int_id = "type_civicopenmedia_us_dcgov_integer"
 
   end
   
@@ -45,8 +48,9 @@ describe LinkedData::Type do
     int = LinkedData::Type.new(:vocabulary => @xsd, :term => term)
 
     lambda { int.save! }.should change(LinkedData::Type, :count).by(1)
-    @res = LinkedData::Type.by_uri(:key => @int_uri)
-    @res.rows.first.id.should == @int_id
+    @res = LinkedData::Type.get(int.id)
+    @res.id.should == @int_id
+    @res.authority.should == @xsd.authority
   end
   
   it 'should return this Type when searching by Vocabulary' do
@@ -70,7 +74,7 @@ describe LinkedData::Type do
   
   it 'should save and return an external vocabulary and Type' do
     @type = LinkedData::Type.create!(:vocabulary => @xsd, :term => "long")
-    @type.uri.should == "http://www.w3.org/2001/XMLSchema#long"
+    @type.public_uri.should == "http://www.w3.org/2001/XMLSchema#long"
     @type.compound?.should == false
   end
   
@@ -80,16 +84,14 @@ describe LinkedData::Type do
                               :term => "crime_reports"
                               )
     
-    method = LinkedData::Property.new(:term => "Method", :expected_type => @str.uri)
-    offense = LinkedData::Property.new(:term => "Offense", :expected_type => @str.uri)
-                                     
+    method = LinkedData::Property.new(:term => "Method", :expected_type => @str_uri)
+    offense = LinkedData::Property.new(:term => "Offense", :expected_type => @str_uri)
     cr.properties << method << offense
     comp = cr.save
-    
+
     res = LinkedData::Type.get(comp.id)
-    
-    res.properties[0].term.should == "Method"
-    res.properties[0].expected_type.should == @str_uri
+    res.properties.first.term.should == "Method"
+    res.properties.first.expected_type.should == @str_uri
     res.compound?.should == true
   end
   
