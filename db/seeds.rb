@@ -11,8 +11,7 @@ admin = Vocabularies::VCard::Name.new(:first_name => "Site", :last_name => "Admi
 vcard = Vocabularies::VCard::Base.new(:name => admin)
 vcard.save!
 
-require File.join(File.dirname(__FILE__),'seeds', 'vocabularies', 'vcard')
-require File.join(File.dirname(__FILE__),'seeds', 'vocabularies', 'street_address')
-
-require File.join(File.dirname(__FILE__),'seeds', 'topics', 'street_addresses')
+# require File.join(File.dirname(__FILE__),'seeds', 'vocabularies', 'v_card')
+# require File.join(File.dirname(__FILE__),'seeds', 'vocabularies', 'street_address')
+# require File.join(File.dirname(__FILE__),'seeds', 'topics', 'street_addresses')
 
