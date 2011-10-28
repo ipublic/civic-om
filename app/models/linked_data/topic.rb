@@ -1,4 +1,4 @@
-class LinkedData::Topic < CouchRest::Model::Base
+class LinkedData::Topic < OpenMedia::CouchRestModelBase
   
   attr_reader :instance_database, :instance_design_doc, :instance_design_doc_id
   attr_accessor :docs_read, :docs_written
@@ -30,6 +30,7 @@ class LinkedData::Topic < CouchRest::Model::Base
   before_create :create_instance_design_doc
 
   design do
+    view :by_authority
     view :by_term
     view :by_label
   end
@@ -164,7 +165,7 @@ class LinkedData::Topic < CouchRest::Model::Base
 private
   # Instantiate a CouchDB Design Document for this Topic's data
   def create_instance_design_doc
-    # write_attribute(:instance_design_doc_id, "_design/#{self.instance_class_name}")
+    write_attribute(:instance_class_name, self.term.singularize.camelize)
 
     ddoc = CouchRest::Document.new(:_id => self.instance_design_doc_id,
                                  :language => "javascript",
@@ -195,21 +196,4 @@ private
     }
   end
   
-  # def destroy_instance_design_doc!
-  #   instance_design_doc.destroy
-  # end
-
-  def generate_identifier
-    self.label ||= self.term
-    write_attribute(:instance_class_name, self.term.singularize.camelize)
-
-    self['identifier'] = self.class.to_s.split("::").last.downcase + '_' +
-                         self.authority + '_' + 
-                         escape_string(self.term.downcase) if new?
-  end
-
-  def escape_string(str)
-    str.gsub(/[^A-Za-z0-9]/,'_').squeeze('_')
-  end
-
 end
