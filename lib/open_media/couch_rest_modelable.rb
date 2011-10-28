@@ -24,6 +24,8 @@ module OpenMedia
         else
           rdf_uri = RDF::URI.new(self.base_uri)/self.term
         end
+      elsif self.class.name == "LinkedData::Collection"
+        rdf_uri = RDF::URI.new(self.base_uri)/"collections"/escape_string(self.term)
       else
         rdf_uri = RDF::URI.new(self.vocabulary.base_uri)/self.vocabulary.property_delimiter + self.term
       end
