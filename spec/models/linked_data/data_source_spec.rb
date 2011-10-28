@@ -6,7 +6,7 @@ describe LinkedData::DataSource do
     @ns = Namespace.new("http://dcgov.civicopenmedia.us")
     @ds_term = "reported_crimes"
     @ds = LinkedData::DataSource.new(:authority => @ns.authority, :term => @ds_term)
-    @ds_id = "datasource_reported_crimes"
+    @ds_id = "datasource_civicopenmedia_us_dcgov_reported_crimes"
 
     # STAGING_DATABASE.recreate! rescue nil
     @csv_filename = File.join(fixture_path, 'crime_incidents_current.csv')
@@ -29,9 +29,9 @@ describe LinkedData::DataSource do
     end
     
     it 'should save and generate an identifier correctly' do
-      lambda { LinkedData::DataSource.create!(:authority => @ns.authority, :term => @ds_term) }.should  change(LinkedData::DataSource, :count).by(1)
-      saved_ds = LinkedData::DataSource.get @ds_id
-      saved_ds.identifier.should == @ds_id
+      lambda { LinkedData::DataSource.create!(:authority => @ns.authority, :term => @ds_term) }.should change(LinkedData::DataSource, :count).by(1)
+      saved_ds = LinkedData::DataSource.first
+      saved_ds.id.should == @ds_id
     end
 
     it 'should present a LinkedData::DataSource when searching by key' do

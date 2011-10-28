@@ -1,4 +1,4 @@
-class LinkedData::DataSource < CouchRest::Model::Base
+class LinkedData::DataSource < OpenMedia::CouchRestModelBase
 
   attr_accessor :docs_read, :docs_written
   
@@ -9,9 +9,10 @@ class LinkedData::DataSource < CouchRest::Model::Base
   SHAPEFILE_SOURCE_TYPE = "shapefile"
   URL_SOURCE_TYPE = "url"
   
-  property :term, String
   property :identifier, String
+  property :term, String
   property :label, String
+  property :authority, String
   property :properties, [LinkedData::Property]
 
   # property :transform_model do
@@ -111,17 +112,4 @@ class LinkedData::DataSource < CouchRest::Model::Base
   def docs_written
     @docs_written ||= 0
   end
-  
-
-private
-  def generate_identifier
-    self.label ||= self.term
-    self['identifier'] = self.class.to_s.split("::").last.downcase + '_' +
-                         escape_string(self.term.downcase) if new?
-  end
-
-  def escape_string(str)
-    str.gsub(/[^A-Za-z0-9]/,'_').squeeze('_')
-  end
-  
 end
