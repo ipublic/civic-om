@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe LinkedData::Type do
   before(:each) do
-    VOCABULARIES_DATABASE.recreate! rescue nil
+    SCHEMA_DATABASE.recreate! rescue nil
     @ns = Namespace.new("http://dcgov.civicopenmedia.us")
     @uri = @ns.base_uri
     @col_label = "Public Safety"

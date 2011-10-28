@@ -60,11 +60,11 @@ def init_site
 end
 
 def reset_test_db!
-  [SITES_DATABASE, STAGING_DATABASE, VOCABULARIES_DATABASE].each { |db| db.recreate! rescue nil }
+  [SITES_DATABASE, STAGING_DATABASE, SCHEMA_DATABASE].each { |db| db.recreate! rescue nil }
   # OpenMedia::Site.instance_variable_set(:@instance, nil)
 end
 
 def delete_test_db!
-  [SITES_DATABASE, STAGING_DATABASE, VOCABULARIES_DATABASE, THIS_SITE_DB].each { |db| db.delete! rescue nil }
+  [SITES_DATABASE, STAGING_DATABASE, SCHEMA_DATABASE, THIS_SITE_DB].each { |db| db.delete! rescue nil }
 end
 

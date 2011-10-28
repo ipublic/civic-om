@@ -1,7 +1,7 @@
 require 'rdf'
 class LinkedData::Collection < CouchRest::Model::Base
 
-  use_database VOCABULARIES_DATABASE
+  use_database SCHEMA_DATABASE
   unique_id :identifier
   
   property :identifier, String

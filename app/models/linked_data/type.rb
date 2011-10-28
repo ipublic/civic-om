@@ -1,7 +1,7 @@
 require 'rdf'
 class LinkedData::Type < CouchRest::Model::Base
   
-  use_database VOCABULARIES_DATABASE
+  use_database SCHEMA_DATABASE
   unique_id :identifier
 
   belongs_to :vocabulary, :class_name => "LinkedData::Vocabulary"

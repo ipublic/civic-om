@@ -3,7 +3,7 @@ class LinkedData::Topic < CouchRest::Model::Base
   attr_reader :instance_database, :instance_design_doc, :instance_design_doc_id
   attr_accessor :docs_read, :docs_written
 
-  use_database VOCABULARIES_DATABASE
+  use_database SCHEMA_DATABASE
   unique_id :identifier
 
   belongs_to :vocabulary, :class_name => "LinkedData::Vocabulary"

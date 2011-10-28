@@ -31,7 +31,7 @@ else
 
   SITES_DATABASE = COUCHDB_SERVER.database!([db_prefix, "sites", db_suffix].join("_"))
   STAGING_DATABASE = COUCHDB_SERVER.database!([db_prefix, "staging", db_suffix].join("_"))
-  VOCABULARIES_DATABASE = COUCHDB_SERVER.database!([db_prefix, "vocabularies", db_suffix].join("_"))
+  SCHEMA_DATABASE = COUCHDB_SERVER.database!([db_prefix, "schema", db_suffix].join("_"))
 end
 
 CouchRest::Model::Base.configure do |config|

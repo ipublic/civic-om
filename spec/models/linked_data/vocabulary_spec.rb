@@ -3,7 +3,7 @@ require 'spec_helper'
 describe LinkedData::Vocabulary do
 
   before(:each) do
-    VOCABULARIES_DATABASE.recreate! rescue nil
+    SCHEMA_DATABASE.recreate! rescue nil
     @ns = Namespace.new("http://dcgov.civicopenmedia.us")
     @col_label = "Education"
     @term = "education"

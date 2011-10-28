@@ -3,7 +3,7 @@ class LinkedData::Vocabulary < CouchRest::Model::Base
   
   attr_accessor :key_list
   
-  use_database VOCABULARIES_DATABASE
+  use_database SCHEMA_DATABASE
   unique_id :identifier
 
   # belongs_to :collection, :class_name => "LinkedData::Collection"
