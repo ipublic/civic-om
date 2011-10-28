@@ -14,7 +14,7 @@ describe LinkedData::Collection do
                                              :tags => ["schools", "teachers", "students"], 
                                              :comment => "Matters associated with public schools")
                                              
-    @col_uri = @ns.base_uri + '/collections#' + @term
+    @col_uri = @ns.base_uri + '/collections/' + @term
     @col_id = "collection_civicopenmedia_us_dcgov_education"
   end
   
@@ -42,7 +42,7 @@ raise_error
   it 'should generate a URI for the new collection' do
     @res = @collection.save
     @col = LinkedData::Collection.get(@res.id)
-    @col.uri.should == @col_uri
+    @col.public_uri.should == @col_uri
   end
   
   it 'should provide a view by base_uri' do

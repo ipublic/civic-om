@@ -1,5 +1,4 @@
-require 'rdf'
-class LinkedData::Collection < CouchRest::Model::Base
+class LinkedData::Collection < OpenMedia::CouchRestModelBase
 
   use_database SCHEMA_DATABASE
   unique_id :identifier
@@ -7,14 +6,14 @@ class LinkedData::Collection < CouchRest::Model::Base
   property :identifier, String
   property :term, String        # Escaped vocabulary name suitable for inclusion in IRI
   property :label, String       # User assigned name, RDFS#Label
+  property :authority, String
   property :comment, String     # RDFS#Comment
   property :tags, [String]
   property :hidden, TrueClass, :default => false
   
   # property :namespace, LinkedData::Namespace
   property :base_uri, String
-  property :authority, String
-  property :uri, String
+  property :public_uri, String
 
   timestamps!
   
@@ -24,7 +23,7 @@ class LinkedData::Collection < CouchRest::Model::Base
   validates_uniqueness_of :identifier, :view => 'all'
 
   ## Callbacks
-  before_create :generate_uri
+  before_create :generate_public_uri
   before_create :generate_identifier
   
   def namespace=(ns={})
@@ -39,7 +38,7 @@ class LinkedData::Collection < CouchRest::Model::Base
   design do
     view :by_label
     view :by_term
-    view :by_uri
+    view :by_public_uri
     view :by_base_uri
     view :by_authority
     
@@ -93,14 +92,5 @@ private
     self.uri = rdf_uri.to_s
   end
 
-  def generate_identifier
-    self['identifier'] = self.class.to_s.split("::").last.downcase + '_' +
-                         self.authority + '_' + 
-                         escape_string(self.term.downcase) if new?
-  end
-  
-  def escape_string(str)
-    str.gsub(/[^A-Za-z0-9]/,'_').squeeze('_')
-  end
   
 end
