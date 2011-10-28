@@ -3,11 +3,14 @@ require 'spec_helper'
 describe Site do
   before(:all) do
     host = COUCHDB_CONFIG[:host_path]
-    name = "OpenMedia"
-    @url = "http://dcgov.civicopenmedia.us"
-    @site = Site.new(:url => @url, :name => name, :public_couchhost => host)
+    label = "OpenMedia"
+    term = "dc"
+    host = "civicopenmedia.us"
+    @url = "http://#{term}\.#{host}"
     @ns = Namespace.new(@url)
-    @db_name = "om_civicopenmedia_us_dcgov_test"
+
+    @site = Site.new(:url => @url, :term => term, :label => label, :public_couchhost => host)
+    @db_name = "om_civicopenmedia_us_dc_test"
   end
   
   describe "Initialization" do

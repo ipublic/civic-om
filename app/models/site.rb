@@ -7,22 +7,23 @@ class Site < OpenMedia::CouchRestModelBase
   use_database SITES_DATABASE
   unique_id :authority
 
-  property :name, String
+  property :term, String
+  property :label, String
+  property :authority, String, :alias => :identifier, :read_only => true
+  property :base_uri, String, :read_only => true
   property :url, String
   property :public_couchhost, String
-  property :authority, String, :read_only => true
-  property :base_uri, String, :read_only => true
 
   timestamps!
   
   design do
-    view :by_name
+    view :by_label
     view :by_authority
     view :by_base_uri
   end
 
   # Validations
-  validates_presence_of :name
+  validates_presence_of :label
   validates_presence_of :url
   validates_presence_of :public_couchhost
   validates_uniqueness_of :authority, :view => 'all'

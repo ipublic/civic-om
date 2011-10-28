@@ -54,9 +54,9 @@ end
 
 def init_site
   host = COUCHDB_CONFIG[:host_path]
-  name = "OpenMedia"
+  label = "OpenMedia"
   url = "http://om.civicopenmedia.us"
-  Site.create!(:name => name, :url => url, :public_couchhost => host)
+  Site.create!(:label => label, :url => url, :public_couchhost => host)
 end
 
 def reset_test_db!
