@@ -1,13 +1,8 @@
-class LinkedData::Collection < OpenMedia::CouchRestModelBase
+class LinkedData::Collection < LinkedData::CouchRestModelSchema
 
   use_database SCHEMA_DATABASE
   unique_id :identifier
   
-  property :identifier, String
-  property :term, String        # Escaped vocabulary name suitable for inclusion in IRI
-  property :label, String       # User assigned name, RDFS#Label
-  property :authority, String
-  property :comment, String     # RDFS#Comment
   property :tags, [String]
   property :hidden, TrueClass, :default => false
   
@@ -36,11 +31,12 @@ class LinkedData::Collection < OpenMedia::CouchRestModelBase
   end
 
   design do
-    view :by_label
     view :by_term
+    view :by_label
+    view :by_authority
+    
     view :by_public_uri
     view :by_base_uri
-    view :by_authority
     
     # view :by_base_uri,
     #   :map =>

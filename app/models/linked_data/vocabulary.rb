@@ -1,4 +1,4 @@
-class LinkedData::Vocabulary < OpenMedia::CouchRestModelBase
+class LinkedData::Vocabulary < LinkedData::CouchRestModelSchema
   
   attr_accessor :key_list
   
@@ -7,14 +7,8 @@ class LinkedData::Vocabulary < OpenMedia::CouchRestModelBase
 
   # belongs_to :collection, :class_name => "LinkedData::Collection"
   
-  property :identifier, String
-  property :term, String
-  property :label, String       # User assigned name, RDFS#Label
-  property :authority, String
-
   property :base_uri, String
   property :public_uri, String
-  property :comment, String     # RDFS#Comment
   property :tags, [String]
 
   
@@ -47,8 +41,10 @@ class LinkedData::Vocabulary < OpenMedia::CouchRestModelBase
   before_create :generate_public_uri
 
   design do
+    view :by_term
     view :by_label
     view :by_authority
+    
     view :by_base_uri
     view :by_public_uri
     view :by_curie_prefix

@@ -1,4 +1,4 @@
-class LinkedData::Topic < OpenMedia::CouchRestModelBase
+class LinkedData::Topic < LinkedData::CouchRestModelSchema
   
   attr_reader :instance_database, :instance_design_doc, :instance_design_doc_id
   attr_accessor :docs_read, :docs_written
@@ -10,12 +10,6 @@ class LinkedData::Topic < OpenMedia::CouchRestModelBase
   belongs_to :creator, :class_name => "VCard::Base"
   belongs_to :publisher, :class_name => "VCard::Base"
 
-  property :identifier, String, :read_only => true
-  property :term, String
-  property :label, String
-  property :authority, String
-  property :comment, String
-  
   property :instance_database_name, String
   property :instance_class_name, String, :read_only => true
   
@@ -30,9 +24,9 @@ class LinkedData::Topic < OpenMedia::CouchRestModelBase
   before_create :create_instance_design_doc
 
   design do
-    view :by_authority
     view :by_term
     view :by_label
+    view :by_authority
   end
   
   def instance_database

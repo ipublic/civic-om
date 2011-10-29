@@ -1,4 +1,4 @@
-class LinkedData::Type < OpenMedia::CouchRestModelBase
+class LinkedData::Type < LinkedData::CouchRestModelSchema
   
   use_database SCHEMA_DATABASE
   unique_id :identifier
@@ -15,12 +15,7 @@ class LinkedData::Type < OpenMedia::CouchRestModelBase
   
   collection_of :included_types, :class_name => 'LinkedData::Type'
   
-  property :identifier, String
-  property :term, String
-  property :label, String         # User assigned name, RDFS#Label
-  property :authority, String
   property :public_uri, String
-  property :comment, String       # => RDFS#Comment
   property :tags, [String]
 
   property :enumerations           # Hash of key/value lookups
@@ -42,9 +37,10 @@ class LinkedData::Type < OpenMedia::CouchRestModelBase
   end
 
   design do
-    view :by_authority
     view :by_term
     view :by_label
+    view :by_authority
+    
     view :by_public_uri
     view :by_vocabulary_id
     

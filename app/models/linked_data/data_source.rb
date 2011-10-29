@@ -1,4 +1,4 @@
-class LinkedData::DataSource < OpenMedia::CouchRestModelBase
+class LinkedData::DataSource < LinkedData::CouchRestModelSchema
 
   attr_accessor :docs_read, :docs_written
   
@@ -9,10 +9,6 @@ class LinkedData::DataSource < OpenMedia::CouchRestModelBase
   SHAPEFILE_SOURCE_TYPE = "shapefile"
   URL_SOURCE_TYPE = "url"
   
-  property :identifier, String
-  property :term, String
-  property :label, String
-  property :authority, String
   property :properties, [LinkedData::Property]
 
   # property :transform_model do
@@ -40,6 +36,7 @@ class LinkedData::DataSource < OpenMedia::CouchRestModelBase
   design do
     view :by_term
     view :by_label
+    view :by_authority
   end
   
   def last_extract(view_opts={})
