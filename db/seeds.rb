@@ -11,6 +11,12 @@ admin = Vocabularies::VCard::Name.new(:first_name => "Site", :last_name => "Admi
 vcard = Vocabularies::VCard::Base.new(:name => admin)
 vcard.save!
 
+# Initialize demo site
+host = COUCHDB_CONFIG[:host_path]
+label = "OpenMedia Demonstration"
+url = "http://demo.civicopenmedia.us"
+Site.create!(:public_couchhost => host, :label => label, :url => url)
+
 # require File.join(File.dirname(__FILE__),'seeds', 'vocabularies', 'v_card')
 # require File.join(File.dirname(__FILE__),'seeds', 'vocabularies', 'street_address')
 # require File.join(File.dirname(__FILE__),'seeds', 'topics', 'street_addresses')
