@@ -1,6 +1,6 @@
 require 'no_site_defined'
 
-class Site < OpenMedia::CouchRestModelBase
+class Site < CouchRest::Model::Base
 
   DATABASES = [SITES_DATABASE.name, STAGING_DATABASE.name, SCHEMA_DATABASE.name]
 
