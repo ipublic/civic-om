@@ -9,7 +9,7 @@ namespace :openmedia do
   task :create_dbs => :environment do
     SITES_DATABASE.create!
     STAGING_DATABASE.create!
-    VOCABULARIES_DATABASE.create!
+    SCHEMA_DATABASE.create!
   end 
 
   desc "drop the couchdb databases for the current environment"
@@ -21,7 +21,7 @@ namespace :openmedia do
     end 
     SITES_DATABASE.delete! rescue nil
     STAGING_DATABASE.delete! rescue nil
-    VOCABULARIES_DATABASE.delete! rescue nil
+    SCHEMA_DATABASE.delete! rescue nil
   end
 
   desc "create couchdb databases and load seeds"
