@@ -10,6 +10,7 @@ gem 'sqlite3'
 gem 'couchrest_model'
 gem 'rdf'
 gem 'addressable'
+gem 'haml'
 
 gem 'multi_json'
 gem 'yajl-ruby'
