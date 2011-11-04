@@ -44,6 +44,13 @@ module CivicOm
 
     # Enable the asset pipeline
     config.assets.enabled = true
+    
+    # Add "960 grid" framework to asset pipeline
+    config.assets.paths << "#{Rails.root}/vendor/assets/960_grid/css"
+
+    # Add "formalize" framework to asset pipeline
+    config.assets.paths << "#{Rails.root}/vendor/assets/formalize/js"
+    config.assets.paths << "#{Rails.root}/vendor/assets/formalize/css"
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
