@@ -4,7 +4,7 @@ module OpenMedia
   module CouchRestModelable
 
     def generate_identifier
-      self.label ||= self.term
+      self.label ||= self.term.humanize
       
       cname = self.class.to_s.split("::").last.downcase
       eterm = escape_string(self.term.downcase)
