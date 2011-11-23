@@ -1,34 +1,33 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Epoch</title>
-  <%= render :partial => 'layouts/resources' %>
-</head>
-<body>
-	<div id="wrapper" class="container_12">
-	  <header role="banner">
-	    <h1 class="grid_4 push_4">Civic OpenMedia Admin</h1>
-	    <div class="grid_4 pull_4">
-	      <p>
-					This is the left side block on top of the page
-	      </p>
-	    </div>
-	    <div class="grid_4">
-	      <p>
-	        This is the right side block on top of the page
-	      </p>	      
-	    </div>
-	  </header>
-	  <div role="main">
-		  <section class="grid_12">
-			<%= yield %>
-			</section>
-		</div>
-	</div><!-- id=wrapper -->
-	<%= javascript_include_tag "application" %>
-	<%= javascript_include_tag "jquery.formalize" %>
-	<!--[if lt IE 9]>
-		<%= javascript_include_tag "//html5shim.googlecode.com/svn/trunk/html5.js" %>
-	<![endif]-->
-</body>
+	<head>
+	  <%= render :partial => 'layouts/resources' %>
+	  <title>Civic OpenMedia Admin</title>
+	</head>
+	<body>
+		<div id="container" class="container_12">
+		  <header role="banner">
+		    <h1 class="grid_4 push_4">Civic OpenMedia Admin</h1>
+		    <div class="grid_4 pull_4">
+		      <p>
+						This is the left side block on top of the page
+		      </p>
+		    </div>
+		    <div class="grid_4">
+		      <p>
+		        This is the right side block on top of the page
+		      </p>	      
+		    </div>
+		  </header>
+		  <div id="main" role="main">
+			  <section class="grid_12">
+				<%= yield %>
+				</section>
+			</div>
+			<footer>
+			</footer>
+		</div><!-- id=container -->
+		<%= javascript_include_tag "application" %>
+		<%= javascript_include_tag "jquery.formalize" %>
+	</body>
 </html>
