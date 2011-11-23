@@ -11,4 +11,7 @@
 = stylesheet_link_tag "formalize", :media => "all"
 = stylesheet_link_tag "//fonts.googleapis.com/css?family=Droid+Sans|Droid+Serif", :media => "all"
 
+/[if lt IE 9]
+  = javascript_include_tag "//html5shim.googlecode.com/svn/trunk/html5.js"
+
 = csrf_meta_tag
