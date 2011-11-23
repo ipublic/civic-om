@@ -24,7 +24,20 @@
 				<%= yield %>
 				</section>
 			</div>
-			<footer>
+			<footer role="contentinfo">
+				<div class="container_12">
+					<small class="grid_4">
+	          Civic OpenMedia created by <%= link_to "iPublic.org", "http://www.ipublic.org/" %>
+					</small>
+	        <small class="grid_4 align_center">
+						some text in the center
+					</small>
+	        <small class="grid_4 align_right">
+	          Licensed under <%= link_to "GPL", "http://www.gnu.org/licenses/gpl.html" %>
+	          and
+						<%= link_to "MIT", "http://www.opensource.org/licenses/mit-license.php" %>
+					</small>
+				</div>
 			</footer>
 		</div><!-- id=container -->
 		<%= javascript_include_tag "application" %>
