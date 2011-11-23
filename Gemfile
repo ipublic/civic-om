@@ -6,6 +6,7 @@ gem 'rails', '3.1.1'
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
+gem 'mysql'
 
 gem 'couchrest_model'
 gem 'rdf'
@@ -17,6 +18,10 @@ gem 'yajl-ruby'
 
 gem 'fastercsv'
 gem 'spreadsheet'
+
+
+# Required by Activewarehouse-etl
+gem "adapter_extensions", :git => 'git@github.com:activewarehouse/adapter_extensions.git'
 
 gem 'rspec-rails', :group => [:test, :development]
 group :test do
