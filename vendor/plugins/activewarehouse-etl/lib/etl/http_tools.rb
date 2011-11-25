@@ -1,7 +1,7 @@
 require 'uri'
 
 # Module which has utility methods for HTTP.
-module HttpTools
+module ETL::HttpTools
   # Parse the given user agent string
   #
   # Code taken from http://gemtacular.com/gems/ParseUserAgent
