@@ -21,6 +21,7 @@ gem 'spreadsheet'
 
 
 # Required by Activewarehouse-etl
+gem "activewarehouse-etl", :path => '../activewarehouse-etl'
 gem "adapter_extensions", :git => 'git@github.com:activewarehouse/adapter_extensions.git'
 
 gem 'rspec-rails', :group => [:test, :development]
