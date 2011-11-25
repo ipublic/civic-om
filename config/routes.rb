@@ -1,4 +1,7 @@
 CivicOm::Application.routes.draw do
+  
+  root :to => "public/home#index"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
