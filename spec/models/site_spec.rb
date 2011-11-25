@@ -10,7 +10,7 @@ describe Site do
     @ns = Namespace.new(@url)
 
     @site = Site.new(:url => @url, :term => term, :label => label, :public_couchhost => host)
-    @db_name = "om_civicopenmedia_us_dc_test"
+    @db_name = "civicopenmedia_us_dc_test"
   end
   
   describe "Initialization" do
