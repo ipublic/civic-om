@@ -1,4 +1,14 @@
-# SQLite version 3.x
+etl_execution:
+  adapter: mysql
+  socket: /tmp/mysql.sock
+  username: etl
+  password: kermit12
+  host: localhost
+  database: etl_unittest_execution
+  encoding: utf8
+  
+  
+  # SQLite version 3.x
 #   gem install sqlite3
 #
 #   Ensure the SQLite 3 gem is defined in your Gemfile
