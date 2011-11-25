@@ -1,9 +1,13 @@
+*.gem
 .bundle
 Gemfile.lock
+pkg/*
+*.swp
+*.sqlite3
+/test/dummy/tmp/*
+/test/tmp
 db/*.sqlite3
 log/*.log
 tmp/
 .sass-cache/
 config/deploy.rb
-.rvmrc
-
