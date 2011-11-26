@@ -6,9 +6,9 @@ module OpenMedia
     def generate_identifier
       self.label ||= self.term.humanize
       
-      cname = self.class.to_s.split("::").last.downcase
+      class_basename = self.class.to_s.demodulize.downcase
       eterm = escape_string(self.term.downcase)
-      this_id = %W[#{cname} #{self.authority} #{eterm}].select {|v| !v.blank?}.join('_')
+      this_id = %W[#{class_basename} #{self.authority} #{eterm}].select {|v| !v.blank?}.join('_')
 
       write_attribute(:identifier, this_id)
     end
