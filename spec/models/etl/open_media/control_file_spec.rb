@@ -11,10 +11,15 @@ describe ETL::OpenMedia::ControlFile do
     @source_file = File.join('/Users/dthomas/dev/ror/civic-om', "spec/fixtures/crime_incidents_current.csv")
     @parser_key = "csv"
     @parser_value = "Csv Parser"
+    @parameters = {:skip_lines => 1}
+    @parser_options = ETL::OpenMedia::Parser::CsvOptions.new  # will pass default values
     @id = "controlfile_civicopenmedia_us_dcgov_crime_xml_file"
     
     @cf = ETL::OpenMedia::ControlFile.new(:source_file => @source_file, 
-                                          :parser => @parser_key)
+                                          :parser => @parser_key,
+                                          :parser_options => @parser_options,
+                                          :parameters => @parameters
+                                          )
   end
 
   describe "initialization" do
@@ -74,12 +79,19 @@ describe ETL::OpenMedia::ControlFile do
   end
   
   describe "execute" do
-    it 'should parse the file and return contents as a hash of rows' do
+    it 'should parse a CSV file and return contents as a hash of rows' do
       control = ETL::Control::Control.resolve @control_file
       parser = ETL::Parser::CsvParser.new(control.sources.first)
       rows = parser.collect { |row| row }
-      rows.count.should == 4
+      rows.count.should == 304
     end
+    
+    it 'should parse an Excel file and return contents as a hash of rows' do
+    end
+    
+    it 'should parse a Shapefile and return contents as a hash of rows' do
+    end
+    
   end
 
 end

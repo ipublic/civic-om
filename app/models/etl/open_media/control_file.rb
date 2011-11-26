@@ -16,6 +16,7 @@ module ETL
       property :source_file, String
       property :parser, String
       property :parser_options, :default => {}
+      property :parameters, :default => {}
       
       validates_presence_of :term
       validates_presence_of :authority
@@ -41,8 +42,14 @@ module ETL
       end
 
       def to_s
-        # "source :in, {\n  :file => '#{self.source_file}',\n  :parser => {\n :name => #{self.parser},\n  :options => #{self.parser_options}\n }\n}"
-        "source :in, {\n  :file => '#{self.source_file}',\n  :parser => {\n :name => :#{self.parser},\n  :options => #{self.parser_options}\n }\n}"
+        ctl = "source :in, {\n" +
+              "  :file => '#{self.source_file}',\n" +
+              "  :parser => {\n" + 
+              "    :name => :#{self.parser},\n" +
+              "    :options => #{self.parser_options.to_hash}\n" +
+              "   }"
+        self.parameters.each {|k,v| ctl << ",\n  :#{k} => #{v}"}
+        ctl << "\n}\n"
       end
 
       def write(file)
