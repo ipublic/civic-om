@@ -4,6 +4,7 @@ Gemfile.lock
 pkg/*
 *.swp
 *.sqlite3
+/source_data/*
 /test/dummy/tmp/*
 /test/tmp
 db/*.sqlite3
