@@ -2,9 +2,6 @@ class LinkedData::DataSource < LinkedData::CouchRestModelSchema
 
   attr_accessor :docs_read, :docs_written
   
-  use_database STAGING_DATABASE
-  unique_id :identifier
-  
   CSV_SOURCE_TYPE = "csv"
   SHAPEFILE_SOURCE_TYPE = "shapefile"
   URL_SOURCE_TYPE = "url"

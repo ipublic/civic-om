@@ -1,8 +1,5 @@
 class LinkedData::Collection < LinkedData::CouchRestModelSchema
 
-  use_database SCHEMA_DATABASE
-  unique_id :identifier
-  
   property :tags, [String]
   property :hidden, TrueClass, :default => false
   

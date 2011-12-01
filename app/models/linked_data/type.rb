@@ -1,8 +1,5 @@
 class LinkedData::Type < LinkedData::CouchRestModelSchema
   
-  use_database SCHEMA_DATABASE
-  unique_id :identifier
-
   belongs_to :vocabulary, :class_name => "LinkedData::Vocabulary"
 
   # Properties denote a HAS A relationship. For example, iPublic Has a url (property) of

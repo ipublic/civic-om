@@ -2,9 +2,6 @@ class LinkedData::Vocabulary < LinkedData::CouchRestModelSchema
   
   attr_accessor :key_list
   
-  use_database SCHEMA_DATABASE
-  unique_id :identifier
-
   # belongs_to :collection, :class_name => "LinkedData::Collection"
   
   property :base_uri, String
