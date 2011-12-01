@@ -66,6 +66,7 @@ describe LinkedData::DataSource do
   describe "views" do
     before(:all) do
       STAGING_DATABASE.recreate! rescue nil
+      SCHEMA_DATABASE.recreate! rescue nil
 
       @csv_ds = LinkedData::DataSource.create!(:authority => @ns.authority, :term => @ds_term)
       @csv_filename = File.join(fixture_path, 'crime_incidents_current.csv')
