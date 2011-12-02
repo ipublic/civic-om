@@ -1,4 +1,4 @@
-class Public::HomeController < Public::BaseController
+class Public::HomeController < PublicController
   def index
   end
 
