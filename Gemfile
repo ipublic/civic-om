@@ -1,27 +1,32 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.1'
+gem 'rails', '3.1.3'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
-gem 'mysql'
+# gem 'mysql'
 
-gem 'couchrest_model'
-gem 'rdf'
-gem 'addressable'
+gem 'couchrest_model', '1.1.2'
+gem 'rdf', '0.3.4.1'
+gem 'addressable', '2.2.6'
 gem 'haml'
 
-gem 'multi_json'
-gem 'yajl-ruby'
+gem 'devise', '1.5.3'
+gem 'devise_couch', '0.1.2'
+
+gem 'multi_json', '1.0.4'
+gem 'yajl-ruby', '1.1.0'
 
 gem 'fastercsv'
-gem 'spreadsheet'
+gem 'spreadsheet', '0.6.5.9'
 
+# Use ipublic fork
+gem "activewarehouse-etl", :git => 'git@github.com:ipublic/activewarehouse-etl.git'
+# gem "activewarehouse-etl", :path => '../activewarehouse-etl'
 
 # Required by Activewarehouse-etl
-gem "activewarehouse-etl", :path => '../activewarehouse-etl'
 gem "adapter_extensions", :git => 'git@github.com:activewarehouse/adapter_extensions.git'
 
 gem 'rspec-rails', :group => [:test, :development]
