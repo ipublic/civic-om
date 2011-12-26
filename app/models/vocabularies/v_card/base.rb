@@ -1,13 +1,13 @@
 module Vocabularies
   class VCard::Base < CouchRest::Model::Base
   
-    use_database SCHEMA_DATABASE
+    use_database SITES_DATABASE
 
     property :addresses, [Vocabularies::VCard::Address], :alias => :adr
     property :emails, [Vocabularies::VCard::Email], :alias => :email
     property :name, Vocabularies::VCard::Name, :alias => :n
     property :organization, Vocabularies::VCard::Organization, :alias => :org
-    property :telephones, [Vocabularies::VCard::Telephone], :alias => :tel
+    property :telephones, [Vocabularies::VCard::Telephone], :alias => :tel, :default => []
 
     property :formatted_name, String, :alias => :fn
     property :nickname, String, :alias => :nickname
@@ -23,24 +23,26 @@ module Vocabularies
   
     validates_presence_of :formatted_name
 
-    view_by :formatted_name
-    view_by :sort_string
+    design do
+      view :by_formatted_name
+      view :by_sort_string
+      view :by_last_name,
+        :map => 
+          "function(doc) {
+            if ((doc['model'] == 'Vocabularies::VCard::Base') && (doc.name.last_name)) { 
+              emit(doc.name.last_name, doc);
+              }
+            }"
 
-    view_by :last_name,
-      :map => 
-        "function(doc) {
-          if ((doc['model'] == 'Vocabularies::VCard::Base') && (doc.name.last_name)) { 
-            emit(doc.name.last_name, doc);
-            }
-          }"
-  
-    view_by :organization,
-      :map => 
-        "function(doc) {
-          if ((doc['model'] == 'Vocabularies::VCard::Base') && (doc.organization.name)) { 
-            emit(doc.organization.name, doc);
-            }
-          }"
+      view :by_organization,
+        :map => 
+          "function(doc) {
+            if ((doc['model'] == 'Vocabularies::VCard::Base') && (doc.organization.name)) { 
+              emit(doc.organization.name, doc);
+              }
+            }"
+    end
+
         
   private
     def format_name
