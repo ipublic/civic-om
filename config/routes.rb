@@ -1,7 +1,42 @@
 CivicOm::Application.routes.draw do
   
+  ## Send user to login page if a subdomain is present
+  constraints(Subdomain) do
+    match '/' => 'admin/home#index'
+  end
   root :to => "public/home#index"
 
+  devise_for :users
+  resources :users, :only => :show
+  
+
+  # match "site" => "admin/sites#show"
+  
+  # match '/admin' => 'admin/home#index', :as => :admin_root
+  # match '/about' => 'admin/home#about', :as => :about
+  # match '/support' => 'admin/home#support', :as => :support
+
+  resources :maps
+
+
+  namespace :admin do
+    resources :sites
+    resources :data_sources
+    resources :linked_data_collections
+    resources :dashboards
+      
+    resources :contacts do
+      collection do
+        get :new_email
+        get :new_telephone
+        get :new_address
+      end
+      member do
+        get :show_contact
+      end
+    end
+  end
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
