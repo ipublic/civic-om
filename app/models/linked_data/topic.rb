@@ -54,7 +54,7 @@ class LinkedData::Topic < LinkedData::CouchRestModelSchema
   end
    
   def load_instance_docs(docs=[])
-    ts = Time.now.utc
+    ts = Time.now.utc.iso8601.to_s
     time_stamp = {:created_at => ts, :updated_at => ts}
 
     # Reserved properties from source doc to ignore during load

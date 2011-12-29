@@ -1,14 +1,13 @@
 CivicOm::Application.routes.draw do
   
-  ## Send user to login page if a subdomain is present
-  constraints(Subdomain) do
-    match '/' => 'admin/home#index'
-  end
-  root :to => "public/home#index"
-
   devise_for :users
   resources :users, :only => :show
-  
+
+  ## Send user to login page if a subdomain is present
+  constraints(Subdomain) do
+    match '/' => 'sites/public/home#index'
+  end
+  root :to => "community/home#index"
 
   # match "site" => "admin/sites#show"
   
@@ -17,10 +16,14 @@ CivicOm::Application.routes.draw do
   # match '/support' => 'admin/home#support', :as => :support
 
   resources :maps
-
+  
+  namespace :public do
+    resource :community
+    resources :sites, :only => [:index, :show]
+  end
 
   namespace :admin do
-    resources :sites
+    resources :sites, :only => [:show]
     resources :data_sources
     resources :linked_data_collections
     resources :dashboards

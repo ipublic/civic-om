@@ -15,6 +15,9 @@ gem 'haml'
 
 gem 'devise', '1.5.3'
 gem 'devise_couch', '0.1.2'
+# gem 'devise_couch', :git => 'git@github.com:ipublic/devise_couch.git'
+# gem 'devise_couch', :path => '../devise_couch'
+gem 'rails3-generators', :git => 'git://github.com/shenoudab/rails3-generators.git'
 
 gem 'multi_json', '1.0.4'
 gem 'yajl-ruby', '1.1.0'

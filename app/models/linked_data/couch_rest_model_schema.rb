@@ -6,7 +6,7 @@ module LinkedData
     use_database SCHEMA_DATABASE
     unique_id :identifier
 
-    property :identifier, String
+    property :identifier, String, :read_only => true
     property :term, String        # Escaped vocabulary name suitable for inclusion in IRI
     property :label, String       # User assigned name, RDFS#Label
     property :authority, String

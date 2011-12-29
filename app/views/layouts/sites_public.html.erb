@@ -2,24 +2,25 @@
 <html>
 	<head>
 	  <%= render :partial => 'layouts/resources' %>
-	  <title>Civic OpenMedia Community</title>
+	  <title><%= current_site.name || 'Civic OpenMedia Public' %></title>
 	</head>
 	<body>
 		<div class="container">
 			<div class="row">
 				<div class="twelve columns">
-					<h1>Civic OpenMedia Community</h1>
+					<h1><%= current_site.name || 'Civic OpenMedia Public' %></h1>
+					<h4><%= current_site.tag_line || 'Tag line' %></h4>
 				  <%= render :partial => 'shared/navigation' %>
+				<hr/>
+				</div>
+				<div class="twelve columns">
+				  <%= link_to 'OpenMedia Community', url_for(:host => request.domain) %>
 				</div>
 			</div>
 			<div class="row">
 				<div class="twelve columns">
-					<div id="notices">
-			      <% flash.each do |name, msg| %>
-			          <%= content_tag :div, msg, :id => "flash_#{name}" %>
-								<p class="notice"><%= notice %></p>
-								<p class="alert"><%= alert %></p>
-			      <% end %>
+					<p class="notice"><%= notice %></p>
+					<p class="alert"><%= alert %></p>
 				</div>
 			</div>
 

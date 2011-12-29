@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	  <%= render :partial => 'layouts/resources' %>
+	  <title>Civic OpenMedia Admin</title>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="four columns">
+					<h1>Admin Sites</h1>
+				</div>
+	      <div class="eight columns hide-on-phones">
+						<ul id="nav" class="tabs">
+							<li id="home" class="active"><%= link_to 'Home', root_path %>
+							<li id="sources"><%= link_to 'Data Sources', admin_data_sources_path, :title => "" %>
+							<li id="collections"><%= link_to 'Collections', admin_linked_data_collections_path, :title => "" %>
+							<li id="maps"><%= link_to 'Maps', maps_url, :title => "" %>
+							<li id="dashboards"><%= link_to 'Dashboards', admin_dashboards_path, :title => "" %>
+							<li id="site"><%= link_to 'Site', admin_sites_path, :title => "" %>	
+							<li id="contacts"><%= link_to 'Contacts', admin_contacts_path, :title => "" %>
+							<li id="help"><%= link_to 'Help', '/about', :title => "" %>
+							<li id="support"><%= link_to 'Support', '/support', :title => "" %></li>
+						</ul>
+	      </div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="twelve columns">
+					<p class="notice"><%= notice %></p>
+					<p class="alert"><%= alert %></p>
+				</div>
+			</div>
+
+			<%= yield %>
+
+			<footer>
+				<div class="row">
+					<div class="four columns">
+	          Civic OpenMedia created by <%= link_to "iPublic.org", "http://www.ipublic.org/" %>
+					</div>
+	        <div class="four columns">
+						Interested in starting an OpenMedia site for your community?
+					</div>
+	        <div class="four columns">
+	          Licensed under <%= link_to "GPL", "http://www.gnu.org/licenses/gpl.html" %>
+	          and
+						<%= link_to "MIT", "http://www.opensource.org/licenses/mit-license.php" %>
+					</div>
+				</div>
+			</footer>
+
+		</div><!-- class="container" -->
+		<%= javascript_include_tag "application" %>
+		<%= javascript_include_tag "jquery.formalize" %>
+	</body>
+</html>

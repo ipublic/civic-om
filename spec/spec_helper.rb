@@ -53,10 +53,9 @@ RSpec.configure do |config|
 end
 
 def init_site
-  host = COUCHDB_CONFIG[:host_path]
   label = "OpenMedia"
-  url = "http://om.civicopenmedia.us"
-  Site.create!(:label => label, :url => url, :public_couchhost => host)
+  term = "om"
+  Site.create!(:label => label, :term => term)
 end
 
 def reset_test_db!

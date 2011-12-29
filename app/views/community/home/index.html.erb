@@ -1,0 +1,11 @@
+<h1>Public Community Index</h1>
+<div class="row">
+	<div class="three columns">
+		<h4>Sites</h4>
+		<ul>
+			<% @sites.each do |site| %>
+				<li><%= link_to site.name, url_for(:subdomain => site.subdomain, :host => request.domain) %></li>
+			<% end %>
+		</ul>
+	</div>
+</div>

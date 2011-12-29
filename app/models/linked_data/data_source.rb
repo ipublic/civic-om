@@ -65,7 +65,7 @@ class LinkedData::DataSource < LinkedData::CouchRestModelSchema
   def extract!(records)
     raise "DataSource must be saved to database first" if self.identifier.nil?
     esn = LinkedData::DataSource.serial_number
-    ts = Time.now.utc
+    ts = Time.now.utc.iso8601.to_s
     extract_prop_set = {:serial_number => esn, :data_source_id => self.identifier, 
                         :created_at => ts, :updated_at => ts}
     
@@ -80,6 +80,13 @@ class LinkedData::DataSource < LinkedData::CouchRestModelSchema
     extract_sets.last
   end
   
+  # def extract(control_file)
+  #   control = ETL::Control::Control.resolve(control_file)
+  #   p_class = ETL::Parser.const_get("#{parser.to_s.camelize}Parser")
+  #   parser = p_class.new(control.sources.first)
+  #   rows = parser.collect { |row| row }
+  # end
+  # 
   
   def transform!
     # generate ctl from dataset and source definition
