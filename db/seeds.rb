@@ -10,8 +10,8 @@
 email = 'site_admin@example.com'
 pword = 'password'
 subdomain = 'demo'
-label = "OpenMedia Demonstration"
-tag_line = "Your site for government open data"
+label = "OpenMedia Demo Site"
+tag_line = "Your source for government open data"
 
 # Create a VCard record for Admin
 contact = Vocabularies::VCard::Base.new(:name => Vocabularies::VCard::Name.new(:first_name => "John", 
