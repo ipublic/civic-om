@@ -5,26 +5,31 @@
 	  <title>Civic OpenMedia Community</title>
 	</head>
 	<body>
-		<div class="container">
-			<div class="row">
-				<div class="twelve columns">
-					<h1>Civic OpenMedia Community</h1>
-				  <%= render :partial => 'shared/navigation' %>
-				</div>
-			</div>
-			<div class="row">
-				<div class="twelve columns">
-					<div id="notices">
-			      <% flash.each do |name, msg| %>
-			          <%= content_tag :div, msg, :id => "flash_#{name}" %>
-								<p class="notice"><%= notice %></p>
-								<p class="alert"><%= alert %></p>
-			      <% end %>
+		<div id="wrapper">
+			<div class="container header">
+				<div class="row">
+					<div class="twelve columns">
+						<h1>Civic OpenMedia Community</h1>
+					</div>
 				</div>
 			</div>
 
-			<%= yield %>
+			<div class="container content">
+				<div class="row">
+					<div class="twelve columns">
+						<div id="notices">
+				      <% flash.each do |name, msg| %>
+				          <%= content_tag :div, msg, :id => "flash_#{name}" %>
+									<p class="notice"><%= notice %></p>
+									<p class="alert"><%= alert %></p>
+				      <% end %>
+						</div>
+					</div>
+				</div>
 
+				<%= yield %>
+			</div>
+		
 			<footer>
 				<div class="row">
 					<div class="four columns">
@@ -40,7 +45,7 @@
 					</div>
 				</div>
 			</footer>
-		</div><!-- class="container" -->
+		</div>
 		<%= javascript_include_tag "application" %>
 		<%= javascript_include_tag "jquery.formalize" %>
 	</body>

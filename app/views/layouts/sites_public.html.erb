@@ -2,46 +2,51 @@
 <html>
 	<head>
 	  <%= render :partial => 'layouts/resources' %>
-	  <title><%= current_site.name || 'Civic OpenMedia Public' %></title>
+	  <title><%= current_site.label || 'Civic OpenMedia Public' %></title>
 	</head>
 	<body>
-		<div class="container">
+		<div class="container header">
 			<div class="row">
-				<div class="twelve columns">
-					<h1><%= current_site.name || 'Civic OpenMedia Public' %></h1>
-					<h4><%= current_site.tag_line || 'Tag line' %></h4>
-				  <%= render :partial => 'shared/navigation' %>
-				<hr/>
+				<div class="eight columns">
+					<h1><%= current_site.label || 'Civic OpenMedia Public' %></h1>
+					<div class="tagline"><%= current_site.tag_line || 'Tag line' %></div>
 				</div>
-				<div class="twelve columns">
-				  <%= link_to 'OpenMedia Community', url_for(:host => request.domain) %>
+				<div class="four columns">
+				  <%= render :partial => 'shared/navigation' %>
+				  <%= link_to 'OpenMedia Community', root_path %><br/>
+				  <%= link_to 'Site Admin', admin_home_index_path(authority) %>
 				</div>
 			</div>
-			<div class="row">
-				<div class="twelve columns">
-					<p class="notice"><%= notice %></p>
-					<p class="alert"><%= alert %></p>
+		</div>
+
+		<div class="container content">
+			<div class="twelve columns">
+				<div class="row">
+					<div class="twelve columns">
+						<p class="notice"><%= notice %></p>
+						<p class="alert"><%= alert %></p>
+					</div>
 				</div>
 			</div>
 
 			<%= yield %>
+		</div>
 
-			<footer>
-				<div class="row">
-					<div class="four columns">
-	          Civic OpenMedia created by <%= link_to "iPublic.org", "http://www.ipublic.org/" %>
-					</div>
-	        <div class="four columns">
-						Interested in starting an OpenMedia site for your community?
-					</div>
-	        <div class="four columns">
-	          Licensed under <%= link_to "GPL", "http://www.gnu.org/licenses/gpl.html" %>
-	          and
-						<%= link_to "MIT", "http://www.opensource.org/licenses/mit-license.php" %>
-					</div>
+		<footer>
+			<div class="row">
+				<div class="four columns">
+          Civic OpenMedia created by <%= link_to "iPublic.org", "http://www.ipublic.org/" %>
 				</div>
-			</footer>
-		</div><!-- class="container" -->
+        <div class="four columns">
+					Interested in starting an OpenMedia site for your community?
+				</div>
+        <div class="four columns">
+          Licensed under <%= link_to "GPL", "http://www.gnu.org/licenses/gpl.html" %>
+          and
+					<%= link_to "MIT", "http://www.opensource.org/licenses/mit-license.php" %>
+				</div>
+			</div>
+		</footer>
 		<%= javascript_include_tag "application" %>
 		<%= javascript_include_tag "jquery.formalize" %>
 	</body>
