@@ -3,56 +3,68 @@
 	<head>
 	  <%= render :partial => 'layouts/resources' %>
 	  <title>Civic OpenMedia Admin</title>
+		<%= javascript_include_tag "application" %>
+		<%= javascript_include_tag "//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" %>
+		<%= javascript_include_tag "jquery.formalize" %>
 	</head>
 	<body>
-		<div class="container">
-			<div class="row">
-				<div class="four columns">
-					<h1>Admin Sites</h1>
-				</div>
-	      <div class="eight columns hide-on-phones">
-						<ul id="nav" class="tabs">
-							<li id="home" class="active"><%= link_to 'Home', root_path %>
-							<li id="sources"><%= link_to 'Data Sources', admin_data_sources_path, :title => "" %>
-							<li id="collections"><%= link_to 'Collections', admin_linked_data_collections_path, :title => "" %>
-							<li id="maps"><%= link_to 'Maps', maps_url, :title => "" %>
-							<li id="dashboards"><%= link_to 'Dashboards', admin_dashboards_path, :title => "" %>
-							<li id="site"><%= link_to 'Site', admin_sites_path, :title => "" %>	
-							<li id="contacts"><%= link_to 'Contacts', admin_contacts_path, :title => "" %>
-							<li id="help"><%= link_to 'Help', '/about', :title => "" %>
-							<li id="support"><%= link_to 'Support', '/support', :title => "" %></li>
-						</ul>
+		<div id="omBar" class="container">
+	    <div class="row">
+	      <div class="four columns">
+	        <h1><%= link_to 'Civic OpenMedia', community_home_index_path %>
 	      </div>
-			</div>
-		</div>
-		<div class="container">
+	      <div class="eight columns hide-on-phones">
+					<strong class="right">
+							<%= link_to 'Home', admin_home_index_path %>
+							<%= link_to 'Data Sources', admin_data_sources_path, :title => "" %>
+							<%= link_to 'Collections', admin_data_sources_path, :title => "" %>
+							<%= link_to 'Maps', admin_maps_path, :title => "" %>
+							<%= link_to 'Dashboards', admin_dashboards_path, :title => "" %>
+							<%= link_to 'Site', admin_home_path(authority, current_site), :title => "" %>
+							<%= link_to 'Contacts', admin_contacts_path(authority), :title => "" %>
+							<%= link_to 'Help', '/about', :title => "" %>
+							<%= link_to 'Support', '/support', :title => "" %>
+					</strong>
+	      </div>
+	    </div>
+	  </div>
+	  
+		<div class="container header">
 			<div class="row">
 				<div class="twelve columns">
-					<p class="notice"><%= notice %></p>
-					<p class="alert"><%= alert %></p>
+					<div class="branding">
+						<h1><%= "#{current_site.label} Admin" %></h1>
+						<h4 class="subheader"><%= current_site.tag_line %></h4>
+					</div>
 				</div>
 			</div>
+		</div>
 
-			<%= yield %>
-
-			<footer>
+		<div class="container content">
 				<div class="row">
-					<div class="four columns">
-	          Civic OpenMedia created by <%= link_to "iPublic.org", "http://www.ipublic.org/" %>
+					<div class="twelve columns">
+						<p class="notice"><%= notice %></p>
+						<p class="alert"><%= alert %></p>
 					</div>
-	        <div class="four columns">
-						Interested in starting an OpenMedia site for your community?
-					</div>
-	        <div class="four columns">
-	          Licensed under <%= link_to "GPL", "http://www.gnu.org/licenses/gpl.html" %>
-	          and
-						<%= link_to "MIT", "http://www.opensource.org/licenses/mit-license.php" %>
-					</div>
-				</div>
-			</footer>
-
-		</div><!-- class="container" -->
-		<%= javascript_include_tag "application" %>
-		<%= javascript_include_tag "jquery.formalize" %>
+			</div>
+			<%= yield %>
+		</div>
+			
+		<footer class="row">
+			<div class="four columns">
+         <h6><strong>Created by iPublic.org</strong></h6>
+				 <p>Civic OpenMedia is made by <%= link_to "iPublic.org", "http://www.ipublic.org/" %>, founded by experienced open data folks.</p>
+			</div>
+       <div class="five columns">
+         <h6><strong>OpenMedia site for your community?</strong></h6>
+				Interested in starting an OpenMedia site for your community?
+			</div>
+       <div class="three columns">
+         <h6><strong>Need help?</strong></h6>
+         Licensed under <%= link_to "GPL", "http://www.gnu.org/licenses/gpl.html" %>
+         and
+				<%= link_to "MIT", "http://www.opensource.org/licenses/mit-license.php" %>
+			</div>
+		</footer>
 	</body>
 </html>
