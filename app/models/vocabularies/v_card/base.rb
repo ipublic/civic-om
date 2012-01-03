@@ -3,6 +3,8 @@ module Vocabularies
   
     use_database SITES_DATABASE
 
+    belongs_to :authority
+
     property :addresses, [Vocabularies::VCard::Address], :alias => :adr
     property :emails, [Vocabularies::VCard::Email], :alias => :email
     property :name, Vocabularies::VCard::Name, :alias => :n
@@ -22,8 +24,10 @@ module Vocabularies
     before_validation :format_name
   
     validates_presence_of :formatted_name
+    validates_presence_of :authority
 
     design do
+      view :by_authority_id
       view :by_formatted_name
       view :by_sort_string
       view :by_last_name,
@@ -42,8 +46,7 @@ module Vocabularies
               }
             }"
     end
-
-        
+    
   private
     def format_name
       return if self.name.nil?
