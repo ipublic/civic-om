@@ -21,6 +21,7 @@ gem 'rails3-generators', :git => 'git://github.com/shenoudab/rails3-generators.g
 
 gem 'multi_json', '1.0.4'
 gem 'yajl-ruby', '1.1.0'
+gem "zurb-foundation", :group => :assets
 
 gem 'fastercsv'
 gem 'spreadsheet', '0.6.5.9'
