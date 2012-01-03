@@ -1,0 +1,17 @@
+<div class="row">
+	<div class="two columns">
+		<dl class="nice tabs vertical hide-on-phones">
+			<dd><%= link_to "Edit", edit_admin_home_path %></dd>
+		</dl>
+	</div>
+	<div class="ten columns">
+		<%= show_fields(@site, [
+														[:label, "Title"],
+														:tag_line,
+														:terms_of_use
+														]).html_safe %>
+		
+		<p>Label: <%= @site.label %></p>
+		<p>Tag line: <%= @site.tag_line %></p>
+	</div>
+</div>

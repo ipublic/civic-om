@@ -1,0 +1,37 @@
+<div class="row">
+	<div class="twelve columns">
+		<%= form_for :site, :url => admin_home_path, :html=>{:method=>:put, :class=>"nice"} do |f| %>
+		  <%#= f.error_messages %>
+			<%= f.hidden_field :rev, :value => @site['_rev'] if @site['_rev'] %>
+			<fieldset>
+				<legend>Site Information</legend>
+				  <%= f.label :label, "Title" %> <%= f.text_field :label, :class => "medium input-text" %>
+				  <%= f.label :tag_line %> <%= f.text_field :tag_line, :class => "large input-text" %>
+				  <%= f.label :terms_of_use %> <%= f.text_area :terms_of_use, :class => "large text-area", :rows => 3 %>
+						<label class="red">Medium Input</label>
+						<input type="text" class="medium input-text red" />
+						<small class="error">Whoa, cowboy. Try that again.</small>
+				
+			</fieldset>
+
+			<fieldset>
+				<legend>Municipality</legend>
+				<%#= render :partial => 'admin/named_places/form_wide', :locals => {:f => f, 
+				                                                              :attribute_name => :municipality,
+				                                                              :named_place=>@site.municipality}  %>
+			</fieldset>
+	
+			<fieldset>
+				<legend>OpenMedia Servers</legend>
+				  <%#= f.label :internal_couchdb_server_uri, 'Internal server URI', :class => "wide"  %> <%#= f.text_field :internal_couchdb_server_uri, :class => "wide", :class => "wide"  %>
+				  <%#= f.label :public_couchdb_server_uri, 'Public server URI', :class => "wide"  %> <%#= f.text_field :public_couchdb_server_uri, :class => "wide" %>
+			</fieldset>
+
+			<fieldset>
+				<legend>Services</legend>
+			  	<%#= f.label :googlemap_api_key, 'GoogleMap API Key', :class => "wide"  %> <%#= f.text_area :googlemap_api_key, :rows => 3, :class => "wide" %>
+			</fieldset>
+			<%= f.submit "Save", :class => "nice medium radius blue button" %> <%= link_to 'Back', :back, :class => "nice small white radius button" %> 
+		<% end %>	
+	</div>
+</div>
