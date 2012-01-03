@@ -1,16 +1,12 @@
 class Sites::Admin::HomeController < Sites::AuthenticatedController
-  layout 'admin_site'
-  
-  
-  
   respond_to :html, :json, :xml
 
   def index
-    @sites = Site.all
+    @site = current_site
   end
 
   def show
-    @site = Site.first
+    @site = Site.get(params[:id])
   end
   
   def create
@@ -32,27 +28,28 @@ class Sites::Admin::HomeController < Sites::AuthenticatedController
   end
 
   def edit
-    @site = current_site
+    @site = Site.get(params[:id])
   end
   
   def update
-    @site = current_site
-    @site.attributes=params[:site]
-    @site.municipality = OpenMedia::InferenceRules::GeographicName.find_by_name_and_id(params[:site][:municipality][:name],
-                                                                                       params[:site][:municipality][:source_id].to_i)
-    @site.municipality.description = params[:site][:municipality][:description]
-    respond_with @site
+    @site = Site.get(params[:id])
+    @site.attributes = params[:site]
     
-    # respond_to do |format|
-    #   if @site.save
-    #     flash[:notice] = 'Successfully updated site settings.'
-    #     format.html { redirect_to(admin_site_path) }
-    #     format.xml  { head :ok }
-    #   else
-    #     format.html { render :action => "edit" }
-    #     format.xml  { render :xml => @site.errors, :status => :unprocessable_entity }
-    #   end
-    # end
+    # @site.municipality = OpenMedia::InferenceRules::GeographicName.find_by_name_and_id(params[:site][:municipality][:name],
+    #                                                                                    params[:site][:municipality][:source_id].to_i)
+    # @site.municipality.description = params[:site][:municipality][:description]
+    # respond_with @site
+    
+    respond_to do |format|
+      if @site.save
+        flash[:notice] = 'Successfully updated site settings.'
+        format.html { redirect_to(admin_home_path) }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @site.errors, :status => :unprocessable_entity }
+      end
+    end
   end
 
 end
