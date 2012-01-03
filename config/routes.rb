@@ -4,9 +4,10 @@ CivicOm::Application.routes.draw do
   resources :users, :only => :show
 
   ## Send user to login page if a subdomain is present
-  constraints(Subdomain) do
-    match '/' => 'sites/public/home#index'
-  end
+  # constraints(Subdomain) do
+  #   match '/' => 'sites/public/home#index'
+  # end
+
   root :to => "community/home#index"
 
   # match "site" => "admin/sites#show"
@@ -15,27 +16,48 @@ CivicOm::Application.routes.draw do
   # match '/about' => 'admin/home#about', :as => :about
   # match '/support' => 'admin/home#support', :as => :support
 
-  resources :maps
-  
-  namespace :public do
-    resource :community
-    resources :sites, :only => [:index, :show]
+  namespace :community do
+    resources :home, :only => :index
   end
 
-  namespace :admin do
-    resources :sites, :only => [:show]
-    resources :data_sources
-    resources :linked_data_collections
-    resources :dashboards
+  # scope ":authority_id" do
+  #   scope :module => "sites" do
+  #     namespace :admin do
+  #       resources :contacts
+  #     end
+  #   end
+  # end
+
+  scope ":authority_id" do
+    scope :module => "sites" do
+      namespace :admin do
       
-    resources :contacts do
-      collection do
-        get :new_email
-        get :new_telephone
-        get :new_address
+        resources :home, :except => :destroy
+        resources :data_sources
+        resources :contacts
+        #   resources :contacts do
+        #     collection do
+        #       get :new_email
+        #       get :new_telephone
+        #       get :new_address
+        #     end
+        #     member do
+        #       get :show_contact
+        #     end
+        #   end
+        resources :maps
+        resources :dashboards do
+          collection do
+            get :new_group
+            get :new_measure
+          end
+        end
       end
-      member do
-        get :show_contact
+    
+      namespace :public do
+        resources :home, :only => :index
+        resources :maps, :only => [:index, :show]
+        resources :dashboards, :only => [:index, :show]
       end
     end
   end
