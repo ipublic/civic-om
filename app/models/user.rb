@@ -2,25 +2,21 @@ class User < CouchRest::Model::Base
   use_database SITES_DATABASE
   unique_id :email
 
-  belongs_to :site
+  belongs_to :authority
   
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
-  
-  # before_save :ensure_authentication_token
-  
-  
-  view_by :email
-  view_by :confirmation_token
-  view_by :site_id
-  
-  # design do
-  #  view :by_email
-  #  view :by_confirmation_token
-  #  view :by_site_id
-  # end
+
+  validates_presence_of :authority
+
+  design do
+    view :by_authority_id
+    view :by_email
+    view :by_confirmation_token
+    view :by_site_id
+  end
   
   def self.find(id, opts=nil)
    if id == :first
