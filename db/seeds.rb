@@ -9,12 +9,16 @@
 ## Initialize demo site
 email = 'site_admin@example.com'
 pword = 'password'
-subdomain = 'demo'
+term = 'demo_gov'
 label = "OpenMedia Demo Site"
 tag_line = "Your source for government open data"
 
+# Initialize Authority
+authority = Authority.create!(:term => term, :label => label)
+
 # Create a VCard record for Admin
-contact = Vocabularies::VCard::Base.new(:name => Vocabularies::VCard::Name.new(:first_name => "John", 
+contact = Vocabularies::VCard::Base.new(:authority => authority,
+                                        :name => Vocabularies::VCard::Name.new(:first_name => "John", 
                                                                                 :last_name => "Doe"))
 
 contact.emails << Vocabularies::VCard::Email.new(:type => 'Work', :value => email)
@@ -24,19 +28,20 @@ contact.save!
 user = User.create!(:email => email, 
                     :password => pword, 
                     :password_confirmation => pword,
+                    :authority => authority,
                     :confirmed_at => Time.now.utc)
 
 
 # Create Site record
-site = Site.new(:subdomain => subdomain, 
+site = Site.new(:authority => authority, 
                 :label => label, 
                 :tag_line => tag_line,
                 :administrator_contact => contact).save
 
 # Associate the Site with User
-user = User.get(email)
-user.site = site
-user.save!
+# user = User.get(email)
+# user.site = site
+# user.save!
 
 
 
