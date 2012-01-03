@@ -1,11 +1,19 @@
-<h1>Public Community Index</h1>
+<div class="row">
+	<div class="twelve columns">
+		<h2>Showcase</h2>
+	</div>
+</div>
 <div class="row">
 	<div class="three columns">
-		<h4>Sites</h4>
+		<h2>Sites</h2>
+		<p>Search</p>
 		<ul>
 			<% @sites.each do |site| %>
-				<li><%= link_to site.name, url_for(:subdomain => site.subdomain, :host => request.domain) %></li>
+			<li><%= link_to site.label, public_home_index_path(site.authority) %></li>
 			<% end %>
 		</ul>
+	</div>
+	<div class="three columns">
+		<h2>Site Map</h2>
 	</div>
 </div>
