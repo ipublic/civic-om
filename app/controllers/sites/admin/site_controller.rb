@@ -38,7 +38,7 @@ class Sites::Admin::SiteController < Sites::AuthenticatedController
     
     respond_to do |format|
       if @site.save
-        flash[:success] = 'Successfully updated site settings.'
+        flash[:success] = 'Successfully updated Site settings.'
         format.html { redirect_to(admin_site_path) }
         format.xml  { head :ok }
       else
