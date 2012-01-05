@@ -2,7 +2,7 @@ class Sites::Admin::SiteController < Sites::AuthenticatedController
   respond_to :html, :json, :xml
 
   def show
-    @site = Site.get(params[:id])
+    @site = current_site
   end
   
   def create
@@ -24,11 +24,12 @@ class Sites::Admin::SiteController < Sites::AuthenticatedController
   end
   
   def edit
-    @site = Site.get(params[:id])
+    @site = current_site
   end
   
   def update
-    @site = Site.get(params[:id])
+    @site = current_site
+    
     @site.attributes = params[:site]
     # @site.municipality = OpenMedia::InferenceRules::GeographicName.find_by_name_and_id(params[:site][:municipality][:name],
     #                                                                                    params[:site][:municipality][:source_id].to_i)
