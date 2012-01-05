@@ -20,7 +20,7 @@
 							<%= link_to 'Collections', admin_data_sources_path, :title => "" %>
 							<%= link_to 'Maps', admin_maps_path, :title => "" %>
 							<%= link_to 'Dashboards', admin_dashboards_path, :title => "" %>
-							<%= link_to 'Site', admin_home_path(authority, current_site), :title => "" %>
+							<%= link_to 'Site', admin_site_path(authority, current_site), :title => "" %>
 							<%= link_to 'Contacts', admin_contacts_path(authority), :title => "" %>
 							<%= link_to 'Help', '/about', :title => "" %>
 							<%= link_to 'Support', '/support', :title => "" %>
@@ -43,8 +43,12 @@
 		<div class="container content">
 				<div class="row">
 					<div class="twelve columns">
-						<p class="notice"><%= notice %></p>
-						<p class="alert"><%= alert %></p>
+						<% flash.each do |name, msg| %>
+							<!-- alert-box classes: success, warning, error or blank -->
+							<%= content_tag :div, msg, :class => "alert-box #{name}" %>
+							<p class="notice"><%= notice %></p>
+							<p class="alert"><%= alert %></p>
+						<% end %>
 					</div>
 			</div>
 			<%= yield %>
