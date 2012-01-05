@@ -1,4 +1,4 @@
-class Sites::Admin::SiteController < Sites::AuthenticatedController
+class Sites::Admin::SitesController < Sites::AuthenticatedController
   respond_to :html, :json, :xml
 
   def show

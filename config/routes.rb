@@ -27,25 +27,30 @@ CivicOm::Application.routes.draw do
   #     end
   #   end
   # end
+  
+  # scope :module => "vocabularies" do
+  #   resources :v_card_base, :as => "admin_contacts"
+  # end
 
   scope ":authority_id" do
     scope :module => "sites" do
       namespace :admin do
       
+        resource :site, :except => :destroy
+
         resources :home, :only => :index
-        resources :site, :except => :destroy
         resources :data_sources
-        resources :contacts
-        #   resources :contacts do
-        #     collection do
-        #       get :new_email
-        #       get :new_telephone
-        #       get :new_address
-        #     end
+        # resources :contacts
+        resources :contacts do
+          collection do
+            get :new_email
+            get :new_telephone
+            get :new_address
+          end
         #     member do
         #       get :show_contact
         #     end
-        #   end
+        end
         resources :maps
         resources :dashboards do
           collection do
