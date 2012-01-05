@@ -9,6 +9,7 @@ gem 'sqlite3'
 # gem 'mysql'
 
 gem 'couchrest_model', '1.1.2'
+gem 'kaminari'
 gem 'rdf', '0.3.4.1'
 gem 'addressable', '2.2.6'
 gem 'haml'
