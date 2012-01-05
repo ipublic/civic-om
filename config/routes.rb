@@ -32,7 +32,8 @@ CivicOm::Application.routes.draw do
     scope :module => "sites" do
       namespace :admin do
       
-        resources :home, :except => :destroy
+        resources :home, :only => :index
+        resources :site, :except => :destroy
         resources :data_sources
         resources :contacts
         #   resources :contacts do
