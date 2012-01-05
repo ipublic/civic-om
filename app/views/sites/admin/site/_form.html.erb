@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="twelve columns">
-		<%= form_for :site, :url => admin_home_path, :html=>{:method=>:put, :class=>"nice"} do |f| %>
+		<%= form_for :site, :url => admin_site_path, :html=>{:method=>:put, :class=>"nice"} do |f| %>
 		  <%#= f.error_messages %>
 			<%= f.hidden_field :rev, :value => @site['_rev'] if @site['_rev'] %>
 			<fieldset>
