@@ -1,0 +1,26 @@
+<div class="contact-address">
+	<div class="row">
+		<div class="two columns">
+			<select name="contact[addresses][][type]" type="text"value=<%= address.type %> >
+				<%= options_for_select(Vocabularies::VCard::Address::ADDRESS_TYPES, address.type) %>
+			</select>
+		</div>
+		<div class="five columns">
+			<%#= label_tag "contact[addresses][][address_1]", "Address 1" %> 
+			<%= text_field_tag "contact[addresses][][address_1]", address.address_1, :class => "input-text medium" %>
+			<%#= label_tag "contact[addresses][][address_2]", "Address 2" %> 
+			<%= text_field_tag "contact[addresses][][address_2]", address.address_2, :class => "input-text medium" %>
+			<%= label_tag "contact[addresses][][city]", "City" %> 
+			<%= text_field_tag "contact[addresses][][city]", address.city, :class => "input-text medium" %>
+			<%= label_tag "contact[addresses][][state]", "State" %> 
+			<%= text_field_tag "contact[addresses][][state]", address.state, :class => "input-text medium" %>
+			<%= label_tag "contact[addresses][][zipcode]", "Zipcode" %> 
+			<%= text_field_tag "contact[addresses][][zipcode]", address.zipcode, :class => "input-text medium" %>
+			<%= label_tag "contact[addresses][][country]", "Country" %> 
+			<%= text_field_tag "contact[addresses][][country]", address.country, :class => "input-text medium" %>
+		</div>
+		<div class="four columns">
+			<a href="#" class="delete-contact-address delete-element" alt="Delete">Delete address</a>
+		</div>
+	</div>
+</div>

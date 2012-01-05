@@ -1,0 +1,18 @@
+<div id="telephone-property">
+</div>
+
+<div id="contact-telephone">
+	<div class="row">
+		<div class="two columns">
+			<select name="contact[telephones][][type]" type="text"value=<%= telephone.type %> >
+				<%= options_for_select(Vocabularies::VCard::Telephone::TELEPHONE_TYPES, telephone.type) %>
+			</select>
+		</div>
+		<div class="five columns">
+			<input name="contact[telephones][][value]" type="text" class="input-text medium" value=<%= telephone.value %> >
+		</div>
+		<div class="four columns">
+			<a href="#" class="delete-contact-telephone delete-element" alt="Delete">Delete telephone number</a></li>
+		</div>
+	</div>
+</div>

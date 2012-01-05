@@ -1,0 +1,10 @@
+<%= f.fields_for :organization, organization do |org| %>
+	<div class="row">
+		<div class="three columns">
+			<%= org.label :name, "Organization" %> <%= org.text_field :name, :class=>'input-text medium' %></li>
+		</div>
+		<div class="three columns">
+			<%= org.label :department %> <%= org.text_field :department, :class => "input-text medium" %></li>
+		</div>
+	</div>
+<% end %>

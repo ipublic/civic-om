@@ -1,0 +1,15 @@
+<div id="contact-email">
+	<div class="row">
+		<div class="two columns">
+			<select name="contact[emails][][type]" type="text" value=<%= email.type %> >
+				<%= options_for_select(Vocabularies::VCard::Email::EMAIL_TYPES, email.type) %>
+			</select>
+		</div>
+		<div class="five columns">
+			<input name="contact[emails][][value]" type="text" class="input-text medium" value=<%= email.value %> >
+		</div>
+		<div class="four columns">
+			<a href="#" class="delete-contact-email delete-element" alt="Delete">Delete email address</a>
+		</div>
+	</div>
+</div>
