@@ -1,2 +1,6 @@
-<%# title "New Contact" %>
-<%= render :partial => 'form' %>
+<% title "Add Contact" %>
+<div id="forms">
+  <%= form_for :contact, :url => admin_contacts_path do |f| %>
+  	<%= render :partial => 'form', :locals=> {:f=>f} %>
+  <% end %>
+</div>

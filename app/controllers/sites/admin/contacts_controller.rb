@@ -16,10 +16,13 @@ class Sites::Admin::ContactsController < Sites::AuthenticatedController
   
   def create
     @contact = Vocabularies::VCard::Base.new(params[:contact])
+    @contact.authority = authority
+    
+    # raise @contact.to_yaml
 
     if @contact.save
       flash[:success] = 'Successfully created Contact.'
-      redirect_to(admin_contact_path(@contact))
+      redirect_to(admin_contact_path(authority, @contact))
     else
       flash[:error] = 'Unable to create Contact.'
       render :action => "new"
@@ -37,7 +40,7 @@ class Sites::Admin::ContactsController < Sites::AuthenticatedController
     respond_to do |format|
       if @contact.save
         flash[:success] = 'Successfully updated Contact.'
-        format.html { redirect_to admin_contact_path(authority, contact) }
+        format.html { redirect_to admin_contact_path(authority, @contact) }
         format.xml  { head :ok }
       else
         flash[:error] = "Error updating Contact."

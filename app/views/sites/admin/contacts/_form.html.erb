@@ -1,12 +1,5 @@
 <div class="row">
 	<div class="eleven columns">
-	<%#= form_for @contact, :html => {:class => "nice"} do |f| %>
-	<%# if @contact.exists? %>
-		<%= form_for :contact, :url => admin_contact_path(@contact), :html => {:method => :put, :class => "nice"} do |f| %>
-	<%# else %>
-		<%#= form_for :contact, :url => admin_contacts_path, :html => {:method => :post, :class => "nice"} do |f| %>
-	<%# end %>
-									
 	  <%#= f.error_messages %>
 		<%= f.hidden_field :rev, :value => @contact['_rev'] if @contact['_rev'] %>
 		<%#= debug @contact.to_yaml %>
@@ -20,53 +13,51 @@
 			<%= f.label :note %> <%= f.text_area :note, :rows => 3, :class=>'text-area large' %>
 		</div>
 
-	<div class="row">
-		<div class="eight columns">
-			<fieldset>
-				<legend>Emails</legend>
-				<% for email in @contact.emails {|p1,p2| p1.type <=> p2.type} %>
-					<%= render :partial => 'email', :locals => {:email => email} %>
-				<% end %>
-				<div class="row">
-		  		<a href="#" class="add-contact-email add-element">Add Contact Email</a>
-				</div>
-			</fieldset>
+		<div class="row">
+			<div class="eight columns">
+				<fieldset>
+					<legend>Emails</legend>
+					<% for email in @contact.emails {|p1,p2| p1.type <=> p2.type} %>
+						<%= render :partial => 'email', :locals => {:email => email} %>
+					<% end %>
+					<div class="row">
+			  		<a href="#" class="add-contact-email add-element">Add Contact Email</a>
+					</div>
+				</fieldset>
+			</div>
 		</div>
-	</div>
 
-	<div class="row">
-		<div class="eight columns">
-			<fieldset>
-				<legend>Telephones</legend>
-				<% for telephone in @contact.telephones {|p1,p2| p1.type <=> p2.type} %>
-					<%= render :partial => 'telephone', :locals => {:telephone => telephone} %>
-				<% end %>
-				<div class="row">
-		  		<a href="#" class="add-contact-telephone add-element">Add Contact Telephone</a>
-				</div>
-			</fieldset>
+		<div class="row">
+			<div class="eight columns">
+				<fieldset>
+					<legend>Telephones</legend>
+					<% for telephone in @contact.telephones {|p1,p2| p1.type <=> p2.type} %>
+						<%= render :partial => 'telephone', :locals => {:telephone => telephone} %>
+					<% end %>
+					<div class="row">
+			  		<a href="#" class="add-contact-telephone add-element">Add Contact Telephone</a>
+					</div>
+				</fieldset>
+			</div>
 		</div>
-	</div>
 
-	<div class="row">
-		<div class="eight columns">
-			<fieldset>
-				<legend>Addresses</legend>
-				<% for address in @contact.addresses {|p1,p2| p1.type <=> p2.type} %>
-					<%= render :partial => 'address', :locals => {:address => address} %>
-				<% end %>
-				<div class="row">
-		  		<a href="#" class="add-contact-address add-element">Add Contact Address</a>
-				</div>
-			</fieldset>
+		<div class="row">
+			<div class="eight columns">
+				<fieldset>
+					<legend>Addresses</legend>
+					<% for address in @contact.addresses {|p1,p2| p1.type <=> p2.type} %>
+						<%= render :partial => 'address', :locals => {:address => address} %>
+					<% end %>
+					<div class="row">
+			  		<a href="#" class="add-contact-address add-element">Add Contact Address</a>
+					</div>
+				</fieldset>
+			</div>
 		</div>
-	</div>
 
-	<div class="row">
-		<%= f.submit "Save", :class => "nice medium radius blue button" %> 
-		<%= link_to 'Back', :back, :class => "small white nice button radius" %> 
-	</div>
-		
-	<% end %>		
+		<div class="row">
+			<%= f.submit "Save", :class => "nice medium radius blue button" %> 
+			<%= link_to 'Back', :back, :class => "small white nice button radius" %> 
+		</div>
 	</div>
 </div>
