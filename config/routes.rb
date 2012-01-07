@@ -10,27 +10,20 @@ CivicOm::Application.routes.draw do
 
   root :to => "community/home#index"
 
+  match '/support' => 'admin/home#support', :as => :support
+
+  # js access to methods
+  match '/admin/dashboards/new_group' => 'sites/admin/dashboards#new_group'
+  match '/admin/dashboards/new_measure' => 'sites/admin/dashboards#new_measure'
+
   # match "site" => "admin/sites#show"
   
   # match '/admin' => 'admin/home#index', :as => :admin_root
   # match '/about' => 'admin/home#about', :as => :about
-  # match '/support' => 'admin/home#support', :as => :support
 
   namespace :community do
     resources :home, :only => :index
   end
-
-  # scope ":authority_id" do
-  #   scope :module => "sites" do
-  #     namespace :admin do
-  #       resources :contacts
-  #     end
-  #   end
-  # end
-  
-  # scope :module => "vocabularies" do
-  #   resources :v_card_base, :as => "admin_contacts"
-  # end
 
   scope ":authority_id" do
     scope :module => "sites" do
@@ -52,12 +45,13 @@ CivicOm::Application.routes.draw do
         #     end
         end
         resources :maps
-        resources :dashboards do
-          collection do
-            get :new_group
-            get :new_measure
-          end
-        end
+        resources :dashboards
+        # resources :dashboards do
+        #   collection do
+        #     get :new_group
+        #     get :new_measure
+        #   end
+        # end
       end
     
       namespace :public do
