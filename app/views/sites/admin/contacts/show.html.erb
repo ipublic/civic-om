@@ -1,45 +1,38 @@
-<%# title "Contact #{@contact.formatted_name}" %>
-
-<div class="grid_12" >
-  <p class="page-nav">
-    <%= link_to "All Contacts", admin_contacts_path %> | 
-	  <%= link_to 'Add Contact', new_admin_contact_path %> |
-    <%= link_to "Edit", edit_admin_contact_path(authority, @contact) %> |
-    <%= link_to 'Delete', admin_contact_path(authority, @contact), :confirm => 'Are you sure?', :method => :delete %>
-  </p>
-  <hr />
+<%= render :partial => 'header' %>
+<div class="row">
+	<div class="four columns">
+		<h2>Contact Details</h2>
+	</div>
+	<div class="one column">
+    <%= link_to "Edit", edit_admin_contact_path(authority, @contact), :class => "nice medium radius blue button" %>
+	</div>
+	<div class="three columns">
+    <%= link_to "All Contacts", admin_contacts_path, :class => "nice medium radius blue button" %>
+	</div>
 </div>
-
-<div class="grid_5" >
-  <div class="box">
-    <div class="block">
-      <%= show_fields(@contact, [[:formatted_name, "Name"], :title]) %>
-      <% if @contact.organization %>
-				<%= show_fields(@contact.organization, [[:name, "Organization"], :department]) %>
-      <% end %>
-
-      <% @contact.emails.each do |e| %>
- 	     <table class='property-table'>
-					<tr>
-						<th class='property-table'><%= "#{e.type}:" %></th> 
-						<td><%= e.value %></td>
-					</tr>
-	      </table>
-      <% end %>
-
-      <% @contact.telephones.each do |t| %>
- 	     <table class='property-table'>
-					<tr>
-						<th class='property-table'><%= "#{t.type}:" %></th> 
-						<td><%= t.value %></td>
-					</tr>
-	      </table>
-      <% end %>
-
-      <% @contact.addresses.each do |a| %>
-      	<%#= show_fields(@contact.addresses, [:type, :address_1, :address_2, :city, :state, :zipcode, :country]) %>
-      <% end %>
-
-    </div>
-  </div>
+<div class="row">
+	<div class="twelve columns">
+		<ul class="vcard">
+			<li class="fn"><%= @contact.formatted_name %></li>
+			<% if @contact.organization.name %>
+				<li class="org"><%= "Organization: #{@contact.organization.name}" %></li>
+			<% end %>
+			<% @contact.telephones.each do |t| %>
+				<li class="tel"><%= "#{t.type}: " %> <%= link_to "#{t.value}", "tel:#{t.value}" %></li>
+			<% end %>
+			<% @contact.emails.each do |e| %>
+				<li class="email"><%= "#{e.type}: " %> <%= link_to "#{e.value}", "mailto:#{e.value}" %></li>
+			<% end %>
+	    <% @contact.addresses.each do |a| %>
+				<li class="adr"><%= "#{a.type}: " %>
+					<ul>
+						<li><%= a.address_1 %></li>
+						<li><%= a.address_2 %></li>
+						<li><%= "#{a.city}, #{a.state}" %></li>
+						<li><%= "#{a.zipcode}" %></li>
+					</ul>
+				</li>
+	    <% end %>
+		</ul>
+	</div>
 </div>
