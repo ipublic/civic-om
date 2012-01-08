@@ -1,13 +1,16 @@
+<%= render :partial => 'header' %>
 <div class="row">
-	<div class="twelve columns">
-	  <p><%= link_to 'Add Contact', new_admin_contact_path %> </p>
-	  <hr />
+	<div class="three columns">
+		<h2>All Contacts</h2>
+	</div>
+	<div class="three columns">
+	  <%= link_to 'Add Contact', new_admin_contact_path, :class => "nice medium radius blue button" %> </p>
 	</div>
 </div>
 <div class="row">
 	<div class="twelve columns">
-		<h2>Contacts</h2>
 		<% @contacts.each do |contact| %>
 		  <li><%= link_to contact.formatted_name, admin_contact_path(authority, contact) %></li>
 		<% end %>
+	</div>
 </div>
