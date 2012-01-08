@@ -2,7 +2,7 @@
 <html>
 	<head>
 	  <%= render :partial => 'layouts/resources' %>
-	  <title>Civic OpenMedia Admin</title>
+		<title><%= content_for?(:title) ? "Civic OpenMedia Online: " + h(yield(:title)) : "Civic OpenMedia Online" %></title>
 		<%= javascript_include_tag "application" %>
 		<%= javascript_include_tag "//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" %>
 		<%= javascript_include_tag "jquery.formalize" %>
@@ -11,7 +11,7 @@
 		<div id="omBar" class="container">
 	    <div class="row">
 	      <div class="four columns">
-	        <h1><%= link_to 'Civic OpenMedia', community_home_index_path %>
+	        <h1><%= link_to "Civic OpenMedia: #{current_site.label}", admin_home_index_path %></h1>
 	      </div>
 	      <div class="eight columns hide-on-phones">
 					<strong class="right">
@@ -22,8 +22,7 @@
 							<%= link_to 'Dashboards', admin_dashboards_path, :title => "" %>
 							<%= link_to 'Site', admin_site_path(authority), :title => "" %>
 							<%= link_to 'Contacts', admin_contacts_path(authority), :title => "" %>
-							<%= link_to 'Help', '/about', :title => "" %>
-							<%= link_to 'Support', '/support', :title => "" %>
+							<%= link_to 'Community', community_home_index_path %>
 					</strong>
 	      </div>
 	    </div>
@@ -33,13 +32,16 @@
 			<div class="row">
 				<div class="twelve columns">
 					<div class="branding">
-						<h1><%= "#{current_site.label} Admin" %></h1>
-						<h4 class="subheader"><%= current_site.tag_line %></h4>
+						<% if content_for?(:header) %>
+							<%= yield(:header) %>
+						<% else %>
+							<h1><%= "#{current_site.label} Admin" %></h1>
+							<h4 class="subheader"><%= current_site.tag_line %></h4>
+						<% end %>
 					</div>
 				</div>
 			</div>
-		</div>
-
+			
 		<div class="container content">
 				<div class="row">
 					<div class="twelve columns">
