@@ -8,4 +8,4 @@
 //= require jquery_ujs
 //= require foundation
 //= require app
-//= require_tree .
+//= require sites/admin/dashboards
