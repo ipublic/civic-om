@@ -1,12 +1,12 @@
 module Dashboard
   class Base < CouchRest::Model::Base
-
     use_database SCHEMA_DATABASE
+    
+    belongs_to :authority
 
     FORMATS = %w(percentage currency number string)
     VISUALS = %w(inlinesparkline pie inlinebar bullet)
 
-    property :authority
     property :title
     property :description
     property :groups, [Dashboard::Group], :default => []
@@ -17,7 +17,7 @@ module Dashboard
     validates_presence_of :authority
     
     design do
-      view :by_authority
+      view :by_authority_id
     end
     
   end
