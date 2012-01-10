@@ -22,6 +22,13 @@ contact = Vocabularies::VCard::Base.new(:authority => authority,
                                                                                 :last_name => "Doe"))
 
 contact.emails << Vocabularies::VCard::Email.new(:type => 'Work', :value => email)
+contact.telephones << Vocabularies::VCard::Telephone.new(:type => 'Work', :value => '202-555-1212')
+contact.addresses << Vocabularies::VCard::Address.new(:type => 'Work',
+                                                      :address_1 => "404 4th Street NW",
+                                                      :city => "Washington", 
+                                                      :state => "DC",
+                                                      :zipcode => "20010",
+                                                      :country => "USA")
 contact.save!
 
 # Use devise gem to create User record 
