@@ -13,7 +13,14 @@
 		</div>
 			
 		<div class="container content">
-			<%= yield %>
+			<div class="row">
+				<div class="two columns">
+					<%= render :partial => 'layouts/nav_settings' %>
+				</div>
+				<div class="ten columns">
+					<%= yield %>
+				</div>
+			</div>
 		</div>
 			
 		<footer class="row">

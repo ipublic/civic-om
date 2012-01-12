@@ -1,4 +1,5 @@
 class Sites::Admin::SitesController < Sites::AuthenticatedController
+  layout 'sites_settings_admin'
   respond_to :html, :json, :xml
 
   def show

@@ -1,17 +1,17 @@
+<% title "Settings" %>
 <div class="row">
-	<div class="two columns">
-		<dl class="nice tabs vertical hide-on-phones">
-			<dd><%= link_to "Edit", edit_admin_site_path %></dd>
-		</dl>
+	<div class="four columns">
+		<h2>Site Details</h2>
 	</div>
-	<div class="ten columns">
-		<%= show_fields(@site, [
-														[:label, "Title"],
-														:tag_line,
-														:terms_of_use
-														]).html_safe %>
-		
-		<p>Label: <%= @site.label %></p>
-		<p>Tag line: <%= @site.tag_line %></p>
+	<div class="one column">
+	  <%= link_to "Edit", edit_admin_site_path(authority), :class => "nice medium radius blue button" %>
 	</div>
+</div>
+<div class="row">
+	<ul>
+		<%= content_tag(:li, @site.label) %>
+		<%= content_tag(:li, @site.tag_line) %>
+		<%= content_tag(:li, @site.terms_of_use) %>
+		<%= content_tag(:li, link_to(@site.administrator_contact.formatted_name, admin_contacts_path(authority, @site.administrator_contact))) %>
+	</ul>
 </div>
