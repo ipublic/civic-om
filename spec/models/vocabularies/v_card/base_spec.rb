@@ -3,11 +3,12 @@ require 'spec_helper'
 describe Vocabularies::VCard do
   describe 'Initialization' do
     before(:each) do
-      @vc = Vocabularies::VCard::Base.new
+      @authority = LinkedData::Authority.get THIS_AUTHORITY_ID
+      @vc = Vocabularies::VCard::Base.new(:authority => @authority)
     end
 
     it 'should not save without a name' do
-      @vc = Vocabularies::VCard::Base.new
+      # @vc = Vocabularies::VCard::Base.new
       @vc.should_not be_valid
       lambda { @vc.save! }.should raise_error
 
@@ -26,7 +27,7 @@ describe Vocabularies::VCard do
   
   describe 'Properties' do
     before(:each) do
-      @vc = Vocabularies::VCard::Base.new
+      @vc = Vocabularies::VCard::Base.new(:authority => @authority)
     end
 
     it 'should properly save properties and retrieve by last name' do

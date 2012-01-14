@@ -3,7 +3,7 @@ module Vocabularies
   
     use_database SITES_DATABASE
 
-    belongs_to :authority
+    belongs_to :authority, :class_name => "LinkedData::Authority"
 
     property :addresses, [Vocabularies::VCard::Address], :alias => :adr
     property :emails, [Vocabularies::VCard::Email], :alias => :email
