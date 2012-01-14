@@ -2,9 +2,10 @@ class LinkedData::Topic < LinkedData::CouchRestModelSchema
   
   attr_reader :instance_database, :instance_design_doc, :instance_design_doc_id
   attr_accessor :docs_read, :docs_written
-
+  
   unique_id :identifier
 
+  belongs_to :authority, :class_name => "LinkedData::Authority"
   belongs_to :vocabulary, :class_name => "LinkedData::Vocabulary"
   belongs_to :creator, :class_name => "VCard::Base"
   belongs_to :publisher, :class_name => "VCard::Base"
@@ -25,12 +26,17 @@ class LinkedData::Topic < LinkedData::CouchRestModelSchema
   design do
     view :by_term
     view :by_label
-    view :by_authority
+    view :by_authority_id
+  end
+  
+  def instance_database_name
+    return if self.authority.nil? || self.term.nil?
+    [self.authority.term, self.term].join('_')
   end
   
   def instance_database
-    return if self.instance_database_name.nil?
-    @instance_database ||= COUCHDB_SERVER.database(self.instance_database_name)
+    return unless instance_database_name.present? && self.identifier.present?
+    @instance_database ||= COUCHDB_SERVER.database!(instance_database_name)
   end
   
   def instance_design_doc
@@ -156,6 +162,7 @@ class LinkedData::Topic < LinkedData::CouchRestModelSchema
   end
   
 private
+
   # Instantiate a CouchDB Design Document for this Topic's data
   def create_instance_design_doc
     write_attribute(:instance_class_name, self.term.singularize.camelize)

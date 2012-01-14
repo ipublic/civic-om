@@ -3,14 +3,20 @@ require 'spec_helper'
 describe LinkedData::Topic do
 
   before(:all) do
+    @topic_id = "topic_om_gov_dc_addresses"
+    @topic_instance_db_name = "om_gov_dc_addresses"
     
-    @ns = Namespace.new("http://dcgov.civicopenmedia.us")
-    # @address_vocab = LinkedData::Vocabulary.get("vocabulary_openmedia_dev_om_street_address")
+    db = COUCHDB_SERVER.database(@topic_instance_db_name)
+    db.delete! rescue nil
+    
+    @authority = LinkedData::Authority.get THIS_AUTHORITY_ID
+    
     @topic_term = "dc_addresses"
-    @design_doc_id = '_design/' + @topic_term.singularize.camelize
     @topic_label = "District of Columbia Addresses"
-    # @instance_db_name = THIS_SITE_DB.name
-    @instance_db_name = STAGING_DATABASE.name
+
+    # @address_vocab = LinkedData::Vocabulary.get("vocabulary_openmedia_dev_om_street_address")
+
+    @design_doc_id = '_design/' + @topic_term.singularize.camelize
 
     @prop_names = %W(formatted_address)
     @key_props  = %W(city state)
@@ -18,41 +24,43 @@ describe LinkedData::Topic do
     @prop_list = @prop_names.inject([]) {|memo, name| memo << LinkedData::Property.new(:term => name)}
     @prop_list = @key_props.inject(@prop_list) {|memo, name| memo << LinkedData::Property.new(:term => name, :key => true)}
 
-    @vocab = LinkedData::Vocabulary.create!(:label => "Street address",
+    @vocab = LinkedData::Vocabulary.create!(:authority => @authority,
                                             :term => "street_address",
-                                            :namespace => @ns,
+                                            :label => "Street address",
                                             :property_delimiter => "#",
                                             :curie_prefix => "addr",
-                                            :authority => @ns.authority,
                                             :properties => @prop_list
                                             )
     
-    @topic = LinkedData::Topic.new(:authority => @ns.authority, 
+    @topic = LinkedData::Topic.new(:authority => @authority, 
                                     :term => @topic_term, 
                                     :label => @topic_label,
                                     :vocabulary => @vocab,
-                                    :comment => "Site addresses",
-                                    :instance_database_name => @instance_db_name)
-    @topic_id = "topic_civicopenmedia_us_dcgov_dc_addresses"
+                                    :comment => "Site addresses"
+                                    )
   end
 
   describe "initialization" do
-    it 'should fail to initialize instance without term, authority and instance_database_name properties' do
+    it 'should fail to initialize instance without term and authority properties' do
       @topic = LinkedData::Topic.new
       @topic.should_not be_valid
       @topic.errors[:term].should_not be_nil
       @topic.errors[:authority].should_not be_nil
-      @topic.errors[:instance_database_name].should_not be_nil
     end
     
-    it 'should provide a valid CouchDB database to store instance docs' do
-      @topic.instance_database.should be_a(::CouchRest::Database)
+    it 'should fail to create an instance database unless topic is valid and saved' do
+      @topic.instance_database.should be_nil
     end
     
     it 'should save and generate an identifier correctly' do
       lambda { @topic.save! }.should_not raise_error
       saved_topic = LinkedData::Topic.by_term(:key => @topic_term)
-      saved_topic.first.identifier.should == @topic_id
+      saved_topic.rows.first.id.should == @topic_id
+    end
+    
+    it 'should provide a valid CouchDB database to store instance docs' do
+      @topic.instance_database.should be_a(::CouchRest::Database)
+      @topic.instance_database_name.should == @topic_instance_db_name
     end
     
     it "should automatically add views for Vocabulary property keys" do
@@ -85,7 +93,7 @@ describe LinkedData::Topic do
       it "should provide a CouchDb database" do
         db = @topic.instance_database
         db.should be_a(::CouchRest::Database)
-        db.name.should == @instance_db_name
+        db.name.should == @topic_instance_db_name
       end
     end
     
@@ -115,7 +123,7 @@ describe LinkedData::Topic do
       end
 
       it "should point to the instance database to store docs" do
-        @model.database.name.should == @instance_db_name
+        @model.database.name.should == @topic_instance_db_name
       end
     end
     
