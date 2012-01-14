@@ -5,10 +5,7 @@ describe LinkedData::Topic do
   before(:all) do
     @topic_id = "topic_om_gov_dc_addresses"
     @topic_instance_db_name = "om_gov_dc_addresses"
-    
-    db = COUCHDB_SERVER.database(@topic_instance_db_name)
-    db.delete! rescue nil
-    
+        
     @authority = LinkedData::Authority.get THIS_AUTHORITY_ID
     
     @topic_term = "dc_addresses"
@@ -38,6 +35,11 @@ describe LinkedData::Topic do
                                     :vocabulary => @vocab,
                                     :comment => "Site addresses"
                                     )
+  end
+
+  after(:all) do
+    db = COUCHDB_SERVER.database(@topic_instance_db_name)
+    db.delete! rescue nil
   end
 
   describe "initialization" do
