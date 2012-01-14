@@ -5,29 +5,27 @@ class Site < CouchRest::Model::Base
   use_database SITES_DATABASE
   unique_id :identifier
   
-  belongs_to :authority
+  belongs_to :authority, :class_name => "LinkedData::Authority"
   belongs_to :administrator_contact, :class_name => "Vocabularies::VCard::Base"
 
-  property :identifier, String
-  # property :subdomain, String, :alias => "term"
-  # property :authority, String
+  property :identifier, String, :read_only => true
+  property :term, String
   property :label, String
   property :tag_line, String
   property :terms_of_use, String
   timestamps!
-
-  validates_presence_of :authority
   
-  design do
-    view :by_authority_id
-  end
-
   # Validations
+  validates_presence_of :authority
   validates_presence_of :label
 
   ## Callbacks
   before_create :init_site
   
+  design do
+    view :by_authority_id
+  end
+
   def public_database
     return if self.authority.nil?
     db_name = %W[#{COUCHDB_CONFIG[:db_prefix]} #{self.authority} #{COUCHDB_CONFIG[:db_suffix]}].select {|v| !v.blank?}.join('_')
@@ -43,7 +41,7 @@ class Site < CouchRest::Model::Base
 private
   def init_site
     class_basename = self.class.to_s.demodulize.downcase
-    write_attribute(:identifier,  %W[#{class_basename} #{authority.term}].join('_'))
+    write_attribute(:identifier,  %W[#{class_basename} #{self.term}].join('_'))
     # write_attribute(:authority, "civicopenmedia_us_#{self.term}")
     
     # # self.url = "http://#{self.identifier}.#{OM_DOMAIN}#{OM_PORT == 80 ? '' : OM_PORT}"
