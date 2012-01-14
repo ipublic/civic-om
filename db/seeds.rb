@@ -14,7 +14,7 @@ label = "OpenMedia Demo Site"
 tag_line = "Your source for government open data"
 
 # Initialize Authority
-authority = Authority.create!(:term => term, :label => label)
+authority = LinkedData::Authority.create!(:term => term, :label => label)
 
 # Create a VCard record for Admin
 contact = Vocabularies::VCard::Base.new(:authority => authority,
