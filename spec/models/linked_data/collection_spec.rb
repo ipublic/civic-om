@@ -4,27 +4,24 @@ describe LinkedData::Collection do
 
   before(:each) do
     SCHEMA_DATABASE.recreate! rescue nil
-    @ns = Namespace.new("http://dcgov.civicopenmedia.us")
+    @authority = LinkedData::Authority.get THIS_AUTHORITY_ID
+
     @term = "education"
-    @authority = @ns.authority
-    @base_uri = @ns.base_uri
     @collection = LinkedData::Collection.new(:term => @term,
                                              :label => "Education", 
-                                             :namespace => @ns,
+                                             :authority => @authority,
                                              :tags => ["schools", "teachers", "students"], 
                                              :comment => "Matters associated with public schools")
                                              
-    @col_uri = @ns.base_uri + '/collections/' + @term
-    @col_id = "collection_civicopenmedia_us_dcgov_education"
+    @col_id = "collection_om_gov_education"
   end
   
-  it 'should fail to initialize instance without a term, base_uri and authority propoerties' do
+  it 'should fail to initialize instance without a term and authority propoerties' do
     @v = LinkedData::Vocabulary.new
     @v.should_not be_valid
     @v.errors[:term].should_not be_nil
     @v.errors[:authority].should_not be_nil
-    @v.errors[:base_uri].should_not be_nil
-    lambda { LinkedData::Collection.create!(:term => @term, :base_uri => @base_uri, :authority => @authority) }.should_not raise_error
+    lambda { LinkedData::Collection.create!(:term => @term, :authority => @authority) }.should_not raise_error
 raise_error
   end
 
@@ -35,28 +32,14 @@ raise_error
   
   it 'should generate a Label view and return results correctly' do
     @res = @collection.save
-    @col = LinkedData::Collection.find_by_label(@res.label)
-    @col.id.should == @col_id
+    @cols = LinkedData::Collection.by_label(:key => @res.label)
+    @cols.rows.first.id.should == @col_id
   end
 
-  it 'should generate a URI for the new collection' do
-    @res = @collection.save
-    @col = LinkedData::Collection.get(@res.id)
-    @col.public_uri.should == @col_uri
-  end
-  
-  it 'should provide a view by base_uri' do
-    @res = @collection.save
-    @col = LinkedData::Collection.by_base_uri(:key => @ns.base_uri)
-    @col.length.should be > 0
-    @col.rows.first.key.should == @ns.base_uri
-  end
-  
   it 'should provide a view by authority' do
     @res = @collection.save
-    @col = LinkedData::Collection.by_authority(:key => @ns.authority)
-    @col.length.should be > 0
-    @col.rows.first.key.should == @ns.authority
+    @cols = LinkedData::Collection.by_authority_id(:key => @authority.id)
+    @cols.count.should be > 0
   end
   
   it 'should use tags view to return matching docs' do

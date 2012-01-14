@@ -1,39 +1,28 @@
 class LinkedData::Collection < LinkedData::CouchRestModelSchema
 
+  belongs_to :authority, :class_name => "LinkedData::Authority"
+
   property :tags, [String]
   property :hidden, TrueClass, :default => false
   
   # property :namespace, LinkedData::Namespace
-  property :base_uri, String
-  property :public_uri, String
+  # property :base_uri, String
+  # property :public_uri, String
 
   timestamps!
   
   validates_presence_of :term
-  validates_presence_of :base_uri
   validates_presence_of :authority
   validates_uniqueness_of :identifier, :view => 'all'
 
   ## Callbacks
-  before_create :generate_public_uri
+  # before_create :generate_public_uri
   before_create :generate_identifier
   
-  def namespace=(ns={})
-    self.base_uri = ns.base_uri unless ns.base_uri.nil?
-    self.authority = ns.authority unless ns.authority.nil?
-  end
-  
-  def namespace
-    Hash[:base_uri => self.base_uri, :authority => self.authority]
-  end
-
   design do
     view :by_term
     view :by_label
-    view :by_authority
-    
-    view :by_public_uri
-    view :by_base_uri
+    view :by_authority_id
     
     # view :by_base_uri,
     #   :map =>
