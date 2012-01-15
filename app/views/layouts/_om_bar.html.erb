@@ -6,11 +6,11 @@
     <div class="eight columns hide-on-phones">
 			<strong class="right">
 					<%= link_to 'Home', admin_home_index_path %>
-					<%= link_to 'Topics', admin_topics_path, :title => "" %>
-					<%= link_to 'Maps', admin_maps_path, :title => "" %>
-					<%= link_to 'Dashboards', admin_dashboards_path, :title => "" %>
+					<%= link_to 'Topics', admin_topics_path(authority), :title => "" %>
+					<%= link_to 'Maps', admin_maps_path(authority), :title => "" %>
+					<%= link_to 'Dashboards', admin_dashboards_path(authority), :title => "" %>
 					<%= link_to 'Contacts', admin_contacts_path(authority), :title => "" %>
-					<%= link_to 'Settings', admin_settings_path, :title => "" %>
+					<%= link_to 'Settings', admin_settings_path(authority), :title => "" %>
 					<%= link_to 'Community', community_home_index_path %>
 			</strong>
     </div>
