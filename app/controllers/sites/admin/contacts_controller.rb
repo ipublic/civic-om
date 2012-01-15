@@ -25,7 +25,7 @@ class Sites::Admin::ContactsController < Sites::AuthenticatedController
       redirect_to(admin_contact_path(authority, @contact))
     else
       flash[:error] = 'Unable to create Contact.'
-      render :action => "new"
+      render :new
     end
   end
 
@@ -44,7 +44,7 @@ class Sites::Admin::ContactsController < Sites::AuthenticatedController
         format.xml  { head :ok }
       else
         flash[:error] = "Error updating Contact."
-        format.html { render :action => "edit" }
+        format.html { render :edit }
         format.xml  { render :xml => @contact.errors, :status => :unprocessable_entity }
       end
     end
