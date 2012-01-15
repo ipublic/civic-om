@@ -27,6 +27,7 @@ gem "zurb-foundation", :group => :assets
 
 gem 'fastercsv'
 gem 'spreadsheet', '0.6.5.9'
+gem 'dynamic_form', '1.1.4'
 
 # Use ipublic fork
 gem "activewarehouse-etl", :git => 'git@github.com:ipublic/activewarehouse-etl.git'
