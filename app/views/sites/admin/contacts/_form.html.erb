@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="eleven columns">
+	<div class="twelve columns">
 	  <%#= f.error_messages %>
 		<%= f.hidden_field :rev, :value => @contact['_rev'] if @contact['_rev'] %>
 		<%#= debug @contact.to_yaml %>
@@ -14,7 +14,7 @@
 		</div>
 
 		<div class="row">
-			<div class="eight columns">
+			<div class="nine columns">
 				<fieldset>
 					<legend>Emails</legend>
 					<% for email in @contact.emails {|p1,p2| p1.type <=> p2.type} %>
@@ -28,7 +28,7 @@
 		</div>
 
 		<div class="row">
-			<div class="eight columns">
+			<div class="nine columns">
 				<fieldset>
 					<legend>Telephones</legend>
 					<% for telephone in @contact.telephones {|p1,p2| p1.type <=> p2.type} %>
@@ -42,7 +42,7 @@
 		</div>
 
 		<div class="row">
-			<div class="eight columns">
+			<div class="nine columns">
 				<fieldset>
 					<legend>Addresses</legend>
 					<% for address in @contact.addresses {|p1,p2| p1.type <=> p2.type} %>
