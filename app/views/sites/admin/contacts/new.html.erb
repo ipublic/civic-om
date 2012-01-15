@@ -1,4 +1,12 @@
-<% title "Add Contact" %>
+<% title "Contacts" %>
+<div class="row">
+	<div class="three columns">
+		<h2>Add Contact</h2>
+	</div>
+	<div class="three columns">
+	  <%= link_to "List Contacts", admin_contacts_path(authority), :class => "nice medium radius blue button" %>
+	</div>
+</div>
 <div id="forms">
   <%= form_for :contact, :url => admin_contacts_path do |f| %>
   	<%= render :partial => 'form', :locals=> {:f=>f} %>

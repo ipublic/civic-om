@@ -1,4 +1,4 @@
-<%= render :partial => 'header' %>
+<% title "Contacts" %>
 <div class="row">
 	<div class="four columns">
 		<h2>Contact Details</h2>
@@ -7,29 +7,35 @@
     <%= link_to "Edit", edit_admin_contact_path(authority, @contact), :class => "nice medium radius blue button" %>
 	</div>
 	<div class="three columns">
-    <%= link_to "All Contacts", admin_contacts_path, :class => "nice medium radius blue button" %>
+    <%= link_to "List All", admin_contacts_path, :class => "nice medium radius blue button" %>
 	</div>
 </div>
 <div class="row">
-	<div class="twelve columns">
+	<div class="ten columns">
 		<ul class="vcard">
-			<li class="fn"><%= @contact.formatted_name %></li>
-			<% if @contact.organization.name %>
-				<li class="org"><%= "Organization: #{@contact.organization.name}" %></li>
+			<li class="fn"><strong><%= @contact.formatted_name %></strong></li>
+			<% if @contact.title.present? %><li class="title"><%= @contact.title %></li><% end %>
+			<% if @contact.organization.present? %>
+				<% if @contact.organization.name.present? %><li class="organization-name"><%= @contact.organization.name %></li><% end %>
+				<% if @contact.organization.department.present? %><li class="organization-unit"><%= @contact.organization.department %></li><% end %>
 			<% end %>
+			
 			<% @contact.telephones.each do |t| %>
 				<li class="tel"><%= "#{t.type}: " %> <%= link_to "#{t.value}", "tel:#{t.value}" %></li>
 			<% end %>
+
 			<% @contact.emails.each do |e| %>
 				<li class="email"><%= "#{e.type}: " %> <%= link_to "#{e.value}", "mailto:#{e.value}" %></li>
 			<% end %>
+
 	    <% @contact.addresses.each do |a| %>
 				<li class="adr"><%= "#{a.type}: " %>
 					<ul>
-						<li><%= a.address_1 %></li>
-						<li><%= a.address_2 %></li>
-						<li><%= "#{a.city}, #{a.state}" %></li>
-						<li><%= "#{a.zipcode}" %></li>
+						<% if a.address_1.present? %><li class="street-address"><%= a.address_1 %></li><% end %>
+						<% if a.address_2.present? %><li class="street-address"><%= a.address_2 %></li><% end %>
+						<% if a.city.present? %><li class="locality"><%= a.city %></li><% end %>
+						<% if a.state.present? %><li class="region"><%= a.state %></li><% end %>
+						<% if a.zipcode.present? %><li class="postal-code"><%= a.zipcode %></li><% end %>
 					</ul>
 				</li>
 	    <% end %>

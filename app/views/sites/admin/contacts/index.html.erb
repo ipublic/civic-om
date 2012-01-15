@@ -1,4 +1,4 @@
-<%= render :partial => 'header' %>
+<% title "Contacts" %>
 <div class="row">
 	<div class="three columns">
 		<h2>All Contacts</h2>
@@ -9,8 +9,13 @@
 </div>
 <div class="row">
 	<div class="twelve columns">
-		<% @contacts.each do |contact| %>
-		  <li><%= link_to contact.formatted_name, admin_contact_path(authority, contact) %></li>
-		<% end %>
+		<ul>
+			<% if @contacts.count < 1 %>
+				<li>No Contacts found</li>
+			<% end %>
+			<% @contacts.each do |contact| %>
+			  <li><%= link_to contact.formatted_name, admin_contact_path(authority, contact) %></li>
+			<% end %>
+		</ul>
 	</div>
 </div>
