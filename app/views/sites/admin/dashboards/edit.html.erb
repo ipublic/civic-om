@@ -1,0 +1,6 @@
+<% title "Edit Dashboard: #{@dashboard.title}" %>
+<div id="forms">
+  <%= form_for :dashboard, :url => admin_dashboard_path(authority, @dashboard), :html => {:method=>:put, :class=>"nice"} do |f| %>
+  	<%= render :partial => 'form', :locals=> {:f=>f} %>
+  <% end %>
+</div>

@@ -1,0 +1,28 @@
+<div class="row">
+	<div class="twelve columns">
+		<%#= f.error_messages %>
+		<%= f.hidden_field :rev, :value => @dashboard['_rev'] if @dashboard['_rev'] %>
+		<div class="row">
+			<div class="four columns">
+  			<%= f.label :title %> <%= f.text_field :title, :class=>'input-text medium' %>
+			</div>
+			<div class="four columns">
+  			<%= f.label :description, :style => "clear:left;"  %> <%= f.text_area :description, :rows => 2, :class => "text-area large" %>
+			</div>
+		</div>
+		
+		<fieldset>
+			<legend>Measure Groups</legend>
+				<% for group in @dashboard.groups {|p1,p2| p1.title <=> p2.title} %>
+						<%= render :partial => 'form_dashboard_group', :locals => {:group => group} %>
+					</div>
+				<% end %>
+				<a href="#" data-url="<%= new_group_admin_dashboards_path(authority, @dashboard) %>" class="add-measure-group add-element">Add Measure Group</a>
+		</fieldset>
+      
+		<div class="row">
+			<%= f.submit "Save", :class => "nice medium radius blue button" %> 
+			<%= link_to 'Back', :back, :class => "small white nice button radius" %> 
+		</div>
+  </div>
+</div>

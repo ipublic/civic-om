@@ -1,0 +1,59 @@
+<div class="row dashboard-measure-group">
+	<table class="measure">
+		<tr>
+	  <td>
+	    <label>Measure Label</label><br/>
+	    <input name="dashboard[groups][][measures][][measure]" class="standard" type="text" value="<%= measure['measure'] %>"/>
+	  </td>
+	  <td>
+	    <label class='wide'>Sort Property</label><br/>
+	    <input name="dashboard[groups][][measures][][sort_property]" class="standard dashboard-property" type="text" value="<%= measure.sort_property %>"/>
+	  </td>
+	<td>&nbsp;</tr>
+	</tr>
+		<tr>
+	  <td>
+	    <label class='wide'>Source Class</label><br/>
+	    <input class="standard dashboard-source-class" type="text" value="<%= last_url_component(measure['source_class']) %>"/>
+	    <input name="dashboard[groups][][measures][][source_class]" type="hidden" value="<%= measure['source_class'] %>"/>
+	  </td>
+	  <td>
+	    <!-- Present a tdst of Properties from the selected Class above - filter to numeric types -->
+	    <label class='wide'>Source Property</label><br/>
+	    <input name="dashboard[groups][][measures][][source_property]" class="standard dashboard-property" type="text" value="<%= measure.source_property %>"/>
+	  </td>
+		<td>&nbsp;</tr>
+
+	</tr>
+	<tr>
+	  <td>
+	    <label class='wide'>Format</label>  <br/>  
+	    <select name="dashboard[groups][][measures][][format]", class="standard">
+	      <%= options_for_select([''].concat(OpenMedia::Dashboard::FORMATS), measure['format']) %>
+	    </select>
+	  </td>
+	  <td>
+	    <label class='wide'>Graph Type</label><br/>
+	    <select name="dashboard[groups][][measures][][visual]", class="standard">
+	      <%= options_for_select([''].concat(OpenMedia::Dashboard::VISUALS), measure['visual']) %>
+	    </select>
+	  </td>
+		<td>&nbsp;</tr>
+
+	</tr>
+	<tr>
+	  <td>
+	    <label class='wide'>Rank</label><br/>
+	    <input name="dashboard[groups][][measures][][rank]" class="standard" type="text" value="<%= measure['rank'] %>"/>
+	  </td>
+	  <td>
+	    <label class='wide'>Description</label><br/>
+	    <input name="dashboard[groups][][measures][][description]" class="standard" type="text" value="<%= measure['description'] %>"/>
+
+	  </td>
+	  <td style="vertical-align: bottom">
+	    <a href="#" class="delete-measure delete-element" alt="Delete">Delete Measure</a>
+	  </td>
+	</tr>
+	</table>
+</div>

@@ -1,0 +1,21 @@
+<% title "Dashboards" %>
+<div class="row">
+	<div class="twelve columns">
+		<p><%= link_to 'Add Dashboard', new_admin_dashboard_path %></p>
+		<hr />
+    <table>
+			<thead>
+			  <tr>
+			    <th>Title</th>
+			    <th>Description</th>
+			  </tr>
+			</thead>
+			<% @dashboards.each do |dash| %>
+			<tr>
+			  <td><%= link_to dash.title, admin_dashboard_path(authority, dash) %></td>
+			  <td><%= dash.description %></td>
+			</tr>
+			<% end %>
+    </table>
+	</div>
+</div>

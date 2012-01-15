@@ -1,0 +1,6 @@
+<% title "Add Dashboard" %>
+<div id="forms">
+  <%= form_for :dashboard, :url => admin_dashboards_path, :class => "nice" do |f| %>
+  	<%= render :partial => 'form', :locals=> {:f=>f} %>
+  <% end %>
+</div>
