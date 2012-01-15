@@ -1,52 +1,26 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	  <%= render :partial => 'layouts/resources' %>
-	  <title>Civic OpenMedia Community</title>
+	  <%= render :partial => 'layouts/assets' %>
+	  <title>Civic OpenMedia</title>
 	</head>
 	<body>
 		<div id="wrapper">
 			<div class="container header">
-				<div class="row">
-					<div class="twelve columns">
-						<h1>Civic OpenMedia Community</h1>
-					</div>
-				</div>
+				<%= render :partial => 'layouts/header_public' %>
 			</div>
 
 			<div class="container content">
 				<div class="row">
 					<div class="twelve columns">
-						<div id="notices">
-				      <% flash.each do |name, msg| %>
-				          <%= content_tag :div, msg, :id => "flash_#{name}" %>
-									<p class="notice"><%= notice %></p>
-									<p class="alert"><%= alert %></p>
-				      <% end %>
-						</div>
+						<%= yield %>
 					</div>
 				</div>
-
-				<%= yield %>
 			</div>
 		
-			<footer>
-				<div class="row">
-					<div class="four columns">
-	          Civic OpenMedia created by <%= link_to "iPublic.org", "http://www.ipublic.org/" %>
-					</div>
-	        <div class="four columns">
-						Interested in starting an OpenMedia site for your community?
-					</div>
-	        <div class="four columns">
-	          Licensed under <%= link_to "GPL", "http://www.gnu.org/licenses/gpl.html" %>
-	          and
-						<%= link_to "MIT", "http://www.opensource.org/licenses/mit-license.php" %>
-					</div>
-				</div>
+			<footer class="row">
+				<%= render :partial => 'layouts/footer_public' %>
 			</footer>
 		</div>
-		<%= javascript_include_tag "application" %>
-		<%= javascript_include_tag "jquery.formalize" %>
 	</body>
 </html>
