@@ -1,28 +1,32 @@
 <div class="row">
 	<div class="twelve columns">
 		<div class="branding">
-			<% if content_for?(:title) %>
+			<%- if content_for?(:title) %>
 				<h1><%= h(yield(:title)) %></h1>
-			<% else %>
+			<%- else %>
 				<h1><%= "#{current_site.label} Admin" %></h1>
 				<h4 class="subheader"><%= current_site.tag_line %></h4>
-			<% end %>
+			<% end -%>
 		</div>
 	</div>
 </div>
 
-<div class="row">
-	<div class="twelve columns">
-		<% yield(:header) if content_for?(:header) %>
+<%- if content_for?(:header) %>
+	<div class="row">
+		<div class="twelve columns">
+			<% yield(:header) %>
+		</div>
 	</div>
-</div>		
+<% end -%>
 
-<div class="row">
-	<div class="twelve columns">
-		<% flash.each do |name, msg| %>
-			<!-- alert-box classes: success, warning, error or blank -->
-			<%= content_tag :div, msg, :class => "alert-box #{name}" %>
-		<% end %>
-	</div>
-</div>		
+<% if flash.count > 0 %>
+	<div class="row">
+		<div class="twelve columns">
+			<% flash.each do |name, msg| %>
+				<!-- alert-box classes: success, warning, error or blank -->
+				<%= content_tag :div, msg, :class => "alert-box #{name}" %>
+			<% end %>
+		</div>
+	</div>	
+<% end %>	
 
