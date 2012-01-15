@@ -12,7 +12,7 @@ class Sites::BaseController < ApplicationController
   end    
 
   def authority
-    @authority ||= Authority.get(params[:authority_id])
+    @authority ||= LinkedData::Authority.get(params[:authority_id])
   end
   
   def current_site
