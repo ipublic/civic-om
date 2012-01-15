@@ -10,8 +10,8 @@
 <div class="row">
 	<ul>
 		<%= content_tag(:li, @site.label) %>
-		<%= content_tag(:li, @site.tag_line) %>
-		<%= content_tag(:li, @site.terms_of_use) %>
+		<%= content_tag(:li, "Tag line: #{@site.tag_line}") %>
+		<%= content_tag(:li, "Terms of use: #{@site.terms_of_use}") %>
 		<%= content_tag(:li, link_to(@site.administrator_contact.formatted_name, admin_contacts_path(authority, @site.administrator_contact))) %>
 	</ul>
 </div>
