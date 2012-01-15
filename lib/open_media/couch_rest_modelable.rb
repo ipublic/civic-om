@@ -8,7 +8,7 @@ module OpenMedia
       
       class_basename = self.class.to_s.demodulize.downcase
       eterm = escape_string(self.term.downcase)
-      this_id = %W[#{class_basename} #{self.authority} #{eterm}].select {|v| !v.blank?}.join('_')
+      this_id = %W[#{class_basename} #{self.authority.term} #{eterm}].select {|v| !v.blank?}.join('_')
 
       write_attribute(:identifier, this_id)
     end
