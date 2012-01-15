@@ -6,6 +6,7 @@ class LinkedData::DataSource < LinkedData::CouchRestModelSchema
   SHAPEFILE_SOURCE_TYPE = "shapefile"
   URL_SOURCE_TYPE = "url"
   
+  belongs_to :authority, :class_name => "LinkedData::Authority"
   property :properties, [LinkedData::Property]
 
   # property :transform_model do
@@ -26,6 +27,7 @@ class LinkedData::DataSource < LinkedData::CouchRestModelSchema
   timestamps!
 
   validates_presence_of :term
+  validates_presence_of :authority
   
   ## Callbacks
   before_create :generate_identifier
@@ -33,7 +35,7 @@ class LinkedData::DataSource < LinkedData::CouchRestModelSchema
   design do
     view :by_term
     view :by_label
-    view :by_authority
+    view :by_authority_id
   end
   
   def last_extract(view_opts={})

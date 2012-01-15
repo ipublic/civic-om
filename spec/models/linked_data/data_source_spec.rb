@@ -3,10 +3,10 @@ require 'spec_helper'
 describe LinkedData::DataSource do
 
   before(:all) do
-    @ns = Namespace.new("http://dcgov.civicopenmedia.us")
+    @authority = LinkedData::Authority.get THIS_AUTHORITY_ID
     @ds_term = "reported_crimes"
-    @ds = LinkedData::DataSource.new(:authority => @ns.authority, :term => @ds_term)
-    @ds_id = "datasource_civicopenmedia_us_dcgov_reported_crimes"
+    @ds = LinkedData::DataSource.new(:authority => @authority, :term => @ds_term)
+    @ds_id = "datasource_om_gov_reported_crimes"
 
     # STAGING_DATABASE.recreate! rescue nil
     @csv_filename = File.join(fixture_path, 'crime_incidents_current.csv')
@@ -29,7 +29,7 @@ describe LinkedData::DataSource do
     end
     
     it 'should save and generate an identifier correctly' do
-      lambda { LinkedData::DataSource.create!(:authority => @ns.authority, :term => @ds_term) }.should change(LinkedData::DataSource, :count).by(1)
+      lambda { LinkedData::DataSource.create!(:authority => @authority, :term => @ds_term) }.should change(LinkedData::DataSource, :count).by(1)
       saved_ds = LinkedData::DataSource.first
       saved_ds.id.should == @ds_id
     end
@@ -56,7 +56,7 @@ describe LinkedData::DataSource do
 
       it "should store all parsed records in the Staging db" do
         # @ds.save
-        saved_ds = LinkedData::DataSource.get @ds_id
+        saved_ds = LinkedData::DataSource.get(@ds_id)
         @stats = saved_ds.extract!(@parser.records)
         @stats.docs_written.should == 304
       end
@@ -68,13 +68,13 @@ describe LinkedData::DataSource do
       STAGING_DATABASE.recreate! rescue nil
       SCHEMA_DATABASE.recreate! rescue nil
 
-      @csv_ds = LinkedData::DataSource.create!(:authority => @ns.authority, :term => @ds_term)
+      @csv_ds = LinkedData::DataSource.create!(:authority => @authority, :term => @ds_term)
       @csv_filename = File.join(fixture_path, 'crime_incidents_current.csv')
       @csv_parser = Parser::CsvParser.new(@csv_filename, {:header_row => true})
       @csv_stats = @csv_ds.extract!(@csv_parser.records)
 
       @shp_ds_term = "dc_fire_stations"
-      @shp_ds = LinkedData::DataSource.create!(:authority => @ns.authority, :term => @shp_ds_term)
+      @shp_ds = LinkedData::DataSource.create!(:authority => @authority, :term => @shp_ds_term)
 
       @shapefile_name = File.join(fixture_path, 'FireStnPt.zip')
       @shp_parser = Parser::ShapefileParser.new(@shapefile_name)
