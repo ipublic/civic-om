@@ -3,12 +3,11 @@ class LinkedData::Vocabulary < LinkedData::CouchRestModelSchema
   attr_accessor :key_list
   
   # belongs_to :collection, :class_name => "LinkedData::Collection"
+  belongs_to :authority, :class_name => "LinkedData::Authority"
   
-  property :base_uri, String
-  property :public_uri, String
   property :tags, [String]
 
-  
+  property :base_uri, String
   property :curie_prefix, String
   property :curie_suffix, String
   property :property_delimiter, String, :default => "/"
@@ -27,23 +26,19 @@ class LinkedData::Vocabulary < LinkedData::CouchRestModelSchema
   timestamps!
 
   validates_presence_of :term
-  validates_presence_of :base_uri
   validates_presence_of :authority
-  # validates_presence_of :collection_id
+  # validates_presence_of :collection
   validates_uniqueness_of :identifier, :view => 'all'
   
   
   ## Callbacks
   before_create :generate_identifier
-  before_create :generate_public_uri
 
   design do
     view :by_term
     view :by_label
     view :by_authority
     
-    view :by_base_uri
-    view :by_public_uri
     view :by_curie_prefix
   
     view :tag_list,
@@ -78,15 +73,6 @@ class LinkedData::Vocabulary < LinkedData::CouchRestModelSchema
     Hash[self.curie_prefix, self.curie_suffix] if self.curie_prefix && self.curie_suffix
   end
   
-  def namespace=(ns={})
-    self.base_uri = ns.base_uri unless ns.base_uri.nil?
-    self.authority = ns.authority unless ns.authority.nil?
-  end
-  
-  def namespace
-    Hash[:base_uri => self.base_uri, :authority => self.authority]
-  end
-
   def decode(property_name, key)
     self.enumerations[property_name][key]
   end

@@ -10,6 +10,7 @@ require 'capybara/rspec'
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
+  THIS_AUTHORITY_ID = "authority_om_gov"
   THIS_SITE_ID = "civic_openmedia_us_om"
   THIS_SITE_DB_NAME = "om_civic_openmedia_us_om_test"
   THIS_SITE_DB = COUCHDB_SERVER.database!(THIS_SITE_DB_NAME)
@@ -53,9 +54,13 @@ RSpec.configure do |config|
 end
 
 def init_site
-  label = "OpenMedia"
-  term = "om"
-  Site.create!(:label => label, :term => term)
+  @label = "OpenMedia"
+  @uri = "http://om.gov"
+  @term = "om_gov"
+  @authority = LinkedData::Authority.create!(:term => @term, 
+                                             :label => @label,
+                                             :uri => @uri)
+  Site.create!(:authority => @authority, :label => @authority.label)
 end
 
 def reset_test_db!

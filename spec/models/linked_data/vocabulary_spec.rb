@@ -4,12 +4,13 @@ describe LinkedData::Vocabulary do
 
   before(:each) do
     SCHEMA_DATABASE.recreate! rescue nil
-    @ns = Namespace.new("http://dcgov.civicopenmedia.us")
+
+    @authority = LinkedData::Authority.get THIS_AUTHORITY_ID
+
     @col_label = "Education"
     @term = "education"
     @label = "Reading Proficiency-Third Grade"
-    @authority = @ns.authority
-    @base_uri = @ns.base_uri
+
     @prop_names = %W(enrollment)
     @key_props  = %W(school_name city)
     @all_props = @prop_names + @key_props
@@ -18,20 +19,19 @@ describe LinkedData::Vocabulary do
     
     @collection = LinkedData::Collection.create!(:term => @term,
                                                  :label => @col_label, 
-                                                 :base_uri => @base_uri,
-                                                 :authority => @ns.authority,
+                                                 :authority => @authority,
                                                  :tags=>["schools", "teachers", "students"], 
                                                  :comment => "Matters associated with public schools")
     
     @vocabulary = LinkedData::Vocabulary.new(:label => @col_label,
                             :term => @term,
-                            :namespace => @ns,
+                            :authority => @authority,
                             :properties => @prop_list,
                             :tags => ["reading", "testing", "third grade"], 
                             :comment => "Percentage of children in third grade who read on grade level")
                             
     @vocab_uri = "http://civicopenmedia.us/dcgov/vocabularies/education"
-    @vocab_id = "vocabulary_civicopenmedia_us_dcgov_education"
+    @vocab_id = "vocabulary_om_gov_education"
   end
   
   describe "class methods" do
@@ -48,7 +48,8 @@ describe LinkedData::Vocabulary do
       it 'should save and generate an identifier correctly' do
         lambda { @vocabulary.save! }.should change(LinkedData::Vocabulary, :count).by(1)
         @res = LinkedData::Vocabulary.get(@vocab_id)
-        @res.public_uri.should == @vocab_uri
+        @res = LinkedData::Vocabulary.first
+        @res.id.should == @vocab_id
       end
     end
     
@@ -103,7 +104,7 @@ describe LinkedData::Vocabulary do
                                                    )
                                                 
       vocab = LinkedData::Vocabulary.get(lcl_vocab.id)
-      vocab.id.should == "vocabulary_civicopenmedia_us_dcgov_localvocabulary"
+      vocab.id.should == "vocabulary_om_gov_localvocabulary"
     end
   
     it 'should recognize an external vocabulary and generate correct URI' do
@@ -116,16 +117,7 @@ describe LinkedData::Vocabulary do
                                                     )
                                                 
       vocab = LinkedData::Vocabulary.get(xsd_vocab.id)
-      vocab.id.should == "vocabulary_civicopenmedia_us_dcgov_xmlschema"
-    end
-  
-
-    it 'should return this Vocabulary when searching by URI' do
-      @res = @vocabulary.save
-      @res.public_uri.should == @vocab_uri
-      @vocabs = LinkedData::Vocabulary.by_public_uri(:key => @res.public_uri)
-      @vocabs.length.should == 1
-      @vocabs.rows.first.id.should == "vocabulary_civicopenmedia_us_dcgov_education"
+      vocab.id.should == "vocabulary_om_gov_xmlschema"
     end
 
   end
