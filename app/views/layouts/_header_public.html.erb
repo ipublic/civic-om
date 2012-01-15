@@ -1,0 +1,24 @@
+<div class="row">
+	<div class="twelve columns">
+		<div class="branding">
+			<h1>Civic OpenMedia</h1>
+			<h4 class="subheader">Government Open Data Community</h4>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="twelve columns">
+		<% yield(:header) if content_for?(:header) %>
+	</div>
+</div>		
+
+<div class="row">
+	<div class="twelve columns">
+		<% flash.each do |name, msg| %>
+			<!-- alert-box classes: success, warning, error or blank -->
+			<%= content_tag :div, msg, :class => "alert-box #{name}" %>
+		<% end %>
+	</div>
+</div>		
+
