@@ -1,7 +1,10 @@
 require 'no_site_defined'
 
 class Site < CouchRest::Model::Base
-  DATABASES = [SITES_DATABASE.name, STAGING_DATABASE.name, SCHEMA_DATABASE.name]
+  
+  attr_reader :staging_database_name, :staging_database
+  
+  # DATABASES = [SITES_DATABASE.name, STAGING_DATABASE.name, SCHEMA_DATABASE.name]
   use_database SITES_DATABASE
   unique_id :identifier
   
@@ -25,6 +28,16 @@ class Site < CouchRest::Model::Base
   design do
     view :by_authority_id
   end
+  
+  def staging_database_name
+    return unless self.authority.present?
+    @staging_database_name ||= (%W[#{COUCHDB_CONFIG["db_prefix"]} #{self.authority.term} staging #{COUCHDB_CONFIG["db_suffix"]}].select {|v| !v.blank?}.join("_"))
+  end
+  
+  def staging_database
+    return unless instance_database_name.present? && self.identifier.present?
+    @staging_database ||= COUCHDB_SERVER.database(staging_database_name)
+  end
 
   def public_database
     return if self.authority.nil?
@@ -42,10 +55,11 @@ private
   def init_site
     class_basename = self.class.to_s.demodulize.downcase
     write_attribute(:identifier,  %W[#{class_basename} #{self.term}].join('_'))
-    # write_attribute(:authority, "civicopenmedia_us_#{self.term}")
     
-    # # self.url = "http://#{self.identifier}.#{OM_DOMAIN}#{OM_PORT == 80 ? '' : OM_PORT}"
-    # ns = Namespace.new(self.url)
-    # write_attribute(:base_uri, ns.base_uri)
+    init_site_dbs
+  end
+  
+  def init_site_dbs
+    COUCHDB_SERVER.database!(staging_database_name)
   end
 end

@@ -30,7 +30,7 @@ else
   COUCHDB_SERVER = CouchRest::Server.new(COUCHDB_CONFIG[:host_path])
 
   SITES_DATABASE = COUCHDB_SERVER.database!(%W[#{db_prefix} sites #{db_suffix}].select {|v| !v.blank?}.join("_"))
-  STAGING_DATABASE = COUCHDB_SERVER.database!(%W[#{db_prefix} staging #{db_suffix}].select {|v| !v.blank?}.join("_"))
+  # STAGING_DATABASE = COUCHDB_SERVER.database!(%W[#{db_prefix} staging #{db_suffix}].select {|v| !v.blank?}.join("_"))
   SCHEMA_DATABASE = COUCHDB_SERVER.database!(%W[#{db_prefix} schema #{db_suffix}].select {|v| !v.blank?}.join("_"))
 end
 

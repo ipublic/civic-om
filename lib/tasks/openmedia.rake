@@ -8,19 +8,17 @@ namespace :openmedia do
   desc "create the couchdb databases for the current environment"
   task :create_dbs => :environment do
     SITES_DATABASE.create!
-    STAGING_DATABASE.create!
     SCHEMA_DATABASE.create!
   end 
 
   desc "drop the couchdb databases for the current environment"
   task :drop_dbs => :environment do
-    # Site.all.each do |site|
-    #   COUCHDB_SERVER.databases.each do |db|
-    #     COUCHDB_SERVER.database(db).delete! if db =~ Regexp.new("^#{site.id}_")
-    #   end
-    # end 
+    Site.all.each do |site|
+      COUCHDB_SERVER.databases.each do |db|
+        COUCHDB_SERVER.database(db).delete! if db =~ Regexp.new("^#{site.authority.term}_")
+      end
+    end 
     SITES_DATABASE.delete! rescue nil
-    STAGING_DATABASE.delete! rescue nil
     SCHEMA_DATABASE.delete! rescue nil
   end
 
