@@ -30,15 +30,39 @@ CivicOm::Application.routes.draw do
       namespace :admin do
 
         resources :home, :only => :index
-        resources :topics
-        resources :data_sources
+        
+        resources :topics do
+          member do
+            get :show_metadata
+            get :show_properties
+            get :show_records
+          end
+        end
+
+        resources :data_sources do
+          member do
+            get :show_locations
+            get :show_associations
+            get :show_ddl
+          end
+          
+          resources :data_sets do
+            collection do
+              post :upload
+            end
+            member do
+              get :show_records
+            end
+          end
+        end
+        
         resources :maps
         resources :dashboards do
-                  collection do
-                    get :new_group
-                    get :new_measure
-                  end
-                end
+          collection do
+            get :new_group
+            get :new_measure
+          end
+        end
 
         resources :contacts do
           collection do
