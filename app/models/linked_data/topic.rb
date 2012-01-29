@@ -1,6 +1,6 @@
 class LinkedData::Topic < LinkedData::CouchRestModelSchema
   
-  attr_reader :instance_database, :instance_design_doc, :instance_design_doc_id
+  attr_reader :instance_database, :instance_database_name, :instance_design_doc, :instance_design_doc_id
   attr_accessor :docs_read, :docs_written
   
   unique_id :identifier
@@ -10,7 +10,7 @@ class LinkedData::Topic < LinkedData::CouchRestModelSchema
   belongs_to :creator, :class_name => "VCard::Base"
   belongs_to :publisher, :class_name => "VCard::Base"
 
-  property :instance_database_name, String
+  # property :instance_database_name, String
   property :instance_class_name, String, :read_only => true
   
   timestamps!
@@ -22,6 +22,7 @@ class LinkedData::Topic < LinkedData::CouchRestModelSchema
   ## Callbacks
   before_create :generate_identifier
   before_create :create_instance_design_doc
+  before_destroy :destroy_instance_database
 
   design do
     view :by_term
@@ -31,6 +32,8 @@ class LinkedData::Topic < LinkedData::CouchRestModelSchema
   
   def instance_database_name
     return if self.authority.nil? || self.term.nil?
+    @instance_database_name ||= (%W[#{COUCHDB_CONFIG["db_prefix"]} #{self.authority.term} staging #{COUCHDB_CONFIG["db_suffix"]}].select {|v| !v.blank?}.join("_"))
+    
     [self.authority.term, self.term].join('_')
   end
   
@@ -117,11 +120,10 @@ class LinkedData::Topic < LinkedData::CouchRestModelSchema
   end
   
   # Delete all data instance docs and design doc
-  def destroy_instance!
-    destroy_instance_docs!
-    # destroy_instance_design_doc!
+  def destroy_instance_database
+    instance_database.delete!
   end
-
+  
   # Create a dynamic CouchRest::Model::Base class for this Topic
   def couchrest_model
     ## TODO - deprecate this method
