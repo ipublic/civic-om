@@ -35,7 +35,7 @@ describe LinkedData::Type do
   end
   
   it 'should fail to initialize instance without term and vocabulary' do
-    @ldt = LinkedData::DataSource.new
+    @ldt = LinkedData::Type.new
     @ldt.should_not be_valid
     @ldt.errors[:term].should_not be_nil
     @ldt.errors[:authority].should_not be_nil
