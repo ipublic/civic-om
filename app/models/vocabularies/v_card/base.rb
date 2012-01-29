@@ -29,6 +29,7 @@ module Vocabularies
     design do
       view :by_authority_id
       view :by_formatted_name
+      view :by_authority_id_and_formatted_name
       view :by_sort_string
       view :by_last_name,
         :map => 
