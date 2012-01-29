@@ -1,0 +1,19 @@
+<% title "Data Sets" %>
+<div class="row">
+	<div class="five columns">
+		<h3><%= "Edit #{@data_set.label}" %></h3>
+	</div>
+	<div class="three column">
+    <%= link_to "Delete", admin_data_source_data_set_path(authority, @data_source, @data_set), :method => :destroy, :class => "nice medium radius blue button" %>
+	</div>
+	<div class="three columns">
+	  <%= link_to "List All", admin_data_source_data_sets_path(authority), :class => "nice medium radius orange button" %>
+	</div>
+</div>
+<div class="row">
+	<div id="forms">
+	  <%= form_for :data_set, :url => admin_data_source_data_set_path(authority, @data_source, @data_set), :html => {:method=>:put, :class=>"nice"} do |f| %>
+		  <%= render :partial => 'form', :locals => {:f => f} %>
+	  <% end %>
+	</div>
+</div>

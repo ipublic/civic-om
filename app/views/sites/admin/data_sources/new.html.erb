@@ -1,0 +1,14 @@
+<% title "Data Sources" %>
+<div class="row">
+	<div class="four columns">
+		<h3>Add Data Source</h3>
+	</div>
+	<div class="three columns">
+	  <%= link_to "List Data Sources", admin_data_sources_path(authority), :class => "nice medium radius blue button" %>
+	</div>
+</div>
+<div id="forms">
+  <%= form_for :data_source, :url => admin_data_sources_path do |f| %>
+  	<%= render :partial => 'form', :locals=> {:f=>f} %>
+  <% end %>
+</div>

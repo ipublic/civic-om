@@ -1,0 +1,21 @@
+<% title "Topics" %>
+<div class="row">
+	<div class="three columns">
+		<h3>All Topics</h3>
+	</div>
+	<div class="three columns">
+	  <%= link_to 'Add Topic', new_admin_topic_path, :class => "nice medium radius blue button" %> </p>
+	</div>
+</div>
+<div class="row">
+	<div class="twelve columns">
+		<ul>
+			<% if @topics.count < 1 %>
+				<li>No Topics found</li>
+			<% end %>
+			<% @topics.each do |topic| %>
+			  <li><%= link_to topic.label, admin_topic_path(authority, topic) %></li>
+			<% end %>
+		</ul>
+	</div>
+</div>

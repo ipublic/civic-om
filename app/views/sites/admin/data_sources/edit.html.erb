@@ -1,0 +1,20 @@
+<% title "Data Sources" %>
+<div class="row">
+	<div class="five columns">
+		<h3><%= "Edit #{@data_source.label}" %></h3>
+	</div>
+	<div class="three column">
+    <%= link_to "Delete", admin_data_source_path(authority, @data_source), :confirm => 'Are you sure?', :method => :delete, :class => "nice medium radius blue button" %>
+	</div>
+	<div class="three columns">
+	  <%= link_to "List All", admin_data_sources_path(authority), :class => "nice medium radius orange button" %>
+	</div>
+</div>
+<div class="row">
+	<div id="forms">
+	  <%= form_for :data_source, :url => admin_data_source_path(authority, @data_source), :html => {:method=>:put, :class=>"nice"} do |f| %>
+		  <%= render :partial => 'form', :locals => {:f => f} %>
+	  <% end %>
+	</div>
+</div>
+

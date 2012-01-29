@@ -1,0 +1,21 @@
+<% title "Data Sources" %>
+<div class="row">
+	<div class="four columns">
+		<h3>All Data Sources</h3>
+	</div>
+	<div class="three columns">
+	  <%= link_to 'Add Data Source', new_admin_data_source_path(authority), :class => "nice medium radius blue button" %> </p>
+	</div>
+</div>
+<div class="row">
+	<div class="twelve columns">
+		<ul>
+			<% if @data_sources.count < 1 %>
+				<li>No Data Sources found</li>
+			<% end %>
+			<% @data_sources.each do |ds| %>
+			  <li><%= link_to ds.label, admin_data_source_path(authority, ds) %></li>
+			<% end %>
+		</ul>
+	</div>
+</div>

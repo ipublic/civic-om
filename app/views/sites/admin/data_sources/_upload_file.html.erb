@@ -1,0 +1,24 @@
+<% title "Data Sources" %>
+<div class="row">
+	<div class="four columns">
+		<h3>Upload Data Set</h3>
+	</div>
+	<div class="three columns">
+	  <%= link_to "List Data Sources", admin_data_sources_path(authority), :class => "nice medium radius orange button" %>
+	</div>
+</div>
+<div class="row">
+	<div id="forms">
+		<%= form_for :data_packet, :url => upload_admin_data_sources_path(authority.id), :html => {:multipart=>true, :class=>"nice"} do |f| -%>
+			<div class="row">
+				<h5>Upload File</h5>
+			  <%= f.file_field :file, :class => "input-text large" %>
+			</div>
+			<div class="row">
+				<%= f.submit "Upload", :class => "nice medium radius blue button", :disable_with => "Uploading..." %>
+				<%= link_to 'Back', :back, :class => "small white nice button radius" %> 
+			</div>
+		<% end -%>
+	</div>
+</div>
+

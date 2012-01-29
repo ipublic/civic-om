@@ -1,0 +1,14 @@
+<% title "Data Sets" %>
+<div class="row">
+	<div class="three columns">
+		<h3>Add Data Set</h3>
+	</div>
+	<div class="three columns">
+	  <%= link_to "List Data Sets", admin_data_sets_path(authority, @data_source), :class => "nice medium radius blue button" %>
+	</div>
+</div>
+<div id="forms">
+  <%= form_for :data_set, :url => admin_data_sets_path do |f| %>
+  	<%= render :partial => 'form', :locals=> {:f=>f} %>
+  <% end %>
+</div>

@@ -1,0 +1,28 @@
+<div class="row">
+	<div class="twelve columns">
+	  <%= f.error_messages %>
+		<%= f.hidden_field :rev, :value => @data_source['_rev'] if @data_source['_rev'] %>
+		<%#= debug @contact.to_yaml %>
+		
+		<div class="row">
+			<div class="four columns">
+				<%= f.label :label %> <%= f.text_field :label, :class=>'input-text medium' %>
+			</div>
+			<div class="four columns">
+				<%= f.label :term %> <%= f.text_field :term, :class=>'input-text medium' %>
+			</div>
+		</div>
+		<div class="row">
+			<%= f.label :comment %> <%= f.text_area :comment, :rows => 3, :class=>'text-area large' %>
+		</div>
+		<div class="row">
+			<%= f.label :creator_id, "Creator" %> 
+			<%#= f.collection_select :creator_id, @contacts, :authority_id, :formatted_name, {:prompt => 'Select Contact'} %>
+		</div>
+
+		<div class="row">
+			<%= f.submit "Save", :class => "nice medium radius blue button" %> 
+			<%= link_to 'Back', :back, :class => "small white nice button radius" %> 
+		</div>		
+	</div>
+</div>

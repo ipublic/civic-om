@@ -1,0 +1,20 @@
+<% title "Topics" %>
+<div class="row">
+	<div class="five columns">
+		<h3><%= "Edit #{@topic.label}" %></h3>
+	</div>
+	<div class="three column">
+    <%= link_to "Delete", admin_topic_path(authority, @topic), :confirm => 'Are you sure?', :method => :delete, :class => "nice medium radius blue button" %>
+	</div>
+	<div class="three columns">
+	  <%= link_to "List All", admin_topics_path(authority), :class => "nice medium radius orange button" %>
+	</div>
+</div>
+<div class="row">
+	<div id="forms">
+	  <%= form_for :topic, :url => admin_topic_path(authority, @topic), :html => {:method=>:put, :class=>"nice"} do |f| %>
+		  <%= render :partial => 'form', :locals => {:f => f} %>
+	  <% end %>
+	</div>
+</div>
+
