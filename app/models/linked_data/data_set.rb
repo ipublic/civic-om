@@ -1,23 +1,12 @@
-class LinkedData::DataSource < LinkedData::CouchRestModelSchema
+class LinkedData::DataSet < CouchRest::Model::Base
 
-  attr_accessor :docs_read, :docs_written
+  attr_reader :docs_written, :docs_read
   
-  CSV_SOURCE_TYPE = "csv"
-  SHAPEFILE_SOURCE_TYPE = "shapefile"
-  URL_SOURCE_TYPE = "url"
-  
-  belongs_to :authority, :class_name => "LinkedData::Authority"
+  belongs_to :data_source, :class_name => "LinkedData::DataSource"
+
+  property :comment, String     # RDFS#Comment
   property :properties, [LinkedData::Property]
 
-  # property :transform_model do
-  #   property :exe_order, Float
-  #   property :source_property_term, String
-  #   property :destination_topic_id, String
-  #   property :destination_topic_property_term, String
-  #   property :method, String
-  #   property :parameters, String
-  # end
-  
   property :extract_sets do
     property :serial_number, String
     property :docs_written, Integer
@@ -26,16 +15,10 @@ class LinkedData::DataSource < LinkedData::CouchRestModelSchema
 
   timestamps!
 
-  validates_presence_of :term
-  validates_presence_of :authority
+  validates_presence_of :data_source
   
-  ## Callbacks
-  before_create :generate_identifier
-
   design do
-    view :by_term
-    view :by_label
-    view :by_authority_id
+    view :by_data_source_id
   end
   
   def last_extract(view_opts={})
@@ -65,13 +48,14 @@ class LinkedData::DataSource < LinkedData::CouchRestModelSchema
   end
   
   def extract!(records)
-    raise "DataSource must be saved to database first" if self.identifier.nil?
-    esn = LinkedData::DataSource.serial_number
+    raise "DataSet must be saved to database first" if self.id.nil?
+    esn = LinkedData::DataSet.serial_number
     ts = Time.now.utc.iso8601.to_s
-    extract_prop_set = {:serial_number => esn, :data_source_id => self.identifier, 
+    extract_prop_set = {:data_set => self, :serial_number => esn, :data_source_id => self.data_source_id, 
                         :created_at => ts, :updated_at => ts}
     
     records.each do |rec|
+      LinkedData::RawRecord.database = self.data_source.database
       LinkedData::RawRecord.database.bulk_save_doc(rec.merge(extract_prop_set))
       self.docs_written += 1
       LinkedData::RawRecord.database.bulk_save if docs_written%500 == 0              
@@ -107,7 +91,7 @@ class LinkedData::DataSource < LinkedData::CouchRestModelSchema
     metadata.update!(:modified=>DateTime.now)
     ETL::Engine.rows_written
   end
-  
+
   def docs_read
     @docs_read ||= 0
   end
