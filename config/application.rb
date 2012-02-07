@@ -19,6 +19,7 @@ module CivicOm
     # config.autoload_paths += %W(#{config.root}/extras)
 
     config.autoload_paths += %W(#{config.root}/lib)
+    config.autoload_paths += %W(#{config.root}/lib/mime/type.rb)
     config.autoload_paths += Dir["#{config.root}/lib/etl/**/"]  
 
     # Only load the plugins named here, in the order given (default is alphabetical).
