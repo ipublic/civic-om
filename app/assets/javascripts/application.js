@@ -7,5 +7,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require foundation
+//= require jquery.dataTables.min.js
 //= require app
 //= require sites/admin/dashboards
+//= require sites/admin/data_sources
