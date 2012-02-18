@@ -1,0 +1,25 @@
+<div class="row" style="overflow: auto">
+  <div class="twelve columns">
+    <h3>Uploaded Data</h3>
+		<h5><%= @attach_name %></h5>
+
+    <table id="raw-data-table" data-url="<%= parse_admin_data_source_path(authority, @data_source) %>" class="display">
+      <thead>
+				<tr>
+				  <% @recs.first.each do |col| %>
+				  <th><%= col %></th>
+				  <% end %>
+				</tr>
+      </thead>
+      <tbody>
+				<% @recs.each do |rec| %>
+				<tr>
+					<% rec.each do |field| %>
+					<td><%= field %></td>
+					<% end %>
+				</tr>
+				<% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

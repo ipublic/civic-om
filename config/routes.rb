@@ -41,18 +41,21 @@ CivicOm::Application.routes.draw do
 
         resources :data_sources do
           member do
+            get :file_source
+            post :upload_file
+            get :parse
+            # resources :parse do
+            #   member do
+            #     get :show_records
+            #   end
+            # end
+            get :extract
+            get :show_raw_records
+            get :show_records
             get :show_locations
+            get :show_metadata
             get :show_associations
             get :show_ddl
-          end
-          
-          resources :data_sets do
-            collection do
-              post :upload
-            end
-            member do
-              get :show_records
-            end
           end
         end
         

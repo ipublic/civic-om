@@ -8,13 +8,14 @@
 
 ## Initialize demo site
 email = 'site_admin@example.com'
-pword = 'password'
+pw = 'password'
 term = 'demo_gov'
-label = "OpenMedia Demo Site"
+label = "Demo Site"
 tag_line = "Your source for government open data"
 
 # Initialize Authority
-authority = LinkedData::Authority.create!(:term => term, :label => label)
+# authority = LinkedData::Authority.create!(:term => term, :label => label)
+authority = Authority.create!(:term => term, :label => label)
 
 # Create a VCard record for Admin
 contact = Vocabularies::VCard::Base.new(:authority => authority,
@@ -33,8 +34,8 @@ contact.save!
 
 # Use devise gem to create User record 
 user = User.create!(:email => email, 
-                    :password => pword, 
-                    :password_confirmation => pword,
+                    :password => pw, 
+                    :password_confirmation => pw,
                     :authority => authority,
                     :confirmed_at => Time.now.utc)
 

@@ -6,16 +6,42 @@
 	<div class="one column">
     <%= link_to "Edit", edit_admin_data_source_path(authority, @data_source), :class => "nice medium radius blue button" %>
 	</div>
-	<div class="three columns">
+	<div class="four columns">
     <%= link_to "List Data Sources", admin_data_sources_path, :class => "nice medium radius blue button" %>
 	</div>
 </div>
 <div class="row">
 	<div class="ten columns">
 		<ul>
-			<li><strong><%= @data_source.label %></strong></li>
+			<li>Last upload: <strong><%= "Jan 1, 2012" %></strong></li>
+			<li>Last upload: <strong><%= "Jan 1, 2012" %></strong></li>
 			<li>Term: <strong><%= @data_source.term %></strong></li>
 			<li>Comment: <strong><%= @data_source.comment %></strong></li>
+		</ul>
+	</div>
+</div>
+<hr/>
+<div class="row">
+	<div class="four columns">
+		<h3>Uploaded Data</h3>
+	</div>
+	<div class="one columns">
+		<%= link_to "Upload", file_source_admin_data_source_path(authority, @data_source), :class => "nice medium radius blue button" %>
+	</div>
+</div>
+<div class="row">
+	<div class="ten columns">
+		<ul>
+			<% if @data_sets.count < 1 %>
+				<li>No Data Sets found for this Data Source</li>
+			<% end %>
+			<% @data_sets.each do |ds| %>
+				<% attach_name = ds[0] %>
+				<% attach_size = ds[1]['length'] %>
+			  <li><%= link_to attach_name, parse_admin_data_source_path(authority, @data_source, {:attach_name => attach_name}) %>
+						<%= " (#{number_to_human_size(attach_size)})" %><li>
+				<hr/>
+			<% end %>
 		</ul>
 	</div>
 </div>
