@@ -1,6 +1,6 @@
 <% title "Topics" %>
 <div class="row">
-	<div class="four columns">
+	<div class="five columns">
 		<h3><%= @topic.label %></h3>
 	</div>
 	<div class="one column">
@@ -11,10 +11,13 @@
 	</div>
 </div>
 <div class="row">
-	<div class="ten columns">
+	<div class="five columns">
 		<ul>
-			<li><strong><%= @topic.label %></strong></li>
-			<li>Term: <strong><%= @topic.term %></strong></li>
+			<hr/>
+			<li>Records: <strong><%= @topic.record_count %></strong></li>
+			<hr/>
+			<li>Last update: <strong><%= "Jan 1, 2012" %></strong></li>
+			<hr/>
 			<li>Comment: <strong><%= @topic.comment %></strong></li>
 		</ul>
 	</div>

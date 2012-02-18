@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title><%= content_for?(:title) ? "Civic OpenMedia Online: " + h(yield(:title)) : "Civic OpenMedia Online" %></title>
+	  <%= render :partial => 'layouts/assets' %>
+		<%= yield(:head) if content_for?(:head) %>
+	</head>
+	<body>
+		<%= render :partial => 'layouts/om_bar' %>
+	  
+		<div class="container header">
+			<%= render :partial => 'layouts/header_admin' %>
+		</div>
+			
+		<div class="container content">
+			<div class="row">
+				<div class="two columns">
+					<%= render :partial => 'layouts/nav_data_sources' %>
+				</div>
+				<div class="ten columns">
+					<%= yield %>
+				</div>
+			</div>
+		</div>
+			
+		<footer class="row">
+			<%= render :partial => 'layouts/footer_admin' %>
+		</footer>
+	</body>
+</html>

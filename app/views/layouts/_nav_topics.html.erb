@@ -1,6 +1,6 @@
 <dl class="nice tabs vertical hide-on-phones">
-	<dd><%= link_to "Site", admin_site_path(authority), :class => "active" %></dd>
-	<dd><%= link_to "Contacts", admin_contacts_path(authority) %></dd>
-	<dd><%= link_to "Metadata", admin_contacts_path(authority) %></dd>
+	<dd><%= link_to "Topic", admin_topic_path(authority, @topic), :class => "active" %></dd>
+	<dd><%= link_to "Properties", show_properties_admin_topic_path(authority, @topic) %></dd>
+	<dd><%= link_to "Records", show_records_admin_topic_path(authority, @topic) %></dd>
 	<dd></dd>
 </dl>
