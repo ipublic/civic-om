@@ -3,13 +3,13 @@
 	<div class="four columns">
 		<h3>Upload Data Set</h3>
 	</div>
-	<div class="three columns">
-	  <%= link_to "List Data Sources", admin_data_sources_path(authority), :class => "nice medium radius orange button" %>
+	<div class="four columns">
+	  <%= link_to "List Data Sources", admin_data_sources_path(authority, @data_source), :class => "nice medium radius orange button" %>
 	</div>
 </div>
 <div class="row">
 	<div id="forms">
-		<%= form_for :data_packet, :url => upload_admin_data_sources_path(authority.id), :html => {:multipart=>true, :class=>"nice"} do |f| -%>
+		<%= form_for :file_source, :url => upload_file_admin_data_source_path, :html => {:multipart=>true, :class=>"nice"} do |f| -%>
 			<div class="row">
 				<h5>Upload File</h5>
 			  <%= f.file_field :file, :class => "input-text large" %>
@@ -21,4 +21,3 @@
 		<% end -%>
 	</div>
 </div>
-
