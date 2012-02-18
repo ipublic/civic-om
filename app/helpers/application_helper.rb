@@ -1,3 +1,4 @@
+require 'mime/type'
 module ApplicationHelper
   
   # def resource_name
@@ -11,6 +12,10 @@ module ApplicationHelper
   # def devise_mapping
   #   @devise_mapping ||= Devise.mappings[:user]
   # end
+
+  def mime_to_ext(mime_type)
+    Mime::Type.file_extension_of(mime_type) || mime_type
+  end
   
   def mixed_case(name)
     name.downcase.gsub(/\b\w/) {|first| first.upcase }
