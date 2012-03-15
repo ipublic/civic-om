@@ -24,11 +24,11 @@ describe Topic do
                                      :comment => "Matters associated with public schools")
     
     @topic = Topic.new(:label => @col_label,
-                            :term => @term,
-                            :authority => @authority,
-                            :properties => @prop_list,
-                            :tags => ["reading", "testing", "third grade"], 
-                            :comment => "Percentage of children in third grade who read on grade level")
+                        :term => @term,
+                        :authority => @authority,
+                        :properties => @prop_list,
+                        :tags => ["reading", "testing", "third grade"], 
+                        :comment => "Percentage of children in third grade who read on grade level")
                             
     @topic_uri = "http://civicopenmedia.us/dcgov/topics/education"
     @topic_id = "topic_om_gov_education"
@@ -36,13 +36,12 @@ describe Topic do
   
   describe "class methods" do
     describe "initialization" do
-      it 'should fail to initialize instance without a term, authority and base_uri' do
+      it 'should fail to initialize instance without a term, authority' do
         @t = Topic.new
         @t.should_not be_valid
         @t.errors[:term].should_not be_nil
         @t.errors[:authority].should_not be_nil
-        @t.errors[:base_uri].should_not be_nil
-        lambda { Topic.create!(:base_uri => @base_uri, :term => "percent_promoted", :authority => @authority) }.should_not raise_error
+        lambda { Topic.create!(:term => "percent_promoted", :authority => @authority) }.should_not raise_error
       end
 
       it 'should save and generate an identifier correctly' do
@@ -97,7 +96,6 @@ describe Topic do
     it 'should recognize a local topic and generate correct URI' do
       lcl_topic = Topic.create!(:label => "LocalTopic",
                                  :term => "LocalTopic",
-                                 :base_uri => @base_uri, 
                                  :authority => @authority,
                                  :curie_prefix => "om",
                                  :comment => "Datatypes defined on local OM site"
