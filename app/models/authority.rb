@@ -44,7 +44,7 @@ private
     # class_basename = self.class.to_s.demodulize.downcase
     # write_attribute(:identifier,  %W[#{class_basename} #{self.term}].join('_'))
 
-    write_attribute(:term, escape_string(self.site_domain))
+    write_attribute(:term, self.site_domain.parameterize(sep = '_'))
     write_attribute(:identifier, self.term)
     write_attribute(:staging_database_name,  %W[#{self.term} staging].join('_'))
   end
