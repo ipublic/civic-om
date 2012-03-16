@@ -11,7 +11,8 @@
 # Set up base types
 # require File.join(File.dirname(__FILE__),'seeds', 'types', 'base_type')
 
-# Initialize demo site
+# Initialize default sites
+require File.join(File.dirname(__FILE__),'seeds', 'sites', 'om')
 require File.join(File.dirname(__FILE__),'seeds', 'sites', 'demo')
 
 ## Always - seed scripts that run regardless of environment
