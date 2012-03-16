@@ -30,6 +30,12 @@ describe Authority do
       auth.first.term.should == @expected_term
     end
     
+    it 'should find an Authority record by_site_domain' do
+      auth = Authority.by_site_domain(:key => @uri)
+      auth.count.should == 1
+      auth.first.term.should == @expected_term
+    end
+    
     it 'should fail if site with same name already exists' do
       @dup_authority = Authority.new(:site_domain => @uri)
       lambda { @dup_authority.save! }.should raise_error
