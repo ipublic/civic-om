@@ -3,7 +3,7 @@ email = 'site_admin@example.com'
 pw = 'password'
 domain = 'demo.gov'
 label = "Demo Site"
-tag_line = "Your source for government open data"
+tag_line = "Demonstration site for government open data"
 
 # Initialize Authority
 authority = Authority.create!(:site_domain => domain, :label => label)
