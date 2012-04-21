@@ -82,7 +82,6 @@ class Sites::Admin::DataSourcesController < Sites::AuthenticatedController
   end  
     
   def parse
-    # raise params.to_yaml
     @data_source = authority.data_sources.get(params[:id])
     @attach_name = params[:attach_name]
     @data_set = @data_source.attachments[@attach_name]
@@ -92,12 +91,33 @@ class Sites::Admin::DataSourcesController < Sites::AuthenticatedController
     
     case @mime_type
       when "text/csv"
-        @recs = CSV.parse(@file_io)
+        @records = CSV.parse(@file_io)
         # @parser = Parser::CsvParser.new(@file_io, {:header_row => false})
       when "application/zip"
         @parser = Parser::ShapefileParser.new(@shapefile_name)
     end
-    @recs
+    @records
+  end
+  
+  def publish
+    raise params.to_yaml
+    # render :text => params[:records]
+    @data_source = authority.data_sources.get(params[:id])
+    @records = params[:records]
+    
+    # respond_to do |format|
+    #   # if @data_source.save
+    #   if true
+    #     flash[:success] = 'Successfully published uploaded data.'
+    #     format.html { redirect_to admin_data_source_path(@authority, @data_source) }
+    #     format.xml  { head :ok }
+    #   else
+    #     flash[:error] = "Error publishing uploaded data."
+    #     format.html { render :edit }
+    #     format.xml  { render :xml => @data_source.errors, :status => :unprocessable_entity }
+    #   end
+    # end
+    
   end
   
   def show_raw_records
@@ -106,12 +126,10 @@ class Sites::Admin::DataSourcesController < Sites::AuthenticatedController
     count = @data_source.raw_record_count
     records = @data_source.raw_records(:limit => params[:iDisplayLength], :skip => params[:iDisplayStart])
 
-    render :json=>{
-      :sEcho=>params[:sEcho],
-      :aaData=>records.collect{|rr| @data_source.source_properties.collect{|p| rr[p.identifier]}},
-      :iTotalRecords=>count,
-      :iTotalDisplayRecords=>count
-    }
+    respond_to do |format|
+      format.html
+      format.json { render json: DataSourcesShowRawRecords.new(view_context) }
+    end
   end
   
   def sanitize_filename(file_name)

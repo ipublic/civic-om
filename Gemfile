@@ -26,8 +26,9 @@ gem 'yajl-ruby', '1.1.0'
 gem "zurb-foundation", :group => :assets
 
 gem 'fastercsv'
-gem 'spreadsheet', '0.6.5.9'
+gem 'spreadsheet', '>= 0.6.5.9'
 gem 'dynamic_form', '1.1.4'
+gem 'will_paginate'
 
 # Use ipublic fork
 gem "activewarehouse-etl", :git => 'git@github.com:ipublic/activewarehouse-etl.git'
@@ -49,9 +50,16 @@ group :assets do
   gem 'sass-rails',   '~> 3.1.4'
   gem 'coffee-rails', '~> 3.1.1'
   gem 'uglifier', '>= 1.0.3'
+  
+  # Twitter Bootstrap
+  # gem 'twitter-bootstrap-rails', :github => 'seyhunak/twitter-bootstrap-rails'
+  
+  # jQuery Data Tables 
+  gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
+  gem 'jquery-ui-rails'
 end
 
-gem 'jquery-rails'
+gem 'jquery-rails', '>= 1.0.12'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -60,8 +68,9 @@ gem 'jquery-rails'
 # gem 'unicorn'
 
 # Deploy with Capistrano
-# gem 'capistrano'
+gem 'capistrano'
 
 # To use debugger
 # gem 'ruby-debug'
+# gem "debugger", :group => [:test, :development]
 

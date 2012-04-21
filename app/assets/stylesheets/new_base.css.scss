@@ -25,6 +25,22 @@ body {
 	font-family: "Droid Sans", Helvetica, Arial, 'Liberation Sans', FreeSans, sans-serif;
 }
 
+div.field_with_errors input, input.input-text.red { border-color: red; background-color: rgba(255,0,0,0.15); }
+div.field_with_errors label, label.red { color: red; }
+div.field_with_errors small, small.error { margin-top: -6px; display: block; margin-bottom: 9px; font-size: 11px; color: red; width: 260px; }
+
+form.nice div.field_with_errors .small + small, form.nice .small + small.error { width: 132px; }
+form.nice div.field_with_errors .medium + small, form.nice .medium + small.error { width: 252px; }
+form.nice div.field_with_errors .large + small, form.nice .large + small.error { width: 432px; }
+
+div.field_with_errors {
+	color: red;
+}
+
+div.field_with_errors.input {
+display: block; width: 96%; padding: 6px 2% 4px; font-size: 18px;
+}
+
 /*.row { max-width: 1200px; }
 */
 div.branding { margin: 0 0 20px 0; padding: 10px 0 0 0; border-bottom: solid 1px #ccc; }

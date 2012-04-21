@@ -5,5 +5,9 @@
  *= require_self
  *= require foundation
  *= require new_base
+ *= require jquery.ui.core
+ *= require jquery.ui.theme
+ *= require dataTables/src/demo_table_jui
  * require_tree .
 */
+/* *= require dataTables/jquery.dataTables */ 

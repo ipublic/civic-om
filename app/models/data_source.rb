@@ -9,7 +9,7 @@ class DataSource < CouchRest::Model::Base
   property :term, String        # Escaped vocabulary name suitable for inclusion in IRI
   property :label, String       # User assigned name, RDFS#Label
   property :comment, String     # RDFS#Comment
-  property :properties, [LinkedData::Property]
+  property :topics, [LinkedData::Topic]
 
   property :extract_sets do
     property :serial_number, String
