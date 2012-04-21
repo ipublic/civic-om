@@ -2,10 +2,10 @@
 	<div class="twelve columns">
 		<div class="branding">
 			<%- if content_for?(:title) %>
-				<h1><%= h(yield(:title)) %></h1>
+				<h2><%= h(yield(:title)) %></h2>
 			<%- else %>
-				<h1><%= "#{current_site.label} Admin" %></h1>
-				<h4 class="subheader"><%= current_site.tag_line %></h4>
+				<h2><%= "#{current_site.label} Admin" %></h2>
+				<h3 class="subheader"><%= current_site.tag_line %></h3>
 			<% end -%>
 		</div>
 	</div>

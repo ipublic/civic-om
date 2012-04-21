@@ -30,6 +30,11 @@ class LinkedData::Topic < LinkedData::CouchRestModelSchema
     view :by_authority_id
   end
   
+  def record_count
+    return 0 if self.instance_class_name.nil?
+    instance_database.view("#{self.instance_class_name}/all", {:include_docs => false})["total_rows"]
+  end
+  
   def instance_database_name
     return if self.authority.nil? || self.term.nil?
     @instance_database_name ||= (%W[#{COUCHDB_CONFIG["db_prefix"]} #{self.authority.term} staging #{COUCHDB_CONFIG["db_suffix"]}].select {|v| !v.blank?}.join("_"))

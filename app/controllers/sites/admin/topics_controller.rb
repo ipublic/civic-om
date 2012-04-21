@@ -3,22 +3,23 @@ class Sites::Admin::TopicsController < Sites::AuthenticatedController
 
 
   def index
-    @topics = LinkedData::Topic.by_authority_id(:key => authority.id)
+    @topics = Topic.by_authority_id(:key => authority.id)
     render :layout => 'sites_admin'
   end
 
   def show
-    @topic = LinkedData::Topic.get(params[:id])
+    @topic = Topic.get(params[:id])
   end
 
   def new
-    @topic = LinkedData::Topic.new
+    @topic = Topic.new
+    # @topic.authority = authority
     @contacts = Vocabularies::VCard::Base.by_authority_id_and_formatted_name.docs
     render :layout => 'sites_admin'
   end
 
   def create
-    @topic = LinkedData::Topic.new(params[:topic])
+    @topic = Topic.new(params[:topic])
     @topic.authority = authority
     
     # raise @topic.to_yaml
@@ -28,16 +29,16 @@ class Sites::Admin::TopicsController < Sites::AuthenticatedController
       redirect_to(admin_topic_path(authority, @topic))
     else
       flash[:error] = "Unable to create Topic."
-      render :new
+      render :new, :layout => 'sites_admin'
     end
   end
   
   def edit
-    @topic = LinkedData::Topic.get(params[:id])
+    @topic = Topic.get(params[:id])
   end
 
   def update
-    @topic = LinkedData::Topic.get(params[:id])
+    @topic = Topic.get(params[:id])
     @topic.attributes = params[:topic]
 
     respond_to do |format|
@@ -55,18 +56,18 @@ class Sites::Admin::TopicsController < Sites::AuthenticatedController
   
 
   def show_properties
-    @topic = LinkedData::Topic.get(params[:id])
+    @topic = Topic.get(params[:id])
   end
 
   def edit_properties
-    @topic = LinkedData::Topic.get(params[:id])
+    @topic = Topic.get(params[:id])
   end
   
   def update_properties
   end
 
   def destroy
-    @topic = LinkedData::Topic.get(params[:id])
+    @topic = Topic.get(params[:id])
     unless @topic.nil?
       @topic.destroy
       redirect_to(admin_topics_url)

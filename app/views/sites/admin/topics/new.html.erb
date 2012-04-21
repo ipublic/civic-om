@@ -4,11 +4,11 @@
 		<h3>Add Topic</h3>
 	</div>
 	<div class="three columns">
-	  <%= link_to "List Topics", admin_topics_path(authority, @topic), :class => "nice medium radius blue button" %>
+	  <%= link_to "List Topics", admin_topics_path(authority), :class => "nice medium radius blue button" %>
 	</div>
 </div>
 <div id="forms">
-  <%= form_for :topic, :url => admin_topics_path do |f| %>
-  	<%= render :partial => 'form', :locals=> {:f=>f} %>
+  <%= form_for :topic, :url => admin_topics_path, :html => {:class => "nice"} do |f| %>
+  	<%= render :partial => 'form', :locals=> {:f => f} %>
   <% end %>
 </div>

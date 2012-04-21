@@ -7,7 +7,7 @@
     <%= link_to "Edit", edit_admin_topic_path(authority, @topic), :class => "nice medium radius blue button" %>
 	</div>
 	<div class="three columns">
-    <%= link_to "List Topics", admin_topics_path, :class => "nice medium radius blue button" %>
+    <%= link_to "List Topics", admin_topics_path(authority), :class => "nice medium radius blue button" %>
 	</div>
 </div>
 <div class="row">
@@ -21,4 +21,8 @@
 			<li>Comment: <strong><%= @topic.comment %></strong></li>
 		</ul>
 	</div>
+</div>
+<div class="row">
+	<% @topic.properties.each do |prop| %>
+	<% end %>
 </div>

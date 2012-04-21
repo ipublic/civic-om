@@ -1,12 +1,10 @@
 class LinkedData::DataSource < CouchRest::Model::Base
-  
+    
   CSV_SOURCE_TYPE = "csv"
   SHAPEFILE_SOURCE_TYPE = "shapefile"
   URL_SOURCE_TYPE = "url"
   
   belongs_to :authority, :class_name => "LinkedData::Authority"
-
-  use_database SCHEMA_DATABASE
 
   property :term, String        # Escaped vocabulary name suitable for inclusion in IRI
   property :label, String       # User assigned name, RDFS#Label
@@ -33,10 +31,18 @@ class LinkedData::DataSource < CouchRest::Model::Base
   validates_presence_of :term
   validates_presence_of :authority
   
+  before_create :set_database
+  
+  
   design do
     view :by_term
     view :by_label
     view :by_authority_id
+  end
+  
+private
+  def set_database
+    self.database = self.authority.staging_database
   end
   
 

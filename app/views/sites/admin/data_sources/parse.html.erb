@@ -1,18 +1,30 @@
+<% title "Uploaded Data" %>
+<div class="row">
+	<div class="seven columns">
+		<h3><%= @attach_name %></h3>
+	</div>
+	<div class="three columns">
+    <%= link_to "List Data Sources", admin_data_sources_path, :class => "nice medium radius blue button" %>
+	</div>
+</div>
+
+<%= form_for @data_source, :url => publish_admin_data_source_path(authority, @data_source), :html => {:method=>:put, :class=>"nice"} do |f| %>
+<div class="row">
+	<%= f.submit "Publish", :class => "nice medium radius blue button" %> 
+	<%= link_to 'Back', :back, :class => "small white nice button radius" %> 
+</div>
 <div class="row" style="overflow: auto">
   <div class="twelve columns">
-    <h3>Uploaded Data</h3>
-		<h5><%= @attach_name %></h5>
-
     <table id="raw-data-table" data-url="<%= parse_admin_data_source_path(authority, @data_source) %>" class="display">
       <thead>
 				<tr>
-				  <% @recs.first.each do |col| %>
+				  <% @records.first.each do |col| %>
 				  <th><%= col %></th>
 				  <% end %>
 				</tr>
       </thead>
       <tbody>
-				<% @recs.each do |rec| %>
+				<% @records.each do |rec| %>
 				<tr>
 					<% rec.each do |field| %>
 					<td><%= field %></td>
@@ -21,5 +33,6 @@
 				<% end %>
       </tbody>
     </table>
-  </div>
+ 	</div>
 </div>
+<% end %>

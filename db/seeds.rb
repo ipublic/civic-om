@@ -9,7 +9,7 @@
 ## Once - seed scripts that run only once per installation
 
 # Set up base types
-# require File.join(File.dirname(__FILE__),'seeds', 'types', 'base_type')
+require File.join(File.dirname(__FILE__),'seeds', 'types', 'base_types')
 
 # Initialize default sites
 require File.join(File.dirname(__FILE__),'seeds', 'sites', 'om')

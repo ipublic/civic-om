@@ -1,6 +1,11 @@
 class LinkedData::Authority < CouchRest::Model::Base
+
+  attr_reader :public_database, :staging_database_name, :staging_database
+  
   use_database SITES_DATABASE
   unique_id :identifier
+
+  proxy_database_method :identifier
 
   property :uri, String
   property :term, String
@@ -33,11 +38,39 @@ class LinkedData::Authority < CouchRest::Model::Base
   def users
     User.by_authority_id(:key => self.id).all
   end
+  
+  def staging_database_name
+    return unless self.term.present?
+    @staging_database_name ||= (%W[#{COUCHDB_CONFIG["db_prefix"]} #{self.term} staging #{COUCHDB_CONFIG["db_suffix"]}].select {|v| !v.blank?}.join("_"))
+  end
+  
+  def staging_database
+    return unless staging_database_name
+    @staging_database ||= COUCHDB_SERVER.database!(staging_database_name)
+  end
+
+  def public_database_name
+    return unless self.term.present?
+    @public_database_name ||= (%W[#{COUCHDB_CONFIG["db_prefix"]} #{self.term} public #{COUCHDB_CONFIG["db_suffix"]}].select {|v| !v.blank?}.join("_"))
+  end
+  
+  def public_database
+    return unless public_database_name
+    @public_database ||= COUCHDB_SERVER.database!(public_database_name)
+  end
 
 private
   def init_authority
     class_basename = self.class.to_s.demodulize.downcase
     write_attribute(:identifier,  %W[#{class_basename} #{self.term}].join('_'))
+    
+    # init_site_dbs
   end
+  
+  def init_site_dbs
+    staging_database
+    public_database
+  end
+  
 
 end

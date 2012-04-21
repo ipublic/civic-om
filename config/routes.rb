@@ -44,13 +44,9 @@ CivicOm::Application.routes.draw do
             get :file_source
             post :upload_file
             get :parse
-            # resources :parse do
-            #   member do
-            #     get :show_records
-            #   end
-            # end
-            get :extract
-            get :show_raw_records
+            put :publish
+            # get :extract
+            # get :show_raw_records
             get :show_records
             get :show_locations
             get :show_metadata

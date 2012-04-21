@@ -1,14 +1,23 @@
-<% title "Data Sets" %>
+<% title "Data Sources" %>
 <div class="row">
-	<div class="three columns">
-		<h3>Add Data Set</h3>
+	<div class="four columns">
+		<h3>Upload Data Set</h3>
 	</div>
-	<div class="three columns">
-	  <%= link_to "List Data Sets", admin_data_sets_path(authority, @data_source), :class => "nice medium radius blue button" %>
+	<div class="four columns">
+	  <%= link_to "List Data Sources", admin_data_sources_path(authority, @data_source), :class => "nice medium radius orange button" %>
 	</div>
 </div>
-<div id="forms">
-  <%= form_for :data_set, :url => admin_data_sets_path do |f| %>
-  	<%= render :partial => 'form', :locals=> {:f=>f} %>
-  <% end %>
+<div class="row">
+	<div id="forms">
+		<%= form_for :data_set, :url => upload_admin_data_source_data_sets_path, :html => {:multipart=>true, :class=>"nice"} do |f| -%>
+			<div class="row">
+				<h5>Upload File</h5>
+			  <%= f.file_field :file, :class => "input-text large" %>
+			</div>
+			<div class="row">
+				<%= f.submit "Upload", :class => "nice medium radius blue button", :disable_with => "Uploading..." %>
+				<%= link_to 'Back', :back, :class => "small white nice button radius" %> 
+			</div>
+		<% end -%>
+	</div>
 </div>

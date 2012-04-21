@@ -13,7 +13,7 @@ class Topic < DocumentBase
   property :curie_prefix, String
   property :curie_suffix, String
   property :property_delimiter, String, :default => "/"
-  property :context
+  property :context # Support RDF quads
   
   property :instance_class_name, String, :read_only => true
   
@@ -32,10 +32,11 @@ class Topic < DocumentBase
 
   validates_presence_of :term
   validates_presence_of :authority
-  # validates_presence_of :collection
-  validates_uniqueness_of :identifier, :view => 'all'
-  
-  
+  validates_format_of :term, with: /^[a-z0-9_]+$/, message: "must be lowercase alphanumerics only"
+  validates_length_of :term, maximum: 32, message: "exceeds maximum of 32 characters"
+  validates_uniqueness_of :term, :view => 'by_term', message: "is already in use"
+  validates_uniqueness_of :identifier, :view => 'all', message: "is already in use"
+
   ## Callbacks
   before_create :generate_identifier
 

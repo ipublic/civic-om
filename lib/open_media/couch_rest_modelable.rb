@@ -4,12 +4,13 @@ module OpenMedia
   module CouchRestModelable
 
     def generate_identifier
-      self.label ||= self.term.humanize
-      
-      class_basename = self.class.to_s.demodulize.downcase
-      eterm = escape_string(self.term.downcase)
-      this_id = %W[#{class_basename} #{self.authority.term} #{eterm}].select {|v| !v.blank?}.join('_')
+      # self.label ||= self.term.humanize
+      # class_basename = self.class.to_s.demodulize.downcase
+      # eterm = escape_string(self.term.downcase)
+      # this_id = %W[#{class_basename} #{self.authority.term} #{eterm}].select {|v| !v.blank?}.join('_')
 
+      self.label ||= self.term.titleize
+      this_id = %W[#{self.authority.term} #{self.term.parameterize(sep = '_')}].select {|v| !v.blank?}.join('_')
       write_attribute(:identifier, this_id)
     end
 

@@ -1,3 +1,4 @@
+require "base64"
 class LinkedData::DataSet < CouchRest::Model::Base
 
   attr_reader :docs_written, :docs_read
@@ -16,6 +17,8 @@ class LinkedData::DataSet < CouchRest::Model::Base
   timestamps!
 
   validates_presence_of :data_source
+  before_create :set_database
+  
   
   design do
     view :by_data_source_id
@@ -98,5 +101,17 @@ class LinkedData::DataSet < CouchRest::Model::Base
   
   def docs_written
     @docs_written ||= 0
+  end
+
+  def content_type
+    extension = File.extname(@safe_file_name)[1..-1]
+
+    # return application/octet-stream if unknown content_type
+    mime_type = Mime::Type.lookup_by_extension(extension) || mime_type = "application/octet-stream"
+  end
+
+private
+  def set_database
+    self.database = self.data_source.database
   end
 end

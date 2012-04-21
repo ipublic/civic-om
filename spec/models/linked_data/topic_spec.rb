@@ -173,6 +173,12 @@ describe LinkedData::Topic do
       end
     end
     
+    describe ".record_count" do
+      it "should return number of Topic instance documents" do
+        @topic.record_count.should == 6
+      end
+    end
+    
     
   end
   

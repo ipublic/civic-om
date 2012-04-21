@@ -14,10 +14,14 @@
 	<div class="ten columns">
 		<ul>
 			<li>Last upload: <strong><%= "Jan 1, 2012" %></strong></li>
-			<li>Last upload: <strong><%= "Jan 1, 2012" %></strong></li>
 			<li>Term: <strong><%= @data_source.term %></strong></li>
 			<li>Comment: <strong><%= @data_source.comment %></strong></li>
 		</ul>
+		<dl>
+			<dt>Last upload:</dt><dd><%= "Jan 1, 2012" %></dd>
+			<dt>Term:</dt><dd><%= @data_source.term %></dd>
+			<dt>Comment:</dt><dd><%= @data_source.comment %></dd>
+		</dl>
 	</div>
 </div>
 <hr/>

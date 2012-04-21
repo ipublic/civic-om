@@ -6,6 +6,8 @@ describe LinkedData::Authority do
     @term = "example_gov"
     @label = "My Home Town"
     @expected_id = ["authority", @term].join('_')
+    @staging_db_name = "example_gov_staging"
+    @public_db_name = "example_gov_public"
   end
   
   describe "Initialization" do
@@ -33,5 +35,22 @@ describe LinkedData::Authority do
       lambda { @dup_authority.save! }.should raise_error
     end
   end  
+  
+  describe "Instance methods" do
+    it 'should provide a staging database name and object' do
+      @auth = LinkedData::Authority.get(@expected_id)
+      
+      @auth.staging_database_name.should == @staging_db_name
+      @auth.staging_database.should be_a(CouchRest::Database)
+    end
+    
+    it 'should provide a public database name and object' do
+      @auth = LinkedData::Authority.get(@expected_id)
+      
+      @auth.public_database_name.should == @public_db_name
+      @auth.public_database.should be_a(CouchRest::Database)
+    end
+  end
+  
   
 end

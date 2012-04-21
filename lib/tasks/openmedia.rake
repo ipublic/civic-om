@@ -15,6 +15,7 @@ namespace :openmedia do
   task :drop_dbs => :environment do
     Site.all.each do |site|
       COUCHDB_SERVER.databases.each do |db|
+        COUCHDB_SERVER.database(db).delete! if db =~ Regexp.new("^civic_om_")
         COUCHDB_SERVER.database(db).delete! if db =~ Regexp.new("^#{site.authority.term}_")
       end
     end 

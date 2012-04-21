@@ -1,9 +1,7 @@
 module LinkedData
   class RawRecord < CouchRest::Model::Base
- 
-    use_database STAGING_DATABASE
-  
-    belongs_to :data_source, :class_name => 'DataSource'
+    
+    belongs_to :data_packet, :class_name => 'LinkedData::DataPacket'
 
     property :serial_number, String
     property :published, Time
@@ -11,6 +9,7 @@ module LinkedData
 
 
     design do
+      
       view :by_serial_number
       view :by_data_source_id
 
@@ -22,6 +21,10 @@ module LinkedData
                         }
                       }"
     end
+  
+    # def initialize
+    #   use_database self.data_packet.staging_database_name
+    # end
   
     def published?
       self.published

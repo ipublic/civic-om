@@ -3,24 +3,27 @@ class Sites::Admin::DataSetsController < Sites::AuthenticatedController
   before_filter :set_context
 
   def index
-    @data_sets = LinkedData::DataSet.by_data_source_id(:key => @data_source)
+    @data_sets = DataSet.by_data_source_id(:key => @data_source)
     # render :layout => 'sites_admin'
   end
   
   def show
-    @data_set = LinkedData::DataSet.get(params[:id])
+    @data_source = authority.data_sources.get(params[:data_source_id])
+    @data_set = DataSet.get(params[:id])
   end
 
   def new
-    @data_set = LinkedData::DataSet.new
+    # raise params.to_yaml
+    @data_source = authority.data_sources.get(params[:data_source_id])
+    @data_set = DataSet.new
   end
 
   def edit
-    @data_set = LinkedData::DataSet.get(params[:id])
+    @data_set = DataSet.get(params[:id])
   end
 
   def update
-    @data_set = LinkedData::DataSet.get(params[:id])
+    @data_set = DataSet.get(params[:id])
     @data_set.attributes = params[:data_set]
 
     respond_to do |format|
@@ -53,19 +56,23 @@ class Sites::Admin::DataSetsController < Sites::AuthenticatedController
   def upload
     # raise params.to_yaml
     # render :text => @uploaded_io.to_json
-    # render :text => @uploaded_io.to_json
+    @data_source = authority.data_sources.get(params[:data_source_id])
     
     @temp = File.open(params[:data_set][:file].tempfile)
     @filename = params[:data_set][:file].original_filename
     @safe_filename = sanitize_filename(@filename)
     
-    @data_set = LinkedData::DataSet.new(:data_source => @data_source)
+    @data_set = DataSet.new(:label => @safe_filename)
     @data_set.database = @data_source.database
     @data_set.save
     @data_set.create_attachment(:name => @safe_filename, :file => @temp)
 
     respond_to do |format|
       if @data_set.save
+        
+        @data_source.data_set_ids << @data_set.id
+        @data_source.save
+        
         flash[:success] = "Successfully uploaded file: #{@safe_filename} to db: #{@data_set.database} in doc: #{@data_set.id}"
         format.html { redirect_to(admin_data_source_path(@authority, @data_source)) }
         format.xml  { head :ok }
@@ -75,7 +82,29 @@ class Sites::Admin::DataSetsController < Sites::AuthenticatedController
         format.xml  { render :xml => @data_set.errors, :status => :unprocessable_entity }
       end
     end
-   end
+  end
+   
+  def extract
+    @data_source = authority.data_sources.get(params[:data_source_id])
+    @data_set = @data_source.database.get(params[:id])
+    
+    @file_io = @data_source.database.fetch_attachment(params[:id], @data_set["label"])
+    render :text => @file_io.to_json
+  end
+  
+  def show_raw_records
+    @data_source = authority.data_sources.get(params[:data_source_id])
+
+    count = @data_source.raw_record_count
+    records = @data_source.raw_records(:limit => params[:iDisplayLength], :skip => params[:iDisplayStart])
+
+    render :json=>{
+      :sEcho=>params[:sEcho],
+      :aaData=>records.collect{|rr| @data_source.source_properties.collect{|p| rr[p.identifier]}},
+      :iTotalRecords=>count,
+      :iTotalDisplayRecords=>count
+    }
+  end
   
   def destroy
   end
